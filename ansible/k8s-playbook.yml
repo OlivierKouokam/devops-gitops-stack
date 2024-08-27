@@ -1,0 +1,89 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install necessary packages
+      apt:
+        name:
+          - curl
+          - apt-transport-https
+          - ca-certificates
+          - software-properties-common
+        state: present
+
+- hosts: master
+  become: yes
+  tasks:
+    - name: Install Docker
+      shell: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        apt update
+        apt install -y docker-ce
+      args:
+        executable: /bin/bash
+
+    - name: Install kubeadm, kubelet, kubectl
+      shell: |
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+        apt update
+        apt install -y kubelet kubeadm kubectl
+      args:
+        executable: /bin/bash
+
+    - name: Initialize the Kubernetes cluster
+      shell: kubeadm init --apiserver-advertise-address=192.168.56.10 --pod-network-cidr=192.168.0.0/16
+      args:
+        executable: /bin/bash
+      register: kubeadm_init
+
+    - name: Create kubeconfig for the root user
+      shell: |
+        mkdir -p $HOME/.kube
+        cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+        chown $(id -u):$(id -g) $HOME/.kube/config
+      args:
+        executable: /bin/bash
+
+    - name: Install Calico Network Plugin
+      shell: |
+        kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
+      args:
+        executable: /bin/bash
+
+    - name: Save the join command to a file
+      shell: echo "{{ kubeadm_init.stdout_lines | select('search', 'kubeadm join') | list }}" > /vagrant/join_command.sh
+      args:
+        executable: /bin/bash
+
+- hosts: workers
+  become: yes
+  tasks:
+    - name: Install Docker
+      shell: |
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        apt update
+        apt install -y docker-ce
+      args:
+        executable: /bin/bash
+
+    - name: Install kubeadm, kubelet, kubectl
+      shell: |
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+        apt update
+        apt install -y kubelet kubeadm kubectl
+      args:
+        executable: /bin/bash
+
+    - name: Join the Kubernetes cluster
+      shell: bash /vagrant/join_command.sh
+      args:
+        executable: /bin/bash
