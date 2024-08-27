@@ -1,0 +1,32 @@
+---
+- name: Ensure SSH key is generated on master
+  hosts: master
+  tasks:
+    - name: Check if SSH private key exists
+      stat:
+        path: ~/.ssh/id_rsa
+      register: ssh_key
+
+    - name: Generate SSH key if it does not exist
+      command: ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
+      when: not ssh_key.stat.exists
+
+    - name: Read public SSH key
+      slurp:
+        src: ~/.ssh/id_rsa.pub
+      register: ssh_public_key
+      when: ssh_key.stat.exists
+
+- name: Copy SSH key to workers
+  hosts: worker
+  tasks:
+    - name: Ensure .ssh directory exists
+      file:
+        path: ~/.ssh
+        state: directory
+        mode: 0700
+
+    - name: Add SSH key to authorized_keys
+      authorized_key:
+        user: "{{ ansible_user }}"
+        key: "{{ hostvars['master1']['ssh_public_key']['content'] | b64decode }}"

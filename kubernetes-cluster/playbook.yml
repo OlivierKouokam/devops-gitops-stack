@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - ssh  # Configuration SSH sans mot de passe
+    - common  # Installation des prérequis pour Kubernetes
+
+- hosts: master
+  roles:
+    - master  # Initialisation du master Kubernetes
+
+- hosts: worker
+  roles:
+    - worker  # Ajout des workers au cluster Kubernetes

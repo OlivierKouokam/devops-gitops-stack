@@ -1,0 +1,26 @@
+---
+- name: Initialize Kubernetes master
+  command: kubeadm init --pod-network-cidr=10.244.0.0/16
+  register: kubeadm_init
+
+- name: Create kube config directory
+  file:
+    path: ~/.kube
+    state: directory
+    mode: 0700
+
+- name: Copy admin.conf to kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/.kube/config
+    remote_src: yes
+
+- name: Install Flannel CNI plugin
+  command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+- name: Extract join command
+  shell: "{{ kubeadm_init.stdout_lines | select('search', 'kubeadm join') | list | first }}"
+  register: kubeadm_join_command
+  delegate_to: localhost
+  run_once: yes
+  changed_when: false

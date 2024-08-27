@@ -1,0 +1,46 @@
+---
+- name: Install basic dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Add Docker GPG key and repository
+  tasks:
+    - command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    - apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: present
+
+- name: Add Kubernetes GPG key and repository
+  tasks:
+    - command: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+    - apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+
+- name: Install Kubernetes components
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: Ensure Docker and kubelet are enabled and started
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - docker
+    - kubelet
