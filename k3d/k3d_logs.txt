@@ -1,0 +1,642 @@
+PS C:\Users\Precision\Documents\TRAINING\k3d> cat .\Vagrantfile
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# =====================================================================
+# CONFIGURATION DU MULTI-CLUSTER K3D
+# =====================================================================
+NUM_CLUSTERS = 3       # Nombre total de clusters Kubernetes Ã  crÃ©er
+NUM_SERVERS  = 1       # Nombre de Control-Plane (Master) par cluster
+NUM_WORKERS  = 2       # Nombre de Worker Nodes par cluster
+# =====================================================================
+
+Vagrant.configure("2") do |config|
+  config.vm.define "k3d_node" do |k3d_node|
+    k3d_node.vm.box = "ubuntu/jammy64"
+    k3d_node.vm.hostname = "k3d-node"
+
+    # Configuration rÃ©seau privÃ© DHCP (gÃ©nÃ¨re l'interface enp0s8)
+    k3d_node.vm.network "private_network", type: "dhcp"
+
+    # Ressources recommandÃ©es pour faire tourner plusieurs clusters + ArgoCD Ã  venir
+    k3d_node.vm.provider "virtualbox" do |vb|
+      vb.name = "k3d-node"
+      vb.memory = "8192" # AugmentÃ© Ã  6Go pour supporter le multi-cluster + ArgoCD confortablement
+      vb.cpus = 4        # AugmentÃ© Ã  4 vCPUs
+    end
+
+    # Provisionnement avec passage des variables d'environnement au script Bash
+    k3d_node.vm.provision "shell", path: "install_k3d.sh", env: {
+      "NUM_CLUSTERS" => NUM_CLUSTERS.to_s,
+      "NUM_SERVERS"  => NUM_SERVERS.to_s,
+      "NUM_WORKERS"  => NUM_WORKERS.to_s
+    }
+  end
+end
+PS C:\Users\Precision\Documents\TRAINING\k3d> cat .\install_k3d.sh
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# RÃ©cupÃ©ration des variables passÃ©es par Vagrant
+CLUSTERS_COUNT="${NUM_CLUSTERS:-3}"
+SERVERS_COUNT="${NUM_SERVERS:-1}"
+WORKERS_COUNT="${NUM_WORKERS:-2}"
+
+# Version fixe de Docker
+VERSION_STRING="5:29.6.2-1~ubuntu.22.04~jammy"
+export DEBIAN_FRONTEND=noninteractive
+
+echo "=========================================="
+echo " 0. Optimisation des limites SystÃ¨me (CRITIQUE MULTI-CLUSTER)"
+echo "=========================================="
+# Kubernetes consomme Ã©normÃ©ment de watchers inotify. Par dÃ©faut, Ubuntu sature Ã  3 clusters.
+sudo sysctl fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+sudo sysctl fs.inotify.max_user_instances=512 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+
+echo "=========================================="
+echo " 1. Installation de Docker CE (${VERSION_STRING})"
+echo "=========================================="
+sudo apt-get update -y
+sudo apt-get install -y ca-certificates curl gnupg ufw lsb-release
+
+# ClÃ© GPG officielle Docker
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# DÃ©pÃ´t officiel Docker Ubuntu
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update -y
+
+# Installation avec version explicitement verrouillÃ©e
+sudo apt-get install -y \
+  docker-ce="${VERSION_STRING}" \
+  docker-ce-cli="${VERSION_STRING}" \
+  containerd.io \
+  docker-buildx-plugin \
+  docker-compose-plugin
+
+# Activation et droits Docker pour l'utilisateur vagrant
+sudo systemctl enable --now docker
+sudo usermod -aG docker vagrant
+
+echo "=========================================="
+echo " 2. Installation de kubectl et k3d"
+echo "=========================================="
+# TÃ©lÃ©chargement sÃ©curisÃ© du binaire officiel de kubectl
+echo "TÃ©lÃ©chargement de la derniÃ¨re version stable de kubectl..."
+KUBECTL_VERSION=$(curl -sSL https://dl.k8s.io/release/stable.txt | tr -d '[:space:]')
+curl -sSL "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" -o /tmp/kubectl
+sudo install -o root -g root -m 0755 /tmp/kubectl /usr/local/bin/kubectl
+rm -f /tmp/kubectl
+
+# Installation officielle de k3d
+echo "Installation de k3d..."
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.7.4 bash
+
+echo "=========================================="
+echo " 3. Configuration RÃ©seau & IP PrivÃ©e"
+echo "=========================================="
+if command -v ufw >/dev/null 2>&1; then
+    sudo ufw disable || true
+fi
+
+MAIN_IP=$(ip -4 addr show enp0s8 | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1 || echo "127.0.0.1")
+echo "[INFO] Adresse IP de l'hÃ´te dÃ©tectÃ©e : ${MAIN_IP}"
+
+echo "=========================================="
+echo " 4. DÃ©ploiement Multi-Cluster K3d"
+echo "=========================================="
+sudo -u vagrant mkdir -p /home/vagrant/.kube
+
+BASE_API_PORT=6443
+
+for i in $(seq 1 "${CLUSTERS_COUNT}"); do
+    CLUSTER_NAME="cluster-${i}"
+    API_PORT=$((BASE_API_PORT + i))
+
+    echo "--- CrÃ©ation du ${CLUSTER_NAME} (Masters: ${SERVERS_COUNT}, Workers: ${WORKERS_COUNT}, API Port: ${API_PORT}) ---"
+
+    # AJOUT DE K3D_FIX_DNS=0 pour Ã©viter le blocage CoreDNS
+    sudo -u vagrant K3D_FIX_DNS=0 k3d cluster create "${CLUSTER_NAME}" \
+        --servers "${SERVERS_COUNT}" \
+        --agents "${WORKERS_COUNT}" \
+        --api-port "${API_PORT}" \
+        --timeout 5m \
+        --wait
+
+    echo "Pause de 20 secondes pour stabiliser le rÃ©seau Docker..."
+    sleep 20
+done
+
+# Configuration KUBECONFIG pour vagrant
+echo "export KUBECONFIG=/home/vagrant/.kube/config" | sudo tee /etc/profile.d/k3s.sh
+sudo chmod +x /etc/profile.d/k3s.sh
+
+echo "=========================================================="
+echo " Tous les clusters K3d sont opÃ©rationnels !"
+echo " Nombre de clusters crÃ©Ã©s : ${CLUSTERS_COUNT}"
+echo " Adresse IP du NÅ“ud : ${MAIN_IP}"
+echo "=========================================================="
+PS C:\Users\Precision\Documents\TRAINING\k3d>
+PS C:\Users\Precision\Documents\TRAINING\k3d> vagrant validate
+Vagrantfile validated successfully.
+PS C:\Users\Precision\Documents\TRAINING\k3d> vagrant up
+Bringing machine 'k3d_node' up with 'virtualbox' provider...
+==> k3d_node: Importing base box 'ubuntu/jammy64'...
+==> k3d_node: Matching MAC address for NAT networking...
+==> k3d_node: Checking if box 'ubuntu/jammy64' version '20241002.0.0' is up to date...
+==> k3d_node: Setting the name of the VM: k3d-node
+==> k3d_node: Clearing any previously set network interfaces...
+==> k3d_node: Preparing network interfaces based on configuration...
+    k3d_node: Adapter 1: nat
+    k3d_node: Adapter 2: hostonly
+==> k3d_node: Forwarding ports...
+    k3d_node: 22 (guest) => 2222 (host) (adapter 1)
+==> k3d_node: Running 'pre-boot' VM customizations...
+==> k3d_node: Booting VM...
+==> k3d_node: Waiting for machine to boot. This may take a few minutes...
+    k3d_node: SSH address: 127.0.0.1:2222
+    k3d_node: SSH username: vagrant
+    k3d_node: SSH auth method: private key
+    k3d_node: Warning: Connection reset. Retrying...
+    k3d_node: Warning: Connection aborted. Retrying...
+    k3d_node:
+    k3d_node: Vagrant insecure key detected. Vagrant will automatically replace
+    k3d_node: this with a newly generated keypair for better security.
+    k3d_node:
+    k3d_node: Inserting generated public key within guest...
+    k3d_node: Removing insecure key from the guest if it's present...
+    k3d_node: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> k3d_node: Machine booted and ready!
+==> k3d_node: Checking for guest additions in VM...
+    k3d_node: The guest additions on this VM do not match the installed version of
+    k3d_node: VirtualBox! In most cases this is fine, but in rare cases it can
+    k3d_node: prevent things such as shared folders from working properly. If you see
+    k3d_node: shared folder errors, please make sure the guest additions within the
+    k3d_node: virtual machine match the version of VirtualBox you have installed on
+    k3d_node: your host and reload your VM.
+    k3d_node:
+    k3d_node: Guest Additions Version: 6.0.0 r127566
+    k3d_node: VirtualBox Version: 7.2
+==> k3d_node: Setting hostname...
+==> k3d_node: Configuring and enabling network interfaces...
+==> k3d_node: Mounting shared folders...
+    k3d_node: C:/Users/Precision/Documents/TRAINING/k3d => /vagrant
+==> k3d_node: Running provisioner: shell...
+    k3d_node: Running: C:/Users/PRECIS~1/AppData/Local/Temp/vagrant-shell20260903-9812-5b8c0c.sh
+    k3d_node: ==========================================
+    k3d_node:  0. Optimisation des limites Système (CRITIQUE MULTI-CLUSTER)
+    k3d_node: ==========================================
+    k3d_node: fs.inotify.max_user_watches = 524288
+    k3d_node: fs.inotify.max_user_instances = 512
+    k3d_node: fs.inotify.max_user_watches = 524288
+    k3d_node: fs.inotify.max_user_instances = 512
+    k3d_node: ==========================================
+    k3d_node:  1. Installation de Docker CE (5:29.6.2-1~ubuntu.22.04~jammy)
+    k3d_node: ==========================================
+    k3d_node: Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+    k3d_node: Get:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+    k3d_node: Get:3 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+    k3d_node: Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+    k3d_node: Get:5 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3506 kB]
+    k3d_node: Get:6 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [14.1 MB]
+    k3d_node: Get:7 http://security.ubuntu.com/ubuntu jammy-security/main Translation-en [493 kB]
+    k3d_node: Get:8 http://security.ubuntu.com/ubuntu jammy-security/main amd64 c-n-f Metadata [14.7 kB]
+    k3d_node: Get:9 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [6273 kB]
+    k3d_node: Get:10 http://security.ubuntu.com/ubuntu jammy-security/restricted Translation-en [1206 kB]
+    k3d_node: Get:11 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 c-n-f Metadata [600 B]
+    k3d_node: Get:12 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1048 kB]
+    k3d_node: Get:13 http://security.ubuntu.com/ubuntu jammy-security/universe Translation-en [235 kB]
+    k3d_node: Get:14 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 c-n-f Metadata [23.2 kB]
+    k3d_node: Get:15 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [69.1 kB]
+    k3d_node: Get:16 http://security.ubuntu.com/ubuntu jammy-security/multiverse Translation-en [12.9 kB]
+    k3d_node: Get:17 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 c-n-f Metadata [544 B]
+    k3d_node: Get:18 http://archive.ubuntu.com/ubuntu jammy/universe Translation-en [5652 kB]
+    k3d_node: Get:19 http://archive.ubuntu.com/ubuntu jammy/universe amd64 c-n-f Metadata [286 kB]
+    k3d_node: Get:20 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [217 kB]
+    k3d_node: Get:21 http://archive.ubuntu.com/ubuntu jammy/multiverse Translation-en [112 kB]
+    k3d_node: Get:22 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 c-n-f Metadata [8372 B]
+    k3d_node: Get:23 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [3777 kB]
+    k3d_node: Get:24 http://archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [561 kB]
+    k3d_node: Get:25 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 c-n-f Metadata [20.1 kB]
+    k3d_node: Get:26 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [6515 kB]
+    k3d_node: Get:27 http://archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [1249 kB]
+    k3d_node: Get:28 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 c-n-f Metadata [584 B]
+    k3d_node: Get:29 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1282 kB]
+    k3d_node: Get:30 http://archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [323 kB]
+    k3d_node: Get:31 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 c-n-f Metadata [30.8 kB]
+    k3d_node: Get:32 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [76.5 kB]
+    k3d_node: Get:33 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse Translation-en [15.9 kB]
+    k3d_node: Get:34 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 c-n-f Metadata [756 B]
+    k3d_node: Get:35 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [70.2 kB]
+    k3d_node: Get:36 http://archive.ubuntu.com/ubuntu jammy-backports/main Translation-en [11.4 kB]
+    k3d_node: Get:37 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 c-n-f Metadata [412 B]
+    k3d_node: Get:38 http://archive.ubuntu.com/ubuntu jammy-backports/restricted amd64 c-n-f Metadata [116 B]
+    k3d_node: Get:39 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [30.8 kB]
+    k3d_node: Get:40 http://archive.ubuntu.com/ubuntu jammy-backports/universe Translation-en [16.9 kB]
+    k3d_node: Get:41 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 c-n-f Metadata [676 B]
+    k3d_node: Get:42 http://archive.ubuntu.com/ubuntu jammy-backports/multiverse amd64 c-n-f Metadata [116 B]
+    k3d_node: Fetched 47.6 MB in 1min 31s (523 kB/s)
+    k3d_node: Reading package lists...
+    k3d_node: Reading package lists...
+    k3d_node: Building dependency tree...
+    k3d_node: Reading state information...
+    k3d_node: lsb-release is already the newest version (11.1.0ubuntu4).
+    k3d_node: lsb-release set to manually installed.
+    k3d_node: gnupg is already the newest version (2.2.27-3ubuntu2.5).
+    k3d_node: gnupg set to manually installed.
+    k3d_node: ufw is already the newest version (0.36.1-4ubuntu0.1).
+    k3d_node: ufw set to manually installed.
+    k3d_node: The following additional packages will be installed:
+    k3d_node:   libcurl4
+    k3d_node: The following packages will be upgraded:
+    k3d_node:   ca-certificates curl libcurl4
+    k3d_node: 3 upgraded, 0 newly installed, 0 to remove and 129 not upgraded.
+    k3d_node: Need to get 627 kB of archives.
+    k3d_node: After this operation, 53.2 kB disk space will be freed.
+    k3d_node: Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 ca-certificates all 20260601~22.04.1 [141 kB]
+    k3d_node: Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.27 [194 kB]
+    k3d_node: Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.27 [292 kB]
+    k3d_node: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    k3d_node: Fetched 627 kB in 2s (314 kB/s)
+(Reading database ... 64341 files and directories currently installed.)
+    k3d_node: Preparing to unpack .../ca-certificates_20260601~22.04.1_all.deb ...
+    k3d_node: Unpacking ca-certificates (20260601~22.04.1) over (20240203~22.04.1) ...
+    k3d_node: Preparing to unpack .../curl_7.81.0-1ubuntu1.27_amd64.deb ...
+    k3d_node: Unpacking curl (7.81.0-1ubuntu1.27) over (7.81.0-1ubuntu1.23) ...
+    k3d_node: Preparing to unpack .../libcurl4_7.81.0-1ubuntu1.27_amd64.deb ...
+    k3d_node: Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.27) over (7.81.0-1ubuntu1.23) ...
+    k3d_node: Setting up ca-certificates (20260601~22.04.1) ...
+    k3d_node: Updating certificates in /etc/ssl/certs...
+    k3d_node: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+    k3d_node: 14 added, 39 removed; done.
+    k3d_node: Setting up libcurl4:amd64 (7.81.0-1ubuntu1.27) ...
+    k3d_node: Setting up curl (7.81.0-1ubuntu1.27) ...
+    k3d_node: Processing triggers for man-db (2.10.2-1) ...
+    k3d_node: Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+    k3d_node: Processing triggers for ca-certificates (20260601~22.04.1) ...
+    k3d_node: Updating certificates in /etc/ssl/certs...
+    k3d_node: 0 added, 0 removed; done.
+    k3d_node: Running hooks in /etc/ca-certificates/update.d...
+    k3d_node: done.
+    k3d_node:
+    k3d_node: Running kernel seems to be up-to-date.
+    k3d_node:
+    k3d_node: No services need to be restarted.
+    k3d_node:
+    k3d_node: No containers need to be restarted.
+    k3d_node:
+    k3d_node: No user sessions are running outdated binaries.
+    k3d_node:
+    k3d_node: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    k3d_node: Get:1 https://download.docker.com/linux/ubuntu jammy InRelease [48.5 kB]
+    k3d_node: Hit:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+    k3d_node: Get:3 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages [85.9 kB]
+    k3d_node: Hit:4 http://security.ubuntu.com/ubuntu jammy-security InRelease
+    k3d_node: Hit:5 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+    k3d_node: Hit:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+    k3d_node: Fetched 134 kB in 2s (81.2 kB/s)
+    k3d_node: Reading package lists...
+    k3d_node: Reading package lists...
+    k3d_node: Building dependency tree...
+    k3d_node: Reading state information...
+    k3d_node: The following additional packages will be installed:
+    k3d_node:   docker-ce-rootless-extras pigz
+    k3d_node: Suggested packages:
+    k3d_node:   cgroupfs-mount | cgroup-lite docker-model-plugin
+    k3d_node: The following NEW packages will be installed:
+    k3d_node:   containerd.io docker-buildx-plugin docker-ce docker-ce-cli
+    k3d_node:   docker-ce-rootless-extras docker-compose-plugin pigz
+    k3d_node: 0 upgraded, 7 newly installed, 0 to remove and 129 not upgraded.
+    k3d_node: Need to get 101 MB of archives.
+    k3d_node: After this operation, 392 MB of additional disk space will be used.
+    k3d_node: Get:1 https://download.docker.com/linux/ubuntu jammy/stable amd64 containerd.io amd64 2.3.4-1~ubuntu.22.04~jammy [22.7 MB]
+    k3d_node: Get:2 http://archive.ubuntu.com/ubuntu jammy/universe amd64 pigz amd64 2.6-1 [63.6 kB]
+    k3d_node: Get:3 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-cli amd64 5:29.6.2-1~ubuntu.22.04~jammy [16.9 MB]
+    k3d_node: Get:4 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce amd64 5:29.6.2-1~ubuntu.22.04~jammy [23.3 MB]
+    k3d_node: Get:5 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-buildx-plugin amd64 0.37.0-1~ubuntu.22.04~jammy [17.3 MB]
+    k3d_node: Get:6 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-rootless-extras amd64 5:29.7.2-1~ubuntu.22.04~jammy [10.2 MB]
+    k3d_node: Get:7 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-compose-plugin amd64 5.5.0-1~ubuntu.22.04~jammy [11.1 MB]
+    k3d_node: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    k3d_node: Fetched 101 MB in 43s (2378 kB/s)
+    k3d_node: Selecting previously unselected package containerd.io.
+(Reading database ... 64316 files and directories currently installed.)
+    k3d_node: Preparing to unpack .../0-containerd.io_2.3.4-1~ubuntu.22.04~jammy_amd64.deb ...
+    k3d_node: Unpacking containerd.io (2.3.4-1~ubuntu.22.04~jammy) ...
+    k3d_node: Selecting previously unselected package docker-ce-cli.
+    k3d_node: Preparing to unpack .../1-docker-ce-cli_5%3a29.6.2-1~ubuntu.22.04~jammy_amd64.deb ...
+    k3d_node: Unpacking docker-ce-cli (5:29.6.2-1~ubuntu.22.04~jammy) ...
+    k3d_node: Selecting previously unselected package docker-ce.
+    k3d_node: Preparing to unpack .../2-docker-ce_5%3a29.6.2-1~ubuntu.22.04~jammy_amd64.deb ...
+    k3d_node: Unpacking docker-ce (5:29.6.2-1~ubuntu.22.04~jammy) ...
+    k3d_node: Selecting previously unselected package pigz.
+    k3d_node: Preparing to unpack .../3-pigz_2.6-1_amd64.deb ...
+    k3d_node: Unpacking pigz (2.6-1) ...
+    k3d_node: Selecting previously unselected package docker-buildx-plugin.
+    k3d_node: Preparing to unpack .../4-docker-buildx-plugin_0.37.0-1~ubuntu.22.04~jammy_amd64.deb ...
+    k3d_node: Unpacking docker-buildx-plugin (0.37.0-1~ubuntu.22.04~jammy) ...
+    k3d_node: Selecting previously unselected package docker-ce-rootless-extras.
+    k3d_node: Preparing to unpack .../5-docker-ce-rootless-extras_5%3a29.7.2-1~ubuntu.22.04~jammy_amd64.deb ...
+    k3d_node: Unpacking docker-ce-rootless-extras (5:29.7.2-1~ubuntu.22.04~jammy) ...
+    k3d_node: Selecting previously unselected package docker-compose-plugin.
+    k3d_node: Preparing to unpack .../6-docker-compose-plugin_5.5.0-1~ubuntu.22.04~jammy_amd64.deb ...
+    k3d_node: Unpacking docker-compose-plugin (5.5.0-1~ubuntu.22.04~jammy) ...
+    k3d_node: Setting up docker-buildx-plugin (0.37.0-1~ubuntu.22.04~jammy) ...
+    k3d_node: Setting up containerd.io (2.3.4-1~ubuntu.22.04~jammy) ...
+    k3d_node: Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /lib/systemd/system/containerd.service.
+    k3d_node: Setting up docker-compose-plugin (5.5.0-1~ubuntu.22.04~jammy) ...
+    k3d_node: Setting up docker-ce-cli (5:29.6.2-1~ubuntu.22.04~jammy) ...
+    k3d_node: Setting up pigz (2.6-1) ...
+    k3d_node: Setting up docker-ce-rootless-extras (5:29.7.2-1~ubuntu.22.04~jammy) ...
+    k3d_node: Setting up docker-ce (5:29.6.2-1~ubuntu.22.04~jammy) ...
+    k3d_node: Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.
+    k3d_node: Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /lib/systemd/system/docker.socket.
+    k3d_node: Processing triggers for man-db (2.10.2-1) ...
+    k3d_node:
+    k3d_node: Running kernel seems to be up-to-date.
+    k3d_node:
+    k3d_node: No services need to be restarted.
+    k3d_node:
+    k3d_node: No containers need to be restarted.
+    k3d_node:
+    k3d_node: No user sessions are running outdated binaries.
+    k3d_node:
+    k3d_node: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    k3d_node: Synchronizing state of docker.service with SysV service script with /lib/systemd/systemd-sysv-install.
+    k3d_node: Executing: /lib/systemd/systemd-sysv-install enable docker
+    k3d_node: ==========================================
+    k3d_node:  2. Installation de kubectl et k3d
+    k3d_node: ==========================================
+    k3d_node: Téléchargement de la dernière version stable de kubectl...
+    k3d_node: Installation de k3d...
+    k3d_node: Verifying SHA256 checksum of /tmp/k3d-binary-ZUoz4Z/k3d-linux-amd64...
+    k3d_node: Checksum verified OK (1ac1da365236736a8df8c32107b54aca208384ab1d9a06771443c85ad698a5eb)
+    k3d_node: Preparing to install k3d into /usr/local/bin
+    k3d_node: k3d installed into /usr/local/bin/k3d
+    k3d_node: Run 'k3d --help' to see what you can do with it.
+    k3d_node: ==========================================
+    k3d_node:  3. Configuration Réseau & IP Privée
+    k3d_node: ==========================================
+    k3d_node: Firewall stopped and disabled on system startup
+    k3d_node: [INFO] Adresse IP de l'hôte détectée : 192.168.56.15
+    k3d_node: ==========================================
+    k3d_node:  4. Déploiement Multi-Cluster K3d
+    k3d_node: ==========================================
+    k3d_node: --- Création du cluster-1 (Masters: 1, Workers: 2, API Port: 6444) ---
+    k3d_node: INFO[0000] Prep: Network
+    k3d_node: INFO[0000] Created network 'k3d-cluster-1'
+    k3d_node: INFO[0000] Created image volume k3d-cluster-1-images
+    k3d_node: INFO[0000] Starting new tools node...
+    k3d_node: INFO[0001] Creating node 'k3d-cluster-1-server-0'
+    k3d_node: INFO[0003] Pulling image 'ghcr.io/k3d-io/k3d-tools:5.7.4'
+    k3d_node: INFO[0004] Pulling image 'docker.io/rancher/k3s:v1.30.4-k3s1'
+    k3d_node: INFO[0018] Starting node 'k3d-cluster-1-tools'
+    k3d_node: INFO[0025] Creating node 'k3d-cluster-1-agent-0'
+    k3d_node: INFO[0025] Creating node 'k3d-cluster-1-agent-1'
+    k3d_node: INFO[0025] Creating LoadBalancer 'k3d-cluster-1-serverlb'
+    k3d_node: INFO[0029] Pulling image 'ghcr.io/k3d-io/k3d-proxy:5.7.4'
+    k3d_node: INFO[0040] Using the k3d-tools node to gather environment information
+    k3d_node: INFO[0040] HostIP: using network gateway 172.18.0.1 address
+    k3d_node: INFO[0040] Starting cluster 'cluster-1'
+    k3d_node: INFO[0040] Starting servers...
+    k3d_node: INFO[0041] Starting node 'k3d-cluster-1-server-0'
+    k3d_node: INFO[0046] Starting agents...
+    k3d_node: INFO[0046] Starting node 'k3d-cluster-1-agent-0'
+    k3d_node: INFO[0046] Starting node 'k3d-cluster-1-agent-1'
+    k3d_node: INFO[0051] Starting helpers...
+    k3d_node: INFO[0051] Starting node 'k3d-cluster-1-serverlb'
+    k3d_node: INFO[0057] Injecting records for hostAliases (incl. host.k3d.internal) and for 4 network members into CoreDNS configmap...
+    k3d_node: INFO[0059] Cluster 'cluster-1' created successfully!
+    k3d_node: INFO[0059] You can now use it like this:
+    k3d_node: kubectl cluster-info
+    k3d_node: Pause de 20 secondes pour stabiliser le réseau Docker...
+    k3d_node: --- Création du cluster-2 (Masters: 1, Workers: 2, API Port: 6445) ---
+    k3d_node: INFO[0000] Prep: Network
+    k3d_node: INFO[0000] Created network 'k3d-cluster-2'
+    k3d_node: INFO[0000] Created image volume k3d-cluster-2-images
+    k3d_node: INFO[0000] Starting new tools node...
+    k3d_node: INFO[0001] Creating node 'k3d-cluster-2-server-0'
+    k3d_node: INFO[0001] Starting node 'k3d-cluster-2-tools'
+    k3d_node: INFO[0001] Creating node 'k3d-cluster-2-agent-0'
+    k3d_node: INFO[0001] Creating node 'k3d-cluster-2-agent-1'
+    k3d_node: INFO[0001] Creating LoadBalancer 'k3d-cluster-2-serverlb'
+    k3d_node: INFO[0001] Using the k3d-tools node to gather environment information
+    k3d_node: INFO[0002] HostIP: using network gateway 172.19.0.1 address
+    k3d_node: INFO[0002] Starting cluster 'cluster-2'
+    k3d_node: INFO[0002] Starting servers...
+    k3d_node: INFO[0002] Starting node 'k3d-cluster-2-server-0'
+    k3d_node: INFO[0009] Starting agents...
+    k3d_node: INFO[0009] Starting node 'k3d-cluster-2-agent-1'
+    k3d_node: INFO[0009] Starting node 'k3d-cluster-2-agent-0'
+    k3d_node: INFO[0014] Starting helpers...
+    k3d_node: INFO[0014] Starting node 'k3d-cluster-2-serverlb'
+    k3d_node: INFO[0021] Injecting records for hostAliases (incl. host.k3d.internal) and for 4 network members into CoreDNS configmap...
+    k3d_node: INFO[0023] Cluster 'cluster-2' created successfully!
+    k3d_node: INFO[0023] You can now use it like this:
+    k3d_node: kubectl cluster-info
+    k3d_node: Pause de 20 secondes pour stabiliser le réseau Docker...
+    k3d_node: --- Création du cluster-3 (Masters: 1, Workers: 2, API Port: 6446) ---
+    k3d_node: INFO[0000] Prep: Network
+    k3d_node: INFO[0000] Created network 'k3d-cluster-3'
+    k3d_node: INFO[0000] Created image volume k3d-cluster-3-images
+    k3d_node: INFO[0000] Starting new tools node...
+    k3d_node: INFO[0001] Creating node 'k3d-cluster-3-server-0'
+    k3d_node: INFO[0001] Creating node 'k3d-cluster-3-agent-0'
+    k3d_node: INFO[0001] Starting node 'k3d-cluster-3-tools'
+    k3d_node: INFO[0002] Creating node 'k3d-cluster-3-agent-1'
+    k3d_node: INFO[0002] Creating LoadBalancer 'k3d-cluster-3-serverlb'
+    k3d_node: INFO[0002] Using the k3d-tools node to gather environment information
+    k3d_node: INFO[0003] HostIP: using network gateway 172.20.0.1 address
+    k3d_node: INFO[0003] Starting cluster 'cluster-3'
+    k3d_node: INFO[0003] Starting servers...
+    k3d_node: INFO[0003] Starting node 'k3d-cluster-3-server-0'
+    k3d_node: INFO[0013] Starting agents...
+    k3d_node: INFO[0014] Starting node 'k3d-cluster-3-agent-0'
+    k3d_node: INFO[0014] Starting node 'k3d-cluster-3-agent-1'
+    k3d_node: INFO[0026] Starting helpers...
+    k3d_node: INFO[0028] Starting node 'k3d-cluster-3-serverlb'
+    k3d_node: INFO[0035] Injecting records for hostAliases (incl. host.k3d.internal) and for 4 network members into CoreDNS configmap...
+    k3d_node: INFO[0038] Cluster 'cluster-3' created successfully!
+    k3d_node: INFO[0039] You can now use it like this:
+    k3d_node: kubectl cluster-info
+    k3d_node: Pause de 20 secondes pour stabiliser le réseau Docker...
+    k3d_node: export KUBECONFIG=/home/vagrant/.kube/config
+    k3d_node: ==========================================================
+    k3d_node:  Tous les clusters K3d sont opérationnels !
+    k3d_node:  Nombre de clusters créés : 3
+    k3d_node:  Adresse IP du Nœud : 192.168.56.15
+    k3d_node: ==========================================================
+PS C:\Users\Precision\Documents\TRAINING\k3d> vagrant ssh
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-173-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Thu Sep  3 15:37:45 UTC 2026
+
+  System load:             0.46
+  Usage of /:              3.9% of 38.70GB
+  Memory usage:            2%
+  Swap usage:              0%
+  Processes:               141
+  Users logged in:         0
+  IPv4 address for enp0s3: 10.0.2.15
+  IPv6 address for enp0s3: fd17:625c:f037:2:aa:f8ff:fefc:c71b
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+137 updates can be applied immediately.
+124 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+New release '24.04.4 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+vagrant@k3d-node:~$ docker ps
+CONTAINER ID   IMAGE                            COMMAND                  CREATED         STATUS         PORTS                            NAMES
+17ce3997f524   ghcr.io/k3d-io/k3d-proxy:5.7.4   "/bin/sh -c nginx-pr…"   3 minutes ago   Up 3 minutes   80/tcp, 0.0.0.0:6446->6443/tcp   k3d-cluster-3-serverlb
+130ab460714b   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   3 minutes ago   Up 3 minutes                                    k3d-cluster-3-agent-1
+de6a4c61010a   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   3 minutes ago   Up 3 minutes                                    k3d-cluster-3-agent-0
+ffe34d9366a9   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   3 minutes ago   Up 3 minutes                                    k3d-cluster-3-server-0
+8933134cedb2   ghcr.io/k3d-io/k3d-proxy:5.7.4   "/bin/sh -c nginx-pr…"   4 minutes ago   Up 4 minutes   80/tcp, 0.0.0.0:6445->6443/tcp   k3d-cluster-2-serverlb
+45efeb7d955f   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   4 minutes ago   Up 4 minutes                                    k3d-cluster-2-agent-1
+152c7d54e54a   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   4 minutes ago   Up 4 minutes                                    k3d-cluster-2-agent-0
+8fc6b1eede3e   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   4 minutes ago   Up 4 minutes                                    k3d-cluster-2-server-0
+0a0c54fbc18c   ghcr.io/k3d-io/k3d-proxy:5.7.4   "/bin/sh -c nginx-pr…"   5 minutes ago   Up 4 minutes   80/tcp, 0.0.0.0:6444->6443/tcp   k3d-cluster-1-serverlb
+7d13c27c68fa   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   5 minutes ago   Up 4 minutes                                    k3d-cluster-1-agent-1
+72fd95a3cd81   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   5 minutes ago   Up 4 minutes                                    k3d-cluster-1-agent-0
+e8cf22d61a7f   rancher/k3s:v1.30.4-k3s1         "/bin/k3d-entrypoint…"   5 minutes ago   Up 5 minutes                                    k3d-cluster-1-server-0
+vagrant@k3d-node:~$ kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://0.0.0.0:6444
+  name: k3d-cluster-1
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://0.0.0.0:6445
+  name: k3d-cluster-2
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://0.0.0.0:6446
+  name: k3d-cluster-3
+contexts:
+- context:
+    cluster: k3d-cluster-1
+    user: admin@k3d-cluster-1
+  name: k3d-cluster-1
+- context:
+    cluster: k3d-cluster-2
+    user: admin@k3d-cluster-2
+  name: k3d-cluster-2
+- context:
+    cluster: k3d-cluster-3
+    user: admin@k3d-cluster-3
+  name: k3d-cluster-3
+current-context: k3d-cluster-3
+kind: Config
+users:
+- name: admin@k3d-cluster-1
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+- name: admin@k3d-cluster-2
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+- name: admin@k3d-cluster-3
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+vagrant@k3d-node:~$ kubectl config get-contexts
+CURRENT   NAME            CLUSTER         AUTHINFO              NAMESPACE
+          k3d-cluster-1   k3d-cluster-1   admin@k3d-cluster-1
+          k3d-cluster-2   k3d-cluster-2   admin@k3d-cluster-2
+*         k3d-cluster-3   k3d-cluster-3   admin@k3d-cluster-3
+vagrant@k3d-node:~$ kubectl get node
+NAME                     STATUS   ROLES                  AGE     VERSION
+k3d-cluster-3-agent-0    Ready    <none>                 4m18s   v1.30.4+k3s1
+k3d-cluster-3-agent-1    Ready    <none>                 4m18s   v1.30.4+k3s1
+k3d-cluster-3-server-0   Ready    control-plane,master   4m32s   v1.30.4+k3s1
+vagrant@k3d-node:~$ kubectl config use-context k3d-cluster-2
+Switched to context "k3d-cluster-2".
+vagrant@k3d-node:~$ kubectl config get-contexts
+CURRENT   NAME            CLUSTER         AUTHINFO              NAMESPACE
+          k3d-cluster-1   k3d-cluster-1   admin@k3d-cluster-1
+*         k3d-cluster-2   k3d-cluster-2   admin@k3d-cluster-2
+          k3d-cluster-3   k3d-cluster-3   admin@k3d-cluster-3
+vagrant@k3d-node:~$ kubectl get node
+NAME                     STATUS   ROLES                  AGE     VERSION
+k3d-cluster-2-agent-0    Ready    <none>                 5m43s   v1.30.4+k3s1
+k3d-cluster-2-agent-1    Ready    <none>                 5m44s   v1.30.4+k3s1
+k3d-cluster-2-server-0   Ready    control-plane,master   5m49s   v1.30.4+k3s1
+vagrant@k3d-node:~$ kubectl get po -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   coredns-576bfc4dc7-d59lq                  1/1     Running     0          5m45s
+kube-system   helm-install-traefik-crd-pxltz            0/1     Completed   0          5m45s
+kube-system   helm-install-traefik-d58nw                0/1     Completed   3          5m45s
+kube-system   local-path-provisioner-6795b5f9d8-fpnf7   1/1     Running     0          5m45s
+kube-system   metrics-server-557ff575fb-9xht2           1/1     Running     0          5m45s
+kube-system   svclb-traefik-aa905a1b-4bnf5              2/2     Running     0          3m6s
+kube-system   svclb-traefik-aa905a1b-dhgnw              2/2     Running     0          3m6s
+kube-system   svclb-traefik-aa905a1b-gzxln              2/2     Running     0          3m6s
+kube-system   traefik-5fb479b77-jbm6f                   1/1     Running     0          3m6s
+vagrant@k3d-node:~$ kubectl config use-context k3d-cluster-1
+Switched to context "k3d-cluster-1".
+vagrant@k3d-node:~$ kubectl config get-contexts
+CURRENT   NAME            CLUSTER         AUTHINFO              NAMESPACE
+*         k3d-cluster-1   k3d-cluster-1   admin@k3d-cluster-1
+          k3d-cluster-2   k3d-cluster-2   admin@k3d-cluster-2
+          k3d-cluster-3   k3d-cluster-3   admin@k3d-cluster-3
+vagrant@k3d-node:~$ kubectl get node
+
+NAME                     STATUS   ROLES                  AGE     VERSION
+k3d-cluster-1-agent-0    Ready    <none>                 6m58s   v1.30.4+k3s1
+k3d-cluster-1-agent-1    Ready    <none>                 6m58s   v1.30.4+k3s1
+k3d-cluster-1-server-0   Ready    control-plane,master   7m3s    v1.30.4+k3s1
+vagrant@k3d-node:~$
+vagrant@k3d-node:~$ kubectl get po -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   coredns-576bfc4dc7-snpgd                  1/1     Running     0          6m52s
+kube-system   helm-install-traefik-crd-vn8bs            0/1     Completed   0          6m52s
+kube-system   helm-install-traefik-gs7vv                0/1     Completed   0          6m52s
+kube-system   local-path-provisioner-6795b5f9d8-sqkp7   1/1     Running     0          6m52s
+kube-system   metrics-server-557ff575fb-8v2p9           1/1     Running     0          6m52s
+kube-system   svclb-traefik-e91be850-26z9p              2/2     Running     0          5m9s
+kube-system   svclb-traefik-e91be850-fm4kw              2/2     Running     0          5m9s
+kube-system   svclb-traefik-e91be850-w7hfd              2/2     Running     0          5m9s
+kube-system   traefik-5fb479b77-bnj8d                   1/1     Running     0          5m9s
+vagrant@k3d-node:~$ kubectl config use-context k3d-cluster-3
+Switched to context "k3d-cluster-3".
+vagrant@k3d-node:~$ kubectl get node
+NAME                     STATUS   ROLES                  AGE     VERSION
+k3d-cluster-3-agent-0    Ready    <none>                 5m32s   v1.30.4+k3s1
+k3d-cluster-3-agent-1    Ready    <none>                 5m32s   v1.30.4+k3s1
+k3d-cluster-3-server-0   Ready    control-plane,master   5m46s   v1.30.4+k3s1
+vagrant@k3d-node:~$ kubectl get po -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   coredns-576bfc4dc7-bw2s7                  1/1     Running     0          5m28s
+kube-system   helm-install-traefik-9jgb6                0/1     Completed   1          5m29s
+kube-system   helm-install-traefik-crd-2bgh2            0/1     Completed   0          5m29s
+kube-system   local-path-provisioner-6795b5f9d8-88pdt   1/1     Running     0          5m28s
+kube-system   metrics-server-557ff575fb-x4ccz           1/1     Running     0          5m28s
+kube-system   svclb-traefik-e48a8eb0-7ds9q              2/2     Running     0          4m6s
+kube-system   svclb-traefik-e48a8eb0-nbcl2              2/2     Running     0          4m6s
+kube-system   svclb-traefik-e48a8eb0-wdvdr              2/2     Running     0          4m6s
+kube-system   traefik-5fb479b77-xn5fj                   1/1     Running     0          4m6s
+vagrant@k3d-node:~$ htop
+vagrant@k3d-node:~$ exit
+logout
