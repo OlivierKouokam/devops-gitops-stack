@@ -6,7 +6,7 @@
 # =====================================================================
 NUM_CLUSTERS = 3       # Nombre total de clusters Kubernetes à créer
 NUM_SERVERS  = 1       # Nombre de Control-Plane (Master) par cluster
-NUM_WORKERS  = 2       # Nombre de Worker Nodes par cluster
+NUM_WORKERS  = 1       # Nombre de Worker Nodes par cluster
 # =====================================================================
 
 Vagrant.configure("2") do |config|
