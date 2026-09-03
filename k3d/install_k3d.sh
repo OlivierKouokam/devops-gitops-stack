@@ -5,7 +5,7 @@ set -euo pipefail
 # Récupération des variables passées par Vagrant
 CLUSTERS_COUNT="${NUM_CLUSTERS:-3}"
 SERVERS_COUNT="${NUM_SERVERS:-1}"
-WORKERS_COUNT="${NUM_WORKERS:-2}"
+WORKERS_COUNT="${NUM_WORKERS:-1}"
 
 # Version fixe de Docker
 VERSION_STRING="5:29.6.2-1~ubuntu.22.04~jammy"
