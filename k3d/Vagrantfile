@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# =====================================================================
+# CONFIGURATION DU MULTI-CLUSTER K3D
+# =====================================================================
+NUM_CLUSTERS = 3       # Nombre total de clusters Kubernetes à créer
+NUM_SERVERS  = 1       # Nombre de Control-Plane (Master) par cluster
+NUM_WORKERS  = 2       # Nombre de Worker Nodes par cluster
+# =====================================================================
+
+Vagrant.configure("2") do |config|
+  config.vm.define "k3d_node" do |k3d_node|
+    k3d_node.vm.box = "ubuntu/jammy64"
+    k3d_node.vm.hostname = "k3d-node"
+
+    # Configuration réseau privé DHCP (génère l'interface enp0s8)
+    k3d_node.vm.network "private_network", type: "dhcp"
+
+    # Ressources recommandées pour faire tourner plusieurs clusters + ArgoCD à venir
+    k3d_node.vm.provider "virtualbox" do |vb|
+      vb.name = "k3d-node"
+      vb.memory = "8192" # Augmenté à 6Go pour supporter le multi-cluster + ArgoCD confortablement
+      vb.cpus = 4        # Augmenté à 4 vCPUs
+    end
+
+    # Provisionnement avec passage des variables d'environnement au script Bash
+    k3d_node.vm.provision "shell", path: "install_k3d.sh", env: {
+      "NUM_CLUSTERS" => NUM_CLUSTERS.to_s,
+      "NUM_SERVERS"  => NUM_SERVERS.to_s,
+      "NUM_WORKERS"  => NUM_WORKERS.to_s
+    }
+  end
+end
