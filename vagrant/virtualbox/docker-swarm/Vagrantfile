@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "masterd" do |master|
+    master.vm.box = "bento/ubuntu-24.04"
+    master.vm.box_version = "202510.26.0"
+    master.vm.network "private_network", type: "static", ip: "192.168.99.20"
+    master.vm.hostname = "masterd"
+    master.vm.provider "virtualbox" do |v|
+      v.name = "masterd"
+      v.memory = 4096
+      v.cpus = 2
+    end
+    master.vm.provision :shell do |shell|
+      shell.path = "install_swarm.sh"
+      shell.args = ["master", "192.168.99.20"]
+    end
+  end
+  workers=2
+  ram_worker=4096
+  cpu_worker=2
+  (1..workers).each do |i|
+    config.vm.define "workerd#{i}" do |worker|
+      worker.vm.box = "bento/ubuntu-24.04"
+      worker.vm.box_version = "202510.26.0"
+      worker.vm.network "private_network", type: "static", ip: "192.168.99.2#{i}"
+      worker.vm.hostname = "workerd#{i}"
+      worker.vm.provider "virtualbox" do |v|
+        v.name = "workerd#{i}"
+        v.memory = ram_worker
+        v.cpus = cpu_worker
+      end
+      worker.vm.provision :shell do |shell|
+        shell.path = "install_swarm.sh"
+        shell.args = ["node", "192.168.99.20"]
+      end
+    end
+  end
+end

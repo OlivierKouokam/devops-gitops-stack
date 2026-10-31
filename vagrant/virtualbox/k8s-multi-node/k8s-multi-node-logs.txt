@@ -1,0 +1,1090 @@
+Bringing machine 'master' up with 'virtualbox' provider...
+Bringing machine 'worker1' up with 'virtualbox' provider...
+==> master: Importing base box 'bento/ubuntu-24.04'...
+[KProgress: 30%[KProgress: 40%[KProgress: 90%[K==> master: Matching MAC address for NAT networking...
+==> master: Checking if box 'bento/ubuntu-24.04' version '202510.26.0' is up to date...
+==> master: Setting the name of the VM: master
+==> master: Clearing any previously set network interfaces...
+==> master: Preparing network interfaces based on configuration...
+    master: Adapter 1: nat
+    master: Adapter 2: hostonly
+==> master: Forwarding ports...
+    master: 22 (guest) => 2222 (host) (adapter 1)
+==> master: Running 'pre-boot' VM customizations...
+==> master: Booting VM...
+==> master: Waiting for machine to boot. This may take a few minutes...
+    master: SSH address: 127.0.0.1:2222
+    master: SSH username: vagrant
+    master: SSH auth method: private key
+    master: Warning: Connection reset. Retrying...
+    master: 
+    master: Vagrant insecure key detected. Vagrant will automatically replace
+    master: this with a newly generated keypair for better security.
+    master: 
+    master: Inserting generated public key within guest...
+    master: Removing insecure key from the guest if it's present...
+    master: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> master: Machine booted and ready!
+==> master: Checking for guest additions in VM...
+==> master: Setting hostname...
+==> master: Configuring and enabling network interfaces...
+==> master: Mounting shared folders...
+    master: C:/Users/Precision/Documents/TRAINING/vagrant/virtualbox/k8s-multi-node => /vagrant
+==> master: Running provisioner: shell...
+    master: Running: C:/Users/PRECIS~1/AppData/Local/Temp/vagrant-shell20261030-113256-hz84q9.sh
+    master: 
+    master: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    master: 
+    master: Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+    master: Hit:2 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    master: Get:3 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+    master: Get:4 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1,146 kB]
+    master: Get:5 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+    master: Get:6 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1,408 kB]
+    master: Get:7 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+    master: Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+    master: Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1,713 kB]
+    master: Get:10 http://us.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [311 kB]
+    master: Get:11 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+    master: Get:12 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1,813 kB]
+    master: Get:13 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+    master: Get:14 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [212 B]
+    master: Get:15 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1,223 kB]
+    master: Get:16 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [412 kB]
+    master: Get:17 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
+    master: Get:18 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1,708 kB]
+    master: Get:19 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+    master: Get:20 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.2 kB]
+    master: Get:21 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+    master: Get:22 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+    master: Get:23 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B]
+    master: Get:24 http://us.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [343 kB]
+    master: Get:25 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+    master: Get:26 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+    master: Get:27 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+    master: Get:28 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+    master: Get:29 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [40.6 kB]
+    master: Get:30 http://us.archive.ubuntu.com/ubuntu noble-backports/main Translation-en [9,172 B]
+    master: Get:31 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5,744 B]
+    master: Get:32 http://us.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [212 B]
+    master: Get:33 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [31.0 kB]
+    master: Get:34 http://us.archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [18.6 kB]
+    master: Get:35 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+    master: Get:36 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+    master: Get:37 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse Translation-en [340 B]
+    master: Get:38 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+    master: Fetched 12.3 MB in 5s (2,236 kB/s)
+    master: Reading package lists...
+    master: Building dependency tree...
+    master: Reading state information...
+    master: 246 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    master: Hit:1 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    master: Hit:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+    master: Hit:3 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+    master: Hit:4 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+    master: Reading package lists...
+    master: Adding component(s) 'universe' to all repositories.
+    master: Hit:1 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    master: Hit:2 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+    master: Hit:3 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+    master: Get:4 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble InRelease [17.8 kB]
+    master: Get:5 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 Packages [932 B]
+    master: Get:6 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main Translation-en [472 B]
+    master: Hit:7 http://security.ubuntu.com/ubuntu noble-security InRelease
+    master: Fetched 19.2 kB in 3s (6,521 B/s)
+    master: Reading package lists...
+    master: Repository: 'Types: deb
+    master: URIs: https://ppa.launchpadcontent.net/ansible/ansible/ubuntu/
+    master: Suites: noble
+    master: Components: main
+    master: '
+    master: Description:
+    master: Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy. Avoid writing scripts or custom code to deploy and update your applications— automate in a language that approaches plain English, using SSH, with no agents to install on remote systems.
+    master: 
+    master: http://ansible.com/
+    master: 
+    master: If you face any issues while installing Ansible PPA, file an issue here:
+    master: https://github.com/ansible-community/ppa/issues
+    master: More info: https://launchpad.net/~ansible/+archive/ubuntu/ansible
+    master: Adding repository.
+    master: 
+    master: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    master: 
+    master: Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+    master: Hit:2 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    master: Hit:3 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble InRelease
+    master: Hit:4 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+    master: Hit:5 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+    master: Reading package lists...
+    master: Building dependency tree...
+    master: Reading state information...
+    master: 246 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    master: 
+    master: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    master: 
+    master: Reading package lists...
+    master: Building dependency tree...
+    master: Reading state information...
+    master: The following additional packages will be installed:
+    master:   ansible-core python3-kerberos python3-nacl python3-ntlm-auth
+    master:   python3-paramiko python3-requests-ntlm python3-resolvelib python3-winrm
+    master:   python3-xmltodict sshpass
+    master: Suggested packages:
+    master:   python-nacl-doc python3-gssapi python3-invoke
+    master: The following NEW packages will be installed:
+    master:   ansible ansible-core python3-kerberos python3-nacl python3-ntlm-auth
+    master:   python3-paramiko python3-requests-ntlm python3-resolvelib python3-winrm
+    master:   python3-xmltodict sshpass
+    master: 0 upgraded, 11 newly installed, 0 to remove and 246 not upgraded.
+    master: Need to get 20.4 MB of archives.
+    master: After this operation, 222 MB of additional disk space will be used.
+    master: Get:1 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-resolvelib all 1.0.1-1 [25.7 kB]
+    master: Get:2 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-kerberos amd64 1.1.14-3.1build9 [21.2 kB]
+    master: Get:3 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 ansible-core all 2.21.5-1ppa~noble [1,151 kB]
+    master: Get:4 http://us.archive.ubuntu.com/ubuntu noble/main amd64 python3-nacl amd64 1.5.0-4build1 [57.9 kB]
+    master: Get:5 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-ntlm-auth all 1.5.0-1 [21.3 kB]
+    master: Get:6 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-paramiko all 2.12.0-2ubuntu4.1 [137 kB]
+    master: Get:7 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-requests-ntlm all 1.1.0-3 [6,308 B]
+    master: Get:8 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-xmltodict all 0.13.0-1ubuntu0.24.04.1 [14.3 kB]
+    master: Get:9 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-winrm all 0.4.3-2 [31.9 kB]
+    master: Get:10 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 sshpass amd64 1.09-1 [11.7 kB]
+    master: Get:11 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 ansible all 14.5.0-1ppa~noble [18.9 MB]
+    master: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    master: Fetched 20.4 MB in 58s (352 kB/s)
+    master: Selecting previously unselected package python3-resolvelib.
+    master: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 50821 files and directories currently installed.)
+    master: Preparing to unpack .../00-python3-resolvelib_1.0.1-1_all.deb ...
+    master: Unpacking python3-resolvelib (1.0.1-1) ...
+    master: Selecting previously unselected package ansible-core.
+    master: Preparing to unpack .../01-ansible-core_2.21.5-1ppa~noble_all.deb ...
+    master: Unpacking ansible-core (2.21.5-1ppa~noble) ...
+    master: Selecting previously unselected package ansible.
+    master: Preparing to unpack .../02-ansible_14.5.0-1ppa~noble_all.deb ...
+    master: Unpacking ansible (14.5.0-1ppa~noble) ...
+    master: Selecting previously unselected package python3-kerberos.
+    master: Preparing to unpack .../03-python3-kerberos_1.1.14-3.1build9_amd64.deb ...
+    master: Unpacking python3-kerberos (1.1.14-3.1build9) ...
+    master: Selecting previously unselected package python3-nacl.
+    master: Preparing to unpack .../04-python3-nacl_1.5.0-4build1_amd64.deb ...
+    master: Unpacking python3-nacl (1.5.0-4build1) ...
+    master: Selecting previously unselected package python3-ntlm-auth.
+    master: Preparing to unpack .../05-python3-ntlm-auth_1.5.0-1_all.deb ...
+    master: Unpacking python3-ntlm-auth (1.5.0-1) ...
+    master: Selecting previously unselected package python3-paramiko.
+    master: Preparing to unpack .../06-python3-paramiko_2.12.0-2ubuntu4.1_all.deb ...
+    master: Unpacking python3-paramiko (2.12.0-2ubuntu4.1) ...
+    master: Selecting previously unselected package python3-requests-ntlm.
+    master: Preparing to unpack .../07-python3-requests-ntlm_1.1.0-3_all.deb ...
+    master: Unpacking python3-requests-ntlm (1.1.0-3) ...
+    master: Selecting previously unselected package python3-xmltodict.
+    master: Preparing to unpack .../08-python3-xmltodict_0.13.0-1ubuntu0.24.04.1_all.deb ...
+    master: Unpacking python3-xmltodict (0.13.0-1ubuntu0.24.04.1) ...
+    master: Selecting previously unselected package python3-winrm.
+    master: Preparing to unpack .../09-python3-winrm_0.4.3-2_all.deb ...
+    master: Unpacking python3-winrm (0.4.3-2) ...
+    master: Selecting previously unselected package sshpass.
+    master: Preparing to unpack .../10-sshpass_1.09-1_amd64.deb ...
+    master: Unpacking sshpass (1.09-1) ...
+    master: Setting up python3-ntlm-auth (1.5.0-1) ...
+    master: Setting up python3-resolvelib (1.0.1-1) ...
+    master: Setting up python3-kerberos (1.1.14-3.1build9) ...
+    master: Setting up ansible-core (2.21.5-1ppa~noble) ...
+    master: Setting up sshpass (1.09-1) ...
+    master: Setting up python3-xmltodict (0.13.0-1ubuntu0.24.04.1) ...
+    master: Setting up ansible (14.5.0-1ppa~noble) ...
+    master: Setting up python3-nacl (1.5.0-4build1) ...
+    master: Setting up python3-requests-ntlm (1.1.0-3) ...
+    master: Setting up python3-winrm (0.4.3-2) ...
+    master: Setting up python3-paramiko (2.12.0-2ubuntu4.1) ...
+    master: Processing triggers for man-db (2.12.0-4build2) ...
+    master: 
+    master: Running kernel seems to be up-to-date.
+    master: 
+    master: No services need to be restarted.
+    master: 
+    master: No containers need to be restarted.
+    master: 
+    master: No user sessions are running outdated binaries.
+    master: 
+    master: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    master: 
+    master: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    master: 
+    master: Reading package lists...
+    master: Building dependency tree...
+    master: Reading state information...
+    master: The following additional packages will be installed:
+    master:   git-man
+    master: Suggested packages:
+    master:   git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb
+    master:   git-cvs git-mediawiki git-svn
+    master: The following packages will be upgraded:
+    master:   git git-man
+    master: 2 upgraded, 0 newly installed, 0 to remove and 244 not upgraded.
+    master: Need to get 4,781 kB of archives.
+    master: After this operation, 5,120 B of additional disk space will be used.
+    master: Get:1 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 git-man all 1:2.43.0-1ubuntu7.4 [1,101 kB]
+    master: Get:2 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 git amd64 1:2.43.0-1ubuntu7.4 [3,681 kB]
+    master: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    master: Fetched 4,781 kB in 8s (591 kB/s)
+    master: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 76224 files and directories currently installed.)
+    master: Preparing to unpack .../git-man_1%3a2.43.0-1ubuntu7.4_all.deb ...
+    master: Unpacking git-man (1:2.43.0-1ubuntu7.4) over (1:2.43.0-1ubuntu7.3) ...
+    master: Preparing to unpack .../git_1%3a2.43.0-1ubuntu7.4_amd64.deb ...
+    master: Unpacking git (1:2.43.0-1ubuntu7.4) over (1:2.43.0-1ubuntu7.3) ...
+    master: Setting up git-man (1:2.43.0-1ubuntu7.4) ...
+    master: Setting up git (1:2.43.0-1ubuntu7.4) ...
+    master: Processing triggers for man-db (2.12.0-4build2) ...
+    master: 
+    master: Running kernel seems to be up-to-date.
+    master: 
+    master: No services need to be restarted.
+    master: 
+    master: No containers need to be restarted.
+    master: 
+    master: No user sessions are running outdated binaries.
+    master: 
+    master: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    master: Starting galaxy role install process
+    master: - downloading role 'pip', owned by geerlingguy
+    master: - downloading role from https://github.com/geerlingguy/ansible-role-pip/archive/2.2.0.tar.gz
+    master: - extracting geerlingguy.pip to /root/.ansible/roles/geerlingguy.pip
+    master: - geerlingguy.pip (2.2.0) was installed successfully
+    master: - downloading role 'containerd', owned by geerlingguy
+    master: - downloading role from https://github.com/geerlingguy/ansible-role-containerd/archive/1.3.1.tar.gz
+    master: - extracting geerlingguy.containerd to /root/.ansible/roles/geerlingguy.containerd
+    master: - geerlingguy.containerd (1.3.1) was installed successfully
+    master: - downloading role 'kubernetes', owned by geerlingguy
+    master: - downloading role from https://github.com/geerlingguy/ansible-role-kubernetes/archive/8.0.0.tar.gz
+    master: - extracting geerlingguy.kubernetes to /root/.ansible/roles/geerlingguy.kubernetes
+    master: - geerlingguy.kubernetes (8.0.0) was installed successfully
+    master: [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+    master: 
+    master: PLAY [localhost] ***************************************************************
+    master: 
+    master: TASK [Gathering Facts] *********************************************************
+    master: ok: [localhost]
+    master: 
+    master: TASK [Enable br_netfilter module] **********************************************
+    master: [WARNING]: Deprecation warnings can be disabled by setting `deprecation_warnings=False` in ansible.cfg.
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /vagrant/install_kubernetes.yml:41:11
+    master: 
+    master: 39       name: br_netfilter
+    master: 40       state: present
+    master: 41     when: >
+    master:              ^ column 11
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: changed: [localhost]
+    master: 
+    master: TASK [disable swap] ************************************************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [ipforward to 1] **********************************************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.pip : Ensure Pip is installed.] ******************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.pip : Ensure pip_install_packages are installed.] ************
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : include_tasks] **********************************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.containerd/tasks/main.yml:3:9
+    master: 
+    master: 1 ---
+    master: 2 - include_tasks: setup-RedHat.yml
+    master: 3   when: ansible_os_family == 'RedHat'
+    master:           ^ column 9
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : include_tasks] **********************************
+    master: [DEPRECATION WARNING]: apt_key has been deprecated. Use deb822_repository instead. This feature will be removed from ansible-core version 2.25.
+    master: Origin: /root/.ansible/roles/geerlingguy.containerd/tasks/setup-Debian.yml:11:3
+    master: 
+    master:  9
+    master: 10 - name: Add Docker apt key.
+    master: 11   apt_key:
+    master:      ^ column 3
+    master: 
+    master: [DEPRECATION WARNING]: apt_repository has been deprecated. Use deb822_repository instead. This feature will be removed from ansible-core version 2.25.
+    master: Origin: /root/.ansible/roles/geerlingguy.containerd/tasks/setup-Debian.yml:28:3
+    master: 
+    master: 26
+    master: 27 - name: Add Docker repository.
+    master: 28   apt_repository:
+    master:      ^ column 3
+    master: 
+    master: included: /root/.ansible/roles/geerlingguy.containerd/tasks/setup-Debian.yml for localhost
+    master: 
+    master: TASK [geerlingguy.containerd : Ensure dependencies are installed.] *************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Add Docker apt key.] ****************************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.containerd/defaults/main.yml:22:21
+    master: 
+    master: 20 docker_apt_repository: "deb [arch={{ docker_apt_arch }}] https://download.docker.com/linux/{{ ansible_distribution...
+    master: 21 docker_apt_ignore_key_error: true
+    master: 22 docker_apt_gpg_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+    master:                        ^ column 21
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Ensure curl is present (on older systems without SNI).] ***
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Add Docker apt key (alternative for older systems without SNI).] ***
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Add Docker repository.] *************************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.containerd/defaults/main.yml:19:18
+    master: 
+    master: 17 # Used only for Debian/Ubuntu. Switch 'stable' to 'nightly' if needed.
+    master: 18 docker_apt_release_channel: stable
+    master: 19 docker_apt_arch: '{{ (ansible_architecture == "aarch64") | ternary("arm64", "amd64") }}'
+    master:                     ^ column 18
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Ensure containerd is installed.] ****************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Ensure containerd is started and enabled at boot.] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Ensure containerd config directory exists.] *****
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Get defaults from containerd.] ******************
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Prepare containerd/config.toml from default config] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Set Cgroup driver to systemd] *******************
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Make sure  SystemdCgroup = false is not set] ****
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Copy config.toml to /etc/containerd] ************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Cleanup temporary file] *************************
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.containerd : Ensure containerd is restarted immediately if necessary.] ***
+    master: 
+    master: RUNNING HANDLER [geerlingguy.containerd : restart containerd] ******************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Include OS-specific variables.] *****************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/main.yml:3:17
+    master: 
+    master: 1 ---
+    master: 2 - name: Include OS-specific variables.
+    master: 3   include_vars: "{{ ansible_os_family }}.yml"
+    master:                   ^ column 17
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/main.yml:6:9
+    master: 
+    master: 4
+    master: 5 - include_tasks: setup-RedHat.yml
+    master: 6   when: ansible_os_family == 'RedHat'
+    master:           ^ column 9
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    master: [DEPRECATION WARNING]: ansible.builtin.apt_repository has been deprecated. Use deb822_repository instead. This feature will be removed from ansible-core version 2.25.
+    master: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/setup-Debian.yml:28:3
+    master: 
+    master: 26
+    master: 27 - name: Add Kubernetes repository.
+    master: 28   ansible.builtin.apt_repository:
+    master:      ^ column 3
+    master: 
+    master: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/setup-Debian.yml for localhost
+    master: 
+    master: TASK [geerlingguy.kubernetes : Ensure dependencies are installed.] *************
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Prepare apt keyring directory.] *****************
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Get Kubernetes apt key.] ************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Be sure deprecated Kubernetes repository is absent.] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Add Kubernetes repository.] *********************
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Add Kubernetes apt preferences file to pin a version.] ***
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Ensure dependencies are installed.] *************
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Install Kubernetes packages.] *******************
+    master: changed: [localhost] => (item={'name': 'kubelet', 'state': 'present'})
+    master: changed: [localhost] => (item={'name': 'kubectl', 'state': 'present'})
+    master: changed: [localhost] => (item={'name': 'kubeadm', 'state': 'present'})
+    master: ok: [localhost] => (item={'name': 'kubernetes-cni', 'state': 'present'})
+    master: 
+    master: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    master: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml for localhost
+    master: 
+    master: TASK [geerlingguy.kubernetes : Ensure procps is installed.] ********************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml:6:9
+    master: 
+    master: 4     name: "{{ procps_package }}"
+    master: 5     state: present
+    master: 6   when: >
+    master:           ^ column 9
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Let iptables see bridged traffic.] **************
+    master: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    master: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml:19:9
+    master: 
+    master: 17     - net.bridge.bridge-nf-call-iptables
+    master: 18     - net.bridge.bridge-nf-call-ip6tables
+    master: 19   when: >
+    master:            ^ column 9
+    master: 
+    master: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    master: 
+    master: changed: [localhost] => (item=net.bridge.bridge-nf-call-iptables)
+    master: changed: [localhost] => (item=net.bridge.bridge-nf-call-ip6tables)
+    master: 
+    master: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    master: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/kubelet-setup.yml for localhost
+    master: 
+    master: TASK [geerlingguy.kubernetes : Check for existence of kubelet environment file. (deprecated)] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Set facts for KUBELET_EXTRA_ARGS task if environment file exists. (deprecated)] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Set facts for KUBELET_EXTRA_ARGS task if environment file doesn't exist. (deprecated)] ***
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Configure KUBELET_EXTRA_ARGS. (deprecated)] *****
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Reload systemd unit if args were changed. (deprecated)] ***
+    master: changed: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Ensure kubelet is started and enabled at boot.] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Check if Kubernetes has already been initialized.] ***
+    master: ok: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Get the kubeadm join command from the Kubernetes control plane.] ***
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : Set the kubeadm join command globally.] *********
+    master: skipping: [localhost]
+    master: 
+    master: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    master: skipping: [localhost]
+    master: 
+    master: RUNNING HANDLER [geerlingguy.kubernetes : restart kubelet] *********************
+    master: changed: [localhost]
+    master: 
+    master: TASK [Install Tigera Operator from Vagrant shared folder] **********************
+    master: skipping: [localhost]
+    master: 
+    master: TASK [Copy Custom Resources to /tmp to avoid modifying the host Windows file] ***
+    master: skipping: [localhost]
+    master: 
+    master: TASK [Configure Calico Custom Resources (Pod CIDR & eth1 interface)] ***********
+    master: skipping: [localhost]
+    master: 
+    master: TASK [Apply Calico Custom Resources configuration] *****************************
+    master: skipping: [localhost]
+    master: 
+    master: TASK [Download crictl binary] **************************************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [Extract crictl binary] ***************************************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [Remove crictl archive] ***************************************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [Create crictl configuration directory] ***********************************
+    master: changed: [localhost]
+    master: 
+    master: TASK [Configure crictl] ********************************************************
+    master: changed: [localhost]
+    master: 
+    master: PLAY RECAP *********************************************************************
+    master: localhost                  : ok=43   changed=23   unreachable=0    failed=0    skipped=16   rescued=0    ignored=0
+    master: 
+    master: For this Stack, you will use 192.168.98.10 IP Address
+==> worker1: Importing base box 'bento/ubuntu-24.04'...
+[KProgress: 30%[KProgress: 40%[K==> worker1: Matching MAC address for NAT networking...
+==> worker1: Checking if box 'bento/ubuntu-24.04' version '202510.26.0' is up to date...
+==> worker1: Setting the name of the VM: worker1
+==> worker1: Fixed port collision for 22 => 2222. Now on port 2200.
+==> worker1: Clearing any previously set network interfaces...
+==> worker1: Preparing network interfaces based on configuration...
+    worker1: Adapter 1: nat
+    worker1: Adapter 2: hostonly
+==> worker1: Forwarding ports...
+    worker1: 22 (guest) => 2200 (host) (adapter 1)
+==> worker1: Running 'pre-boot' VM customizations...
+==> worker1: Booting VM...
+==> worker1: Waiting for machine to boot. This may take a few minutes...
+    worker1: SSH address: 127.0.0.1:2200
+    worker1: SSH username: vagrant
+    worker1: SSH auth method: private key
+    worker1: 
+    worker1: Vagrant insecure key detected. Vagrant will automatically replace
+    worker1: this with a newly generated keypair for better security.
+    worker1: 
+    worker1: Inserting generated public key within guest...
+    worker1: Removing insecure key from the guest if it's present...
+    worker1: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> worker1: Machine booted and ready!
+==> worker1: Checking for guest additions in VM...
+==> worker1: Setting hostname...
+==> worker1: Configuring and enabling network interfaces...
+==> worker1: Mounting shared folders...
+    worker1: C:/Users/Precision/Documents/TRAINING/vagrant/virtualbox/k8s-multi-node => /vagrant
+==> worker1: Running provisioner: shell...
+    worker1: Running: C:/Users/PRECIS~1/AppData/Local/Temp/vagrant-shell20261030-113256-cymd87.sh
+    worker1: 
+    worker1: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    worker1: 
+    worker1: Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+    worker1: Hit:2 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    worker1: Get:3 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+    worker1: Get:4 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+    worker1: Get:5 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1,146 kB]
+    worker1: Get:6 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1,408 kB]
+    worker1: Get:7 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+    worker1: Get:8 http://us.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [311 kB]
+    worker1: Get:9 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+    worker1: Get:10 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1,713 kB]
+    worker1: Get:11 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+    worker1: Get:12 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1,813 kB]
+    worker1: Get:13 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+    worker1: Get:14 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [212 B]
+    worker1: Get:15 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1,223 kB]
+    worker1: Get:16 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [412 kB]
+    worker1: Get:17 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+    worker1: Get:18 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.2 kB]
+    worker1: Get:19 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+    worker1: Get:20 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+    worker1: Get:21 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B]
+    worker1: Get:22 http://us.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
+    worker1: Get:23 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1,708 kB]
+    worker1: Get:24 http://us.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [343 kB]
+    worker1: Get:25 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+    worker1: Get:26 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+    worker1: Get:27 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.3 kB]
+    worker1: Get:28 http://us.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+    worker1: Get:29 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [40.6 kB]
+    worker1: Get:30 http://us.archive.ubuntu.com/ubuntu noble-backports/main Translation-en [9,172 B]
+    worker1: Get:31 http://us.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5,744 B]
+    worker1: Get:32 http://us.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [212 B]
+    worker1: Get:33 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [31.0 kB]
+    worker1: Get:34 http://us.archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [18.6 kB]
+    worker1: Get:35 http://us.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+    worker1: Get:36 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+    worker1: Get:37 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse Translation-en [340 B]
+    worker1: Get:38 http://us.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+    worker1: Fetched 12.3 MB in 9s (1,346 kB/s)
+    worker1: Reading package lists...
+    worker1: Building dependency tree...
+    worker1: Reading state information...
+    worker1: 246 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    worker1: Hit:1 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    worker1: Hit:2 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+    worker1: Hit:3 http://security.ubuntu.com/ubuntu noble-security InRelease
+    worker1: Hit:4 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+    worker1: Reading package lists...
+    worker1: Adding component(s) 'universe' to all repositories.
+    worker1: Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+    worker1: Hit:2 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    worker1: Hit:3 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+    worker1: Hit:4 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+    worker1: Get:5 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble InRelease [17.8 kB]
+    worker1: Get:6 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 Packages [932 B]
+    worker1: Get:7 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main Translation-en [472 B]
+    worker1: Fetched 19.2 kB in 3s (7,457 B/s)
+    worker1: Reading package lists...
+    worker1: Repository: 'Types: deb
+    worker1: URIs: https://ppa.launchpadcontent.net/ansible/ansible/ubuntu/
+    worker1: Suites: noble
+    worker1: Components: main
+    worker1: '
+    worker1: Description:
+    worker1: Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy. Avoid writing scripts or custom code to deploy and update your applications— automate in a language that approaches plain English, using SSH, with no agents to install on remote systems.
+    worker1: 
+    worker1: http://ansible.com/
+    worker1: 
+    worker1: If you face any issues while installing Ansible PPA, file an issue here:
+    worker1: https://github.com/ansible-community/ppa/issues
+    worker1: More info: https://launchpad.net/~ansible/+archive/ubuntu/ansible
+    worker1: Adding repository.
+    worker1: 
+    worker1: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    worker1: 
+    worker1: Hit:1 http://us.archive.ubuntu.com/ubuntu noble InRelease
+    worker1: Hit:2 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+    worker1: Hit:3 http://security.ubuntu.com/ubuntu noble-security InRelease
+    worker1: Hit:4 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+    worker1: Hit:5 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble InRelease
+    worker1: Reading package lists...
+    worker1: Building dependency tree...
+    worker1: Reading state information...
+    worker1: 246 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    worker1: 
+    worker1: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    worker1: 
+    worker1: Reading package lists...
+    worker1: Building dependency tree...
+    worker1: Reading state information...
+    worker1: The following additional packages will be installed:
+    worker1:   ansible-core python3-kerberos python3-nacl python3-ntlm-auth
+    worker1:   python3-paramiko python3-requests-ntlm python3-resolvelib python3-winrm
+    worker1:   python3-xmltodict sshpass
+    worker1: Suggested packages:
+    worker1:   python-nacl-doc python3-gssapi python3-invoke
+    worker1: The following NEW packages will be installed:
+    worker1:   ansible ansible-core python3-kerberos python3-nacl python3-ntlm-auth
+    worker1:   python3-paramiko python3-requests-ntlm python3-resolvelib python3-winrm
+    worker1:   python3-xmltodict sshpass
+    worker1: 0 upgraded, 11 newly installed, 0 to remove and 246 not upgraded.
+    worker1: Need to get 20.4 MB of archives.
+    worker1: After this operation, 222 MB of additional disk space will be used.
+    worker1: Get:1 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-resolvelib all 1.0.1-1 [25.7 kB]
+    worker1: Get:2 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 ansible-core all 2.21.5-1ppa~noble [1,151 kB]
+    worker1: Get:3 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-kerberos amd64 1.1.14-3.1build9 [21.2 kB]
+    worker1: Get:4 http://us.archive.ubuntu.com/ubuntu noble/main amd64 python3-nacl amd64 1.5.0-4build1 [57.9 kB]
+    worker1: Get:5 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-ntlm-auth all 1.5.0-1 [21.3 kB]
+    worker1: Get:6 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-paramiko all 2.12.0-2ubuntu4.1 [137 kB]
+    worker1: Get:7 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-requests-ntlm all 1.1.0-3 [6,308 B]
+    worker1: Get:8 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-xmltodict all 0.13.0-1ubuntu0.24.04.1 [14.3 kB]
+    worker1: Get:9 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 python3-winrm all 0.4.3-2 [31.9 kB]
+    worker1: Get:10 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 sshpass amd64 1.09-1 [11.7 kB]
+    worker1: Get:11 https://ppa.launchpadcontent.net/ansible/ansible/ubuntu noble/main amd64 ansible all 14.5.0-1ppa~noble [18.9 MB]
+    worker1: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    worker1: Fetched 20.4 MB in 44s (466 kB/s)
+    worker1: Selecting previously unselected package python3-resolvelib.
+    worker1: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 50821 files and directories currently installed.)
+    worker1: Preparing to unpack .../00-python3-resolvelib_1.0.1-1_all.deb ...
+    worker1: Unpacking python3-resolvelib (1.0.1-1) ...
+    worker1: Selecting previously unselected package ansible-core.
+    worker1: Preparing to unpack .../01-ansible-core_2.21.5-1ppa~noble_all.deb ...
+    worker1: Unpacking ansible-core (2.21.5-1ppa~noble) ...
+    worker1: Selecting previously unselected package ansible.
+    worker1: Preparing to unpack .../02-ansible_14.5.0-1ppa~noble_all.deb ...
+    worker1: Unpacking ansible (14.5.0-1ppa~noble) ...
+    worker1: Selecting previously unselected package python3-kerberos.
+    worker1: Preparing to unpack .../03-python3-kerberos_1.1.14-3.1build9_amd64.deb ...
+    worker1: Unpacking python3-kerberos (1.1.14-3.1build9) ...
+    worker1: Selecting previously unselected package python3-nacl.
+    worker1: Preparing to unpack .../04-python3-nacl_1.5.0-4build1_amd64.deb ...
+    worker1: Unpacking python3-nacl (1.5.0-4build1) ...
+    worker1: Selecting previously unselected package python3-ntlm-auth.
+    worker1: Preparing to unpack .../05-python3-ntlm-auth_1.5.0-1_all.deb ...
+    worker1: Unpacking python3-ntlm-auth (1.5.0-1) ...
+    worker1: Selecting previously unselected package python3-paramiko.
+    worker1: Preparing to unpack .../06-python3-paramiko_2.12.0-2ubuntu4.1_all.deb ...
+    worker1: Unpacking python3-paramiko (2.12.0-2ubuntu4.1) ...
+    worker1: Selecting previously unselected package python3-requests-ntlm.
+    worker1: Preparing to unpack .../07-python3-requests-ntlm_1.1.0-3_all.deb ...
+    worker1: Unpacking python3-requests-ntlm (1.1.0-3) ...
+    worker1: Selecting previously unselected package python3-xmltodict.
+    worker1: Preparing to unpack .../08-python3-xmltodict_0.13.0-1ubuntu0.24.04.1_all.deb ...
+    worker1: Unpacking python3-xmltodict (0.13.0-1ubuntu0.24.04.1) ...
+    worker1: Selecting previously unselected package python3-winrm.
+    worker1: Preparing to unpack .../09-python3-winrm_0.4.3-2_all.deb ...
+    worker1: Unpacking python3-winrm (0.4.3-2) ...
+    worker1: Selecting previously unselected package sshpass.
+    worker1: Preparing to unpack .../10-sshpass_1.09-1_amd64.deb ...
+    worker1: Unpacking sshpass (1.09-1) ...
+    worker1: Setting up python3-ntlm-auth (1.5.0-1) ...
+    worker1: Setting up python3-resolvelib (1.0.1-1) ...
+    worker1: Setting up python3-kerberos (1.1.14-3.1build9) ...
+    worker1: Setting up ansible-core (2.21.5-1ppa~noble) ...
+    worker1: Setting up sshpass (1.09-1) ...
+    worker1: Setting up python3-xmltodict (0.13.0-1ubuntu0.24.04.1) ...
+    worker1: Setting up ansible (14.5.0-1ppa~noble) ...
+    worker1: Setting up python3-nacl (1.5.0-4build1) ...
+    worker1: Setting up python3-requests-ntlm (1.1.0-3) ...
+    worker1: Setting up python3-winrm (0.4.3-2) ...
+    worker1: Setting up python3-paramiko (2.12.0-2ubuntu4.1) ...
+    worker1: Processing triggers for man-db (2.12.0-4build2) ...
+    worker1: 
+    worker1: Running kernel seems to be up-to-date.
+    worker1: 
+    worker1: No services need to be restarted.
+    worker1: 
+    worker1: No containers need to be restarted.
+    worker1: 
+    worker1: No user sessions are running outdated binaries.
+    worker1: 
+    worker1: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    worker1: 
+    worker1: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    worker1: 
+    worker1: Reading package lists...
+    worker1: Building dependency tree...
+    worker1: Reading state information...
+    worker1: The following additional packages will be installed:
+    worker1:   git-man
+    worker1: Suggested packages:
+    worker1:   git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb
+    worker1:   git-cvs git-mediawiki git-svn
+    worker1: The following packages will be upgraded:
+    worker1:   git git-man
+    worker1: 2 upgraded, 0 newly installed, 0 to remove and 244 not upgraded.
+    worker1: Need to get 4,781 kB of archives.
+    worker1: After this operation, 5,120 B of additional disk space will be used.
+    worker1: Get:1 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 git-man all 1:2.43.0-1ubuntu7.4 [1,101 kB]
+    worker1: Get:2 http://us.archive.ubuntu.com/ubuntu noble-updates/main amd64 git amd64 1:2.43.0-1ubuntu7.4 [3,681 kB]
+    worker1: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    worker1: Fetched 4,781 kB in 9s (533 kB/s)
+    worker1: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 76224 files and directories currently installed.)
+    worker1: Preparing to unpack .../git-man_1%3a2.43.0-1ubuntu7.4_all.deb ...
+    worker1: Unpacking git-man (1:2.43.0-1ubuntu7.4) over (1:2.43.0-1ubuntu7.3) ...
+    worker1: Preparing to unpack .../git_1%3a2.43.0-1ubuntu7.4_amd64.deb ...
+    worker1: Unpacking git (1:2.43.0-1ubuntu7.4) over (1:2.43.0-1ubuntu7.3) ...
+    worker1: Setting up git-man (1:2.43.0-1ubuntu7.4) ...
+    worker1: Setting up git (1:2.43.0-1ubuntu7.4) ...
+    worker1: Processing triggers for man-db (2.12.0-4build2) ...
+    worker1: 
+    worker1: Running kernel seems to be up-to-date.
+    worker1: 
+    worker1: No services need to be restarted.
+    worker1: 
+    worker1: No containers need to be restarted.
+    worker1: 
+    worker1: No user sessions are running outdated binaries.
+    worker1: 
+    worker1: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    worker1: Starting galaxy role install process
+    worker1: - downloading role 'pip', owned by geerlingguy
+    worker1: - downloading role from https://github.com/geerlingguy/ansible-role-pip/archive/2.2.0.tar.gz
+    worker1: - extracting geerlingguy.pip to /root/.ansible/roles/geerlingguy.pip
+    worker1: - geerlingguy.pip (2.2.0) was installed successfully
+    worker1: - downloading role 'containerd', owned by geerlingguy
+    worker1: - downloading role from https://github.com/geerlingguy/ansible-role-containerd/archive/1.3.1.tar.gz
+    worker1: - extracting geerlingguy.containerd to /root/.ansible/roles/geerlingguy.containerd
+    worker1: - geerlingguy.containerd (1.3.1) was installed successfully
+    worker1: - downloading role 'kubernetes', owned by geerlingguy
+    worker1: - downloading role from https://github.com/geerlingguy/ansible-role-kubernetes/archive/8.0.0.tar.gz
+    worker1: - extracting geerlingguy.kubernetes to /root/.ansible/roles/geerlingguy.kubernetes
+    worker1: - geerlingguy.kubernetes (8.0.0) was installed successfully
+    worker1: [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+    worker1: 
+    worker1: PLAY [localhost] ***************************************************************
+    worker1: 
+    worker1: TASK [Gathering Facts] *********************************************************
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [Enable br_netfilter module] **********************************************
+    worker1: [WARNING]: Deprecation warnings can be disabled by setting `deprecation_warnings=False` in ansible.cfg.
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /vagrant/install_kubernetes.yml:41:11
+    worker1: 
+    worker1: 39       name: br_netfilter
+    worker1: 40       state: present
+    worker1: 41     when: >
+    worker1:              ^ column 11
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [disable swap] ************************************************************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [ipforward to 1] **********************************************************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.pip : Ensure Pip is installed.] ******************************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.pip : Ensure pip_install_packages are installed.] ************
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : include_tasks] **********************************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.containerd/tasks/main.yml:3:9
+    worker1: 
+    worker1: 1 ---
+    worker1: 2 - include_tasks: setup-RedHat.yml
+    worker1: 3   when: ansible_os_family == 'RedHat'
+    worker1:           ^ column 9
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : include_tasks] **********************************
+    worker1: [DEPRECATION WARNING]: apt_key has been deprecated. Use deb822_repository instead. This feature will be removed from ansible-core version 2.25.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.containerd/tasks/setup-Debian.yml:11:3
+    worker1: 
+    worker1:  9
+    worker1: 10 - name: Add Docker apt key.
+    worker1: 11   apt_key:
+    worker1:      ^ column 3
+    worker1: 
+    worker1: [DEPRECATION WARNING]: apt_repository has been deprecated. Use deb822_repository instead. This feature will be removed from ansible-core version 2.25.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.containerd/tasks/setup-Debian.yml:28:3
+    worker1: 
+    worker1: 26
+    worker1: 27 - name: Add Docker repository.
+    worker1: 28   apt_repository:
+    worker1:      ^ column 3
+    worker1: 
+    worker1: included: /root/.ansible/roles/geerlingguy.containerd/tasks/setup-Debian.yml for localhost
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Ensure dependencies are installed.] *************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Add Docker apt key.] ****************************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.containerd/defaults/main.yml:22:21
+    worker1: 
+    worker1: 20 docker_apt_repository: "deb [arch={{ docker_apt_arch }}] https://download.docker.com/linux/{{ ansible_distribution...
+    worker1: 21 docker_apt_ignore_key_error: true
+    worker1: 22 docker_apt_gpg_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+    worker1:                        ^ column 21
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Ensure curl is present (on older systems without SNI).] ***
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Add Docker apt key (alternative for older systems without SNI).] ***
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Add Docker repository.] *************************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.containerd/defaults/main.yml:19:18
+    worker1: 
+    worker1: 17 # Used only for Debian/Ubuntu. Switch 'stable' to 'nightly' if needed.
+    worker1: 18 docker_apt_release_channel: stable
+    worker1: 19 docker_apt_arch: '{{ (ansible_architecture == "aarch64") | ternary("arm64", "amd64") }}'
+    worker1:                     ^ column 18
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Ensure containerd is installed.] ****************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Ensure containerd is started and enabled at boot.] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Ensure containerd config directory exists.] *****
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Get defaults from containerd.] ******************
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Prepare containerd/config.toml from default config] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Set Cgroup driver to systemd] *******************
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Make sure  SystemdCgroup = false is not set] ****
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Copy config.toml to /etc/containerd] ************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Cleanup temporary file] *************************
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.containerd : Ensure containerd is restarted immediately if necessary.] ***
+    worker1: 
+    worker1: RUNNING HANDLER [geerlingguy.containerd : restart containerd] ******************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Include OS-specific variables.] *****************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/main.yml:3:17
+    worker1: 
+    worker1: 1 ---
+    worker1: 2 - name: Include OS-specific variables.
+    worker1: 3   include_vars: "{{ ansible_os_family }}.yml"
+    worker1:                   ^ column 17
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/main.yml:6:9
+    worker1: 
+    worker1: 4
+    worker1: 5 - include_tasks: setup-RedHat.yml
+    worker1: 6   when: ansible_os_family == 'RedHat'
+    worker1:           ^ column 9
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    worker1: [DEPRECATION WARNING]: ansible.builtin.apt_repository has been deprecated. Use deb822_repository instead. This feature will be removed from ansible-core version 2.25.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/setup-Debian.yml:28:3
+    worker1: 
+    worker1: 26
+    worker1: 27 - name: Add Kubernetes repository.
+    worker1: 28   ansible.builtin.apt_repository:
+    worker1:      ^ column 3
+    worker1: 
+    worker1: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/setup-Debian.yml for localhost
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Ensure dependencies are installed.] *************
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Prepare apt keyring directory.] *****************
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Get Kubernetes apt key.] ************************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Be sure deprecated Kubernetes repository is absent.] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Add Kubernetes repository.] *********************
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Add Kubernetes apt preferences file to pin a version.] ***
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Ensure dependencies are installed.] *************
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Install Kubernetes packages.] *******************
+    worker1: changed: [localhost] => (item={'name': 'kubelet', 'state': 'present'})
+    worker1: changed: [localhost] => (item={'name': 'kubectl', 'state': 'present'})
+    worker1: changed: [localhost] => (item={'name': 'kubeadm', 'state': 'present'})
+    worker1: ok: [localhost] => (item={'name': 'kubernetes-cni', 'state': 'present'})
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    worker1: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml for localhost
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Ensure procps is installed.] ********************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml:6:9
+    worker1: 
+    worker1: 4     name: "{{ procps_package }}"
+    worker1: 5     state: present
+    worker1: 6   when: >
+    worker1:           ^ column 9
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Let iptables see bridged traffic.] **************
+    worker1: [DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/sysctl-setup.yml:19:9
+    worker1: 
+    worker1: 17     - net.bridge.bridge-nf-call-iptables
+    worker1: 18     - net.bridge.bridge-nf-call-ip6tables
+    worker1: 19   when: >
+    worker1:            ^ column 9
+    worker1: 
+    worker1: Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+    worker1: 
+    worker1: changed: [localhost] => (item=net.bridge.bridge-nf-call-iptables)
+    worker1: changed: [localhost] => (item=net.bridge.bridge-nf-call-ip6tables)
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    worker1: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/kubelet-setup.yml for localhost
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Check for existence of kubelet environment file. (deprecated)] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Set facts for KUBELET_EXTRA_ARGS task if environment file exists. (deprecated)] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Set facts for KUBELET_EXTRA_ARGS task if environment file doesn't exist. (deprecated)] ***
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Configure KUBELET_EXTRA_ARGS. (deprecated)] *****
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Reload systemd unit if args were changed. (deprecated)] ***
+    worker1: changed: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Ensure kubelet is started and enabled at boot.] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Check if Kubernetes has already been initialized.] ***
+    worker1: ok: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Get the kubeadm join command from the Kubernetes control plane.] ***
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Set the kubeadm join command globally.] *********
+    worker1: skipping: [localhost]
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : include_tasks] **********************************
+    worker1: included: /root/.ansible/roles/geerlingguy.kubernetes/tasks/node-setup.yml for localhost
+    worker1: 
+    worker1: TASK [geerlingguy.kubernetes : Join node to Kubernetes control plane.] *********
+    worker1: [ERROR]: Task failed: Module failed: The command exited with a non-zero return code.
+    worker1: Origin: /root/.ansible/roles/geerlingguy.kubernetes/tasks/node-setup.yml:2:3
+    worker1: 
+    worker1: 1 ---
+    worker1: 2 - name: Join node to Kubernetes control plane.
+    worker1:     ^ column 3
+    worker1: 
+    worker1: fatal: [localhost]: FAILED! => {"changed": true, "cmd": "kubeadm join 192.168.98.10:6443 --ignore-preflight-errors=all --token=783bde.3f89s0fje9f38fhf  --discovery-token-unsafe-skip-ca-verification", "delta": "0:05:00.202539", "end": "2026-10-30 17:50:41.166764", "msg": "The command exited with a non-zero return code.", "rc": 1, "start": "2026-10-30 17:45:40.964225", "stderr": "\t[WARNING FileExisting-conntrack]: conntrack not found in system path\nerror execution phase preflight: couldn't validate the identity of the API Server: failed to request the cluster-info ConfigMap: client rate limiter Wait returned an error: rate: Wait(n=1) would exceed context deadline\nTo see the stack trace of this error execute with --v=5 or higher", "stderr_lines": ["\t[WARNING FileExisting-conntrack]: conntrack not found in system path", "error execution phase preflight: couldn't validate the identity of the API Server: failed to request the cluster-info ConfigMap: client rate limiter Wait returned an error: rate: Wait(n=1) would exceed context deadline", "To see the stack trace of this error execute with --v=5 or higher"], "stdout": "[preflight] Running pre-flight checks", "stdout_lines": ["[preflight] Running pre-flight checks"]}
+    worker1: 
+    worker1: PLAY RECAP *********************************************************************
+    worker1: localhost                  : ok=38   changed=17   unreachable=0    failed=1    skipped=11   rescued=0    ignored=0
+    worker1: 
+    worker1: For this Stack, you will use 192.168.98.11 IP Address

@@ -1,0 +1,28 @@
+Vagrant.configure("2") do |config|
+
+  # DÉFINITION DE LA VM DOCKER
+  config.vm.define "docker" do |docker|
+    docker.vm.box = "generic/ubuntu2204"
+    docker.vm.box_version = "4.3.12"
+    docker.vm.hostname = "docker"
+
+    # Une seule carte gérée nativement au premier boot
+    # docker.vm.network "public_network", bridge: "Default Switch"
+
+    config.vm.provider "hyperv" do |h|
+      h.vmname = "docker"
+      h.memory = 8192
+      h.maxmemory = 8192
+      h.cpus = 2
+      h.enable_virtualization_extensions = true
+      h.linked_clone = true
+      #h.ip_enable_nat_mapping = true
+    end
+
+    # Installation de Docker & Zsh
+    docker.vm.provision "docker_setup", type: "shell" do |shell|
+      shell.path = "install_docker.sh"
+      shell.env = { 'ENABLE_ZSH' => ENV['ENABLE_ZSH'] }
+    end
+  end
+end

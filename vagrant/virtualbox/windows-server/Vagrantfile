@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "win_server_node" do |win|
+    # # Utilisation de la box de Gusztav Varga
+    # win.vm.box = "gusztavvargadr/windows-server-2022-standard" #image_ok
+    # win.vm.box = "gusztavvargadr/windows-server-2022-standard-core"
+    # win.vm.box = "gusztavvargadr/windows-server"
+    # win.vm.box = "gusztavvargadr/windows-server-core"
+    win.vm.box = "gusztavvargadr/iis-windows-server"
+    # win.vm.box = "gusztavvargadr/iis-windows-server-core"
+    # win.vm.box = "gusztavvargadr/windows-server-2025-standard"
+    # win.vm.box = "gusztavvargadr/windows-server-2025-standard-core" #image_ok
+    win.vm.box_version = "2607.0.0"
+    # win.vm.hostname = "win-server"
+
+    # Sécurité pour le délai de démarrage
+    win.vm.boot_timeout = 900
+    
+    # Configuration du réseau privé
+    # win.vm.network "private_network", ip: "192.168.50.10"
+
+    # # Configuration explicite de WinRM pour les boîtes Gusztav Varga
+    win.vm.communicator = "winrm"
+    win.winrm.username = "vagrant"
+    win.winrm.password = "vagrant"
+    # win.winrm.transport = :negotiate
+    # win.winrm.timeout = 60
+
+    # Configuration des ressources et de la fenêtre graphique
+    win.vm.provider "virtualbox" do |vb|
+    #   vb.name = "win-server"
+    #   vb.memory = "4096"
+      vb.memory = "8192"
+      vb.cpus = 2
+    #   vb.gui = false # Laissez à true pour observer ce qui se passe à l'écran
+      vb.linked_clone = true # Optionnel : accélère les prochains déploiements
+    end
+
+    # Alternative si vous utilisez Hyper-V (décommentez si nécessaire)
+    # win.vm.provider "hyperv" do |h|
+    #   h.cpus = 2
+    #   h.memory = 8192
+    # end
+
+    # Provisionnement avec le script PowerShell
+    # win.vm.provision "shell", path: "install_iis.ps1"
+  end
+end

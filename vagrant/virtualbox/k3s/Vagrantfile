@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "k3s_node" do |k3s_node|
+    # Utilisation d'Ubuntu 22.04 LTS (Jammy)
+    # k3s_node.vm.box = "ubuntu/jammy64"
+
+    # Utilisation d'Ubuntu 24.04 LTS (Noble Numbat)
+    k3s_node.vm.box = "bento/ubuntu-24.04"
+    k3s_node.vm.box_version = "202510.26.0"
+    k3s_node.vm.hostname = "k3s-node"
+
+    # Configuration du réseau privé (IP dynamique via DHCP ou statique selon vos préférences)    
+    # k3s_node.vm.network "private_network", type: "dhcp"
+    k3s_node.vm.network "private_network", ip: "192.168.60.10"
+
+    # Allocation des ressources VM
+    k3s_node.vm.provider "virtualbox" do |vb|
+      vb.name = "k3s-node"
+      vb.memory = "4096"
+      vb.cpus = 2
+    end
+
+    # Provisionnement avec le script Shell
+    k3s_node.vm.provision "shell", path: "install_k3s.sh"
+  end
+end

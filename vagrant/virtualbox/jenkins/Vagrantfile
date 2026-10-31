@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# To enable zsh, please set ENABLE_ZSH env var to "true" before launching vagrant up 
+#   + On windows => $env:ENABLE_ZSH="true"
+#   + On Linux  => export ENABLE_ZSH="true"
+
+Vagrant.configure("2") do |config|
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.box = "bento/ubuntu-24.04"
+    jenkins.vm.box_version = "202510.26.0"
+    # jenkins.vm.network "private_network", type: "dhcp"
+    jenkins.vm.network "private_network", type: "static", ip: "192.168.56.51"
+    jenkins.vm.hostname = "jenkins"
+    jenkins.vm.provider "virtualbox" do |v|
+      v.name = "jenkins"
+      v.memory = 4096
+      v.cpus = 2
+    end    
+    jenkins.vm.disk :disk, size: "100GB", primary: true
+    jenkins.vm.provision :shell do |shell|
+      shell.path = "install_jenkins.sh"
+      shell.env = { 'ENABLE_ZSH' => ENV['ENABLE_ZSH'] }
+    end
+  end
+end

@@ -1,0 +1,63 @@
+Vagrant.configure("2") do |config|
+
+  # DÉFINITION DE LA VM DOCKER
+  config.vm.define "docker" do |docker|
+    docker.vm.box = "generic/ubuntu2204"
+    docker.vm.box_version = "4.3.12"
+    docker.vm.hostname = "docker"
+
+    # Une seule carte gérée nativement au premier boot
+    docker.vm.network "public_network", bridge: "Default Switch"
+
+    config.vm.provider "hyperv" do |h|
+      h.vmname = "docker"
+      h.memory = 8192
+      h.maxmemory = 8192
+      h.cpus = 2
+      h.enable_virtualization_extensions = true
+      h.linked_clone = true
+    end
+
+    # PROVISIONING RE-TRIGGERABLE : Configure Netplan dès que la carte est présente
+    docker.vm.provision "network_setup", type: "shell", inline: <<-SHELL
+      echo "Recherche de la deuxième interface réseau..."
+      # On exclut lo, eth0, docker0 et les interfaces virtuelles veth
+      INT_NAME=$(ls /sys/class/net/ | grep -vE 'lo|eth0|docker0|veth' | head -n 1)
+      
+      if [ -z "$INT_NAME" ]; then
+        echo "⚠️ Seconde interface absente pour le moment. Éteignez la VM et lisez les instructions."
+        exit 0
+      fi
+
+      echo "Interface détectée : $INT_NAME. Configuration de l'IP statique..."
+
+      # Désactivation propre des anciens fichiers si ce n'est pas déjà fait
+      [ -f /etc/netplan/00-installer-config.yaml ] && sudo mv /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml.bak
+      [ -f /etc/netplan/01-netcfg.yaml ] && sudo mv /etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml.bak
+      
+      sudo rm -f /etc/netplan/10-internal-network.yaml
+
+      cat <<EOF | sudo tee /etc/netplan/10-internal-network.yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp6: false
+    $INT_NAME:
+      addresses:
+        - 192.168.50.10/24
+EOF
+      sudo chmod 600 /etc/netplan/10-internal-network.yaml
+      echo "Application de Netplan en tâche de fond dans 2 secondes..."
+      (sleep 2 && sudo netplan apply) > /dev/null 2>&1 &
+    SHELL
+
+    # Installation de Docker & Zsh
+    docker.vm.provision "docker_setup", type: "shell" do |shell|
+      shell.path = "install_docker.sh"
+      shell.env = { 'ENABLE_ZSH' => ENV['ENABLE_ZSH'] }
+    end
+  end
+end

@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Configuration commune à toutes les VMs
+  config.vm.box = "bento/ubuntu-24.04"
+  config.vm.box_version = "202510.26.0"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "4096"
+    vb.cpus = 2
+  end
+
+  # --- 1. CLUSTER HUB (Argo CD Management) ---
+  config.vm.define "hub" do |hub|
+    hub.vm.hostname = "k3s-hub"
+    hub.vm.network "private_network", ip: "192.168.60.80"
+    hub.vm.provision "shell", path: "install_k3s.sh", args: ["192.168.60.80", "k3s-hub"]
+  end
+
+  # --- 2. CLUSTER DEV ---
+  config.vm.define "dev" do |dev|
+    dev.vm.hostname = "k3s-dev"
+    dev.vm.network "private_network", ip: "192.168.60.81"
+    dev.vm.provision "shell", path: "install_k3s.sh", args: ["192.168.60.81", "k3s-dev"]
+  end
+
+  # --- 3. CLUSTER STAGING ---
+  config.vm.define "staging" do |staging|
+    staging.vm.hostname = "k3s-staging"
+    staging.vm.network "private_network", ip: "192.168.60.82"
+    staging.vm.provision "shell", path: "install_k3s.sh", args: ["192.168.60.82", "k3s-staging"]
+  end
+
+  # --- 4. CLUSTER PROD ---
+  config.vm.define "prod" do |prod|
+    prod.vm.hostname = "k3s-prod"
+    prod.vm.network "private_network", ip: "192.168.60.83"
+    prod.vm.provision "shell", path: "install_k3s.sh", args: ["192.168.60.83", "k3s-prod"]
+  end
+end

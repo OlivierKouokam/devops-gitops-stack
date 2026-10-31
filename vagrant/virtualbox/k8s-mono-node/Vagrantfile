@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "k8s_mono" do |k8s_mono| # Nom Vagrant unique
+    k8s_mono.vm.box = "bento/ubuntu-24.04"
+    k8s_mono.vm.box_version = "202510.26.0"
+    k8s_mono.vm.network "private_network", type: "static", ip: "192.168.98.5" # Sous-réseau 98 changé
+    k8s_mono.vm.hostname = "k8s-mono"
+    k8s_mono.vm.provider "virtualbox" do |v|
+      v.name = "k8s-mono" # Nom VirtualBox unique
+      v.memory = 8192
+      v.cpus = 3 # Équilibre CPU k8s_mono
+    end
+    k8s_mono.vm.provision :shell do |shell|
+      shell.path = "install_kubernetes.sh"
+      shell.args = ["k8s-mono", "192.168.98.5"] # IP modifiée ici aussi
+    end
+  end
+end
+

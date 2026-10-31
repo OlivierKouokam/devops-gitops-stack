@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "master" do |master| # Nom Vagrant unique
+    master.vm.box = "bento/ubuntu-24.04"
+    master.vm.box_version = "202510.26.0"
+    master.vm.network "private_network", type: "static", ip: "192.168.98.10" # Sous-réseau 98 changé
+    master.vm.hostname = "master"
+    master.vm.provider "virtualbox" do |v|
+      v.name = "master" # Nom VirtualBox unique
+      v.memory = 8192
+      v.cpus = 3 # Équilibre CPU master
+    end
+    master.vm.provision :shell do |shell|
+      shell.path = "install_kubernetes.sh"
+      shell.args = ["master", "192.168.98.10"] # IP modifiée ici aussi
+    end
+  end
+
+  workers=1
+  ram_worker=8192
+  cpu_worker=3
+  (1..workers).each do |i|
+    config.vm.define "worker#{i}" do |worker|
+      worker.vm.box = "bento/ubuntu-24.04"
+      worker.vm.box_version = "202510.26.0"
+      worker.vm.network "private_network", type: "static", ip: "192.168.98.1#{i}"
+      worker.vm.hostname = "worker#{i}"
+      worker.vm.provider "virtualbox" do |v|
+        v.name = "worker#{i}"
+        v.memory = ram_worker
+        v.cpus = cpu_worker
+        # Forcer la resynchronisation de l'horloge avec l'hôte à la sortie de veille
+        v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+      end
+      worker.vm.provision :shell do |shell|
+        shell.path = "install_kubernetes.sh"
+        shell.args = ["node", "192.168.98.10"]
+      end
+    end
+  end
+end
+

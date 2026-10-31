@@ -1,0 +1,84 @@
+# ==============================================================================
+# LAB DEVOPS & GITOPS - TEMPLATE .GITIGNORE
+# ==============================================================================
+
+### 1. VIRTUALISATION & HYPERVISEURS (Vagrant, VirtualBox, Libvirt) ###
+**/.vagrant/
+*.log
+*.box
+.vagrant.d/
+vbox-createuser-*.log
+# Fichiers d'état locaux de libvirt/KVM
+*.qcow2
+*.img
+
+### 2. SECRETS & ENVIRONNEMENT (CRITIQUE POUR LE GITOPS) ###
+# Ne JAMAIS committer de clés privées, mots de passe ou tokens
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pub
+*.crypto
+id_rsa
+id_ecdsa
+id_ed25519
+secrets.yaml
+# Fichiers d'historique pouvant contenir des mots de passe saisis en clair
+.bash_history
+.zsh_history
+
+### 3. INFRASTRUCTURE AS CODE (Terraform / OpenTofu) ###
+# Dossier contenant les plugins de providers
+.terraform/
+.opentofu/
+# Fichiers d'état (state) - Contiennent des données sensibles et l'état de l'infra
+*.tfstate
+*.tfstate.*
+# Variables Terraform contenant des secrets
+*.tfvars
+*.tfvars.json
+# Fichiers de log et de crash
+crash.log
+crash.*.log
+# Fichiers de verrouillage d'état de Terraform
+*.tfstate.lock.info
+
+### 4. GESTION DE CONFIGURATION (Ansible) ###
+# Fichiers de retry en cas d'échec de playbook
+*.retry
+# Fichiers de log Ansible
+ansible.log
+# Fichiers temporaires générés par Ansible Vault si édités à la volée
+.ansible_vault*
+
+### 5. CONTENEURS & ORCHESTRATION (Docker, Kubernetes, Helm) ###
+# Fichiers de configuration de contexte Kubernetes locaux (si copiés dans le lab)
+kubeconfig
+kubeconfig.yaml
+.kube/
+# Dépendances Helm téléchargées localement (charts tiers)
+charts/
+Chart.lock
+# Fichiers temporaires de sockets Docker
+docker-compose.override.yml
+
+### 6. OUTILS DE CI/CD LOCAUX & GITOPS ###
+# Outils d'exécution de pipelines en local (comme act pour GitHub Actions)
+.act/
+# Caches locaux d'outils d'analyse ou de linter (Trivy, Checkov, Yamllint)
+.trivy/
+.checkov/
+.yamllint
+
+### 7. SYSTÈME ET ÉDITEURS (OS & IDE) ###
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

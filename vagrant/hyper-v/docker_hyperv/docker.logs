@@ -1,0 +1,653 @@
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant validate                                                                                                      Vagrantfile validated successfully.                                                                                                                                                                                                             Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker                                                      $ vagrant up                                                                                                            Bringing machine 'docker' up with 'hyperv' provider...
+==> docker: Verifying Hyper-V is enabled...
+==> docker: Verifying Hyper-V is accessible...
+==> docker: Importing a Hyper-V instance
+    docker: Creating and registering the VM...
+    docker: Successfully imported VM
+    docker: Configuring the VM...
+    docker: Setting VM Enhanced session transport type to disabled/default (VMBus)
+==> docker: Starting the machine...
+==> docker: Waiting for the machine to report its IP address...
+    docker: Timeout: 120 seconds
+    docker: IP: fe80::215:5dff:fedb:10c
+==> docker: Waiting for machine to boot. This may take a few minutes...
+    docker: SSH address: 172.21.223.198:22
+    docker: SSH username: vagrant
+    docker: SSH auth method: private key
+    docker:
+    docker: Vagrant insecure key detected. Vagrant will automatically replace
+    docker: this with a newly generated keypair for better security.
+    docker:
+    docker: Inserting generated public key within guest...
+    docker: Removing insecure key from the guest if it's present...
+    docker: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> docker: Machine booted and ready!
+==> docker: Setting hostname...
+==> docker: Running provisioner: shell...
+    docker: Running: inline script
+    docker: Recherche de la deuxième interface réseau...
+    docker: ⚠️ Seconde interface absente pour le moment. Éteignez la VM et lisez les instructions.
+==> docker: Running provisioner: shell...
+    docker: Running: C:/Users/ADMINI~1/AppData/Local/Temp/vagrant-shell20261006-16068-dd0pfu.sh
+    docker: Hit:1 https://mirrors.edge.kernel.org/ubuntu jammy InRelease
+    docker: Get:2 https://mirrors.edge.kernel.org/ubuntu jammy-updates InRelease [128 kB]
+    docker: Get:3 https://mirrors.edge.kernel.org/ubuntu jammy-backports InRelease [127 kB]
+    docker: Get:4 https://mirrors.edge.kernel.org/ubuntu jammy-security InRelease [129 kB]
+    docker: Get:5 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 Packages [3,908 kB]
+    docker: Get:6 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main Translation-en [576 kB]
+    docker: Get:7 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 c-n-f Metadata [20.1 kB]
+    docker: Get:8 https://mirrors.edge.kernel.org/ubuntu jammy-updates/restricted amd64 Packages [6,714 kB]
+    docker: Get:9 https://mirrors.edge.kernel.org/ubuntu jammy-updates/restricted Translation-en [1,290 kB]
+    docker: Get:10 https://mirrors.edge.kernel.org/ubuntu jammy-updates/restricted amd64 c-n-f Metadata [584 B]
+    docker: Get:11 https://mirrors.edge.kernel.org/ubuntu jammy-updates/universe amd64 Packages [1,285 kB]
+    docker: Get:12 https://mirrors.edge.kernel.org/ubuntu jammy-updates/universe Translation-en [325 kB]
+    docker: Get:13 https://mirrors.edge.kernel.org/ubuntu jammy-updates/universe amd64 c-n-f Metadata [30.8 kB]
+    docker: Get:14 https://mirrors.edge.kernel.org/ubuntu jammy-updates/multiverse amd64 Packages [76.8 kB]
+    docker: Get:15 https://mirrors.edge.kernel.org/ubuntu jammy-updates/multiverse Translation-en [15.9 kB]
+    docker: Get:16 https://mirrors.edge.kernel.org/ubuntu jammy-updates/multiverse amd64 c-n-f Metadata [756 B]
+    docker: Get:17 https://mirrors.edge.kernel.org/ubuntu jammy-backports/main amd64 Packages [70.2 kB]
+    docker: Get:18 https://mirrors.edge.kernel.org/ubuntu jammy-backports/main Translation-en [11.4 kB]
+    docker: Get:19 https://mirrors.edge.kernel.org/ubuntu jammy-backports/main amd64 c-n-f Metadata [412 B]
+    docker: Get:20 https://mirrors.edge.kernel.org/ubuntu jammy-backports/universe amd64 Packages [30.8 kB]
+    docker: Get:21 https://mirrors.edge.kernel.org/ubuntu jammy-backports/universe Translation-en [16.9 kB]
+    docker: Get:22 https://mirrors.edge.kernel.org/ubuntu jammy-backports/universe amd64 c-n-f Metadata [676 B]
+    docker: Get:23 https://mirrors.edge.kernel.org/ubuntu jammy-security/main amd64 Packages [3,633 kB]
+    docker: Get:24 https://mirrors.edge.kernel.org/ubuntu jammy-security/main Translation-en [508 kB]
+    docker: Get:25 https://mirrors.edge.kernel.org/ubuntu jammy-security/main amd64 c-n-f Metadata [14.7 kB]
+    docker: Get:26 https://mirrors.edge.kernel.org/ubuntu jammy-security/restricted amd64 Packages [6,465 kB]
+    docker: Get:27 https://mirrors.edge.kernel.org/ubuntu jammy-security/restricted Translation-en [1,244 kB]
+    docker: Get:28 https://mirrors.edge.kernel.org/ubuntu jammy-security/restricted amd64 c-n-f Metadata [600 B]
+    docker: Get:29 https://mirrors.edge.kernel.org/ubuntu jammy-security/universe amd64 Packages [1,052 kB]
+    docker: Get:30 https://mirrors.edge.kernel.org/ubuntu jammy-security/universe Translation-en [237 kB]
+    docker: Get:31 https://mirrors.edge.kernel.org/ubuntu jammy-security/universe amd64 c-n-f Metadata [23.2 kB]
+    docker: Get:32 https://mirrors.edge.kernel.org/ubuntu jammy-security/multiverse amd64 Packages [69.4 kB]
+    docker: Get:33 https://mirrors.edge.kernel.org/ubuntu jammy-security/multiverse Translation-en [12.9 kB]
+    docker: Get:34 https://mirrors.edge.kernel.org/ubuntu jammy-security/multiverse amd64 c-n-f Metadata [544 B]
+    docker: Fetched 28.0 MB in 4s (7,602 kB/s)
+    docker: Reading package lists...
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: The following additional packages will be installed:
+    docker:   libcurl4
+    docker: The following packages will be upgraded:
+    docker:   ca-certificates curl libcurl4
+    docker: 3 upgraded, 0 newly installed, 0 to remove and 287 not upgraded.
+    docker: Need to get 627 kB of archives.
+    docker: After this operation, 39.9 kB disk space will be freed.
+    docker: Get:1 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 ca-certificates all 20260601~22.04.1 [141 kB]
+    docker: Get:2 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.29 [194 kB]
+    docker: Get:3 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.29 [292 kB]
+    docker: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    docker: Fetched 627 kB in 0s (3,198 kB/s)
+(Reading database ... 76204 files and directories currently installed.)
+    docker: Preparing to unpack .../ca-certificates_20260601~22.04.1_all.deb ...
+    docker: Unpacking ca-certificates (20260601~22.04.1) over (20230311ubuntu0.22.04.1) ...
+    docker: Preparing to unpack .../curl_7.81.0-1ubuntu1.29_amd64.deb ...
+    docker: Unpacking curl (7.81.0-1ubuntu1.29) over (7.81.0-1ubuntu1.15) ...
+    docker: Preparing to unpack .../libcurl4_7.81.0-1ubuntu1.29_amd64.deb ...
+    docker: Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.29) over (7.81.0-1ubuntu1.15) ...
+    docker: Setting up ca-certificates (20260601~22.04.1) ...
+    docker: Updating certificates in /etc/ssl/certs...
+    docker: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+    docker: 24 added, 40 removed; done.
+    docker: Setting up libcurl4:amd64 (7.81.0-1ubuntu1.29) ...
+    docker: Setting up curl (7.81.0-1ubuntu1.29) ...
+    docker: Processing triggers for man-db (2.10.2-1) ...
+    docker: Processing triggers for libc-bin (2.35-0ubuntu3.5) ...
+    docker: Processing triggers for ca-certificates (20260601~22.04.1) ...
+    docker: Updating certificates in /etc/ssl/certs...
+    docker: 0 added, 0 removed; done.
+    docker: Running hooks in /etc/ca-certificates/update.d...
+    docker: done.
+    docker:
+    docker: Running kernel seems to be up-to-date.
+    docker:
+    docker: No services need to be restarted.
+    docker:
+    docker: No containers need to be restarted.
+    docker:
+    docker: No user sessions are running outdated binaries.
+    docker:
+    docker: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    docker: Get:1 https://download.docker.com/linux/ubuntu jammy InRelease [48.5 kB]
+    docker: Hit:2 https://mirrors.edge.kernel.org/ubuntu jammy InRelease
+    docker: Hit:3 https://mirrors.edge.kernel.org/ubuntu jammy-updates InRelease
+    docker: Get:4 https://download.docker.com/linux/ubuntu jammy/stable amd64 Packages [88.5 kB]
+    docker: Hit:5 https://mirrors.edge.kernel.org/ubuntu jammy-backports InRelease
+    docker: Hit:6 https://mirrors.edge.kernel.org/ubuntu jammy-security InRelease
+    docker: Fetched 137 kB in 0s (310 kB/s)
+    docker: Reading package lists...
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: The following additional packages will be installed:
+    docker:   docker-ce-rootless-extras pigz
+    docker: Suggested packages:
+    docker:   cgroupfs-mount | cgroup-lite docker-model-plugin
+    docker: The following NEW packages will be installed:
+    docker:   containerd.io docker-buildx-plugin docker-ce docker-ce-cli
+    docker:   docker-ce-rootless-extras docker-compose-plugin pigz
+    docker: 0 upgraded, 7 newly installed, 0 to remove and 287 not upgraded.
+    docker: Need to get 101 MB of archives.
+    docker: After this operation, 383 MB of additional disk space will be used.
+    docker: Get:1 https://download.docker.com/linux/ubuntu jammy/stable amd64 containerd.io amd64 2.3.6-1~ubuntu.22.04~jammy [23.2 MB]
+    docker: Get:2 https://mirrors.edge.kernel.org/ubuntu jammy/universe amd64 pigz amd64 2.6-1 [63.6 kB]
+    docker: Get:3 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-cli amd64 5:29.8.2-1~ubuntu.22.04~jammy [17.6 MB]
+    docker: Get:4 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce amd64 5:29.8.2-1~ubuntu.22.04~jammy [24.4 MB]
+    docker: Get:5 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-buildx-plugin amd64 0.37.1-1~ubuntu.22.04~jammy [17.3 MB]
+    docker: Get:6 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-ce-rootless-extras amd64 5:29.8.2-1~ubuntu.22.04~jammy [10.2 MB]
+    docker: Get:7 https://download.docker.com/linux/ubuntu jammy/stable amd64 docker-compose-plugin amd64 5.6.0-1~ubuntu.22.04~jammy [8,081 kB]
+    docker: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    docker: Fetched 101 MB in 1s (95.9 MB/s)
+    docker: Selecting previously unselected package containerd.io.
+(Reading database ... 76188 files and directories currently installed.)
+    docker: Preparing to unpack .../0-containerd.io_2.3.6-1~ubuntu.22.04~jammy_amd64.deb ...
+    docker: Unpacking containerd.io (2.3.6-1~ubuntu.22.04~jammy) ...
+    docker: Selecting previously unselected package docker-ce-cli.
+    docker: Preparing to unpack .../1-docker-ce-cli_5%3a29.8.2-1~ubuntu.22.04~jammy_amd64.deb ...
+    docker: Unpacking docker-ce-cli (5:29.8.2-1~ubuntu.22.04~jammy) ...
+    docker: Selecting previously unselected package docker-ce.
+    docker: Preparing to unpack .../2-docker-ce_5%3a29.8.2-1~ubuntu.22.04~jammy_amd64.deb ...
+    docker: Unpacking docker-ce (5:29.8.2-1~ubuntu.22.04~jammy) ...
+    docker: Selecting previously unselected package pigz.
+    docker: Preparing to unpack .../3-pigz_2.6-1_amd64.deb ...
+    docker: Unpacking pigz (2.6-1) ...
+    docker: Selecting previously unselected package docker-buildx-plugin.
+    docker: Preparing to unpack .../4-docker-buildx-plugin_0.37.1-1~ubuntu.22.04~jammy_amd64.deb ...
+    docker: Unpacking docker-buildx-plugin (0.37.1-1~ubuntu.22.04~jammy) ...
+    docker: Selecting previously unselected package docker-ce-rootless-extras.
+    docker: Preparing to unpack .../5-docker-ce-rootless-extras_5%3a29.8.2-1~ubuntu.22.04~jammy_amd64.deb ...
+    docker: Unpacking docker-ce-rootless-extras (5:29.8.2-1~ubuntu.22.04~jammy) ...
+    docker: Selecting previously unselected package docker-compose-plugin.
+    docker: Preparing to unpack .../6-docker-compose-plugin_5.6.0-1~ubuntu.22.04~jammy_amd64.deb ...
+    docker: Unpacking docker-compose-plugin (5.6.0-1~ubuntu.22.04~jammy) ...
+    docker: Setting up docker-buildx-plugin (0.37.1-1~ubuntu.22.04~jammy) ...
+    docker: Setting up containerd.io (2.3.6-1~ubuntu.22.04~jammy) ...
+    docker: Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /lib/systemd/system/containerd.service.
+    docker: Setting up docker-compose-plugin (5.6.0-1~ubuntu.22.04~jammy) ...
+    docker: Setting up docker-ce-cli (5:29.8.2-1~ubuntu.22.04~jammy) ...
+    docker: Setting up pigz (2.6-1) ...
+    docker: Setting up docker-ce-rootless-extras (5:29.8.2-1~ubuntu.22.04~jammy) ...
+    docker: Setting up docker-ce (5:29.8.2-1~ubuntu.22.04~jammy) ...
+    docker: Created symlink /etc/systemd/system/multi-user.target.wants/docker.service → /lib/systemd/system/docker.service.
+    docker: Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /lib/systemd/system/docker.socket.
+    docker: Processing triggers for man-db (2.10.2-1) ...
+    docker:
+    docker: Running kernel seems to be up-to-date.
+    docker:
+    docker: No services need to be restarted.
+    docker:
+    docker: No containers need to be restarted.
+    docker:
+    docker: No user sessions are running outdated binaries.
+    docker:
+    docker: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    docker: Synchronizing state of docker.service with SysV service script with /lib/systemd/systemd-sysv-install.
+    docker: Executing: /lib/systemd/systemd-sysv-install enable docker
+    docker: tee: /proc/sys/net/bridge/bridge-nf-call-iptables: No such file or directory
+    docker: We are going to install zsh
+    docker:
+    docker: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    docker:
+    docker: Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+    docker: Hit:2 https://mirrors.edge.kernel.org/ubuntu jammy InRelease
+    docker: Hit:3 https://mirrors.edge.kernel.org/ubuntu jammy-updates InRelease
+    docker: Hit:4 https://mirrors.edge.kernel.org/ubuntu jammy-backports InRelease
+    docker: Hit:5 https://mirrors.edge.kernel.org/ubuntu jammy-security InRelease
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: 287 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    docker:
+    docker: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    docker:
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: curl is already the newest version (7.81.0-1ubuntu1.29).
+    docker: Suggested packages:
+    docker:   git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb
+    docker:   git-cvs git-mediawiki git-svn zsh-doc
+    docker: The following NEW packages will be installed:
+    docker:   zsh zsh-common
+    docker: The following packages will be upgraded:
+    docker:   git
+    docker: 1 upgraded, 2 newly installed, 0 to remove and 286 not upgraded.
+    docker: Need to get 7,968 kB of archives.
+    docker: After this operation, 18.2 MB of additional disk space will be used.
+    docker: Get:1 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.17 [3,174 kB]
+    docker: Get:2 https://mirrors.edge.kernel.org/ubuntu jammy/main amd64 zsh-common all 5.8.1-1 [3,985 kB]
+    docker: Get:3 https://mirrors.edge.kernel.org/ubuntu jammy/main amd64 zsh amd64 5.8.1-1 [809 kB]
+    docker: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    docker: Fetched 7,968 kB in 0s (30.3 MB/s)
+(Reading database ... 76425 files and directories currently installed.)
+    docker: Preparing to unpack .../git_1%3a2.34.1-1ubuntu1.17_amd64.deb ...
+    docker: Unpacking git (1:2.34.1-1ubuntu1.17) over (1:2.34.1-1ubuntu1.10) ...
+    docker: Selecting previously unselected package zsh-common.
+    docker: Preparing to unpack .../zsh-common_5.8.1-1_all.deb ...
+    docker: Unpacking zsh-common (5.8.1-1) ...
+    docker: Selecting previously unselected package zsh.
+    docker: Preparing to unpack .../archives/zsh_5.8.1-1_amd64.deb ...
+    docker: Unpacking zsh (5.8.1-1) ...
+    docker: Setting up zsh-common (5.8.1-1) ...
+    docker: Setting up git (1:2.34.1-1ubuntu1.17) ...
+    docker: Setting up zsh (5.8.1-1) ...
+    docker: Processing triggers for man-db (2.10.2-1) ...
+    docker:
+    docker: Running kernel seems to be up-to-date.
+    docker:
+    docker: No services need to be restarted.
+    docker:
+    docker: No containers need to be restarted.
+    docker:
+    docker: No user sessions are running outdated binaries.
+    docker:
+    docker: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    docker: Cloning Oh My Zsh...
+    docker: From https://github.com/ohmyzsh/ohmyzsh
+    docker:  * [new branch]      add-docker-compose-config -> origin/add-docker-compose-config
+    docker:  * [new branch]      copilot/docker-plugin-load-fix -> origin/copilot/docker-plugin-load-fix
+    docker:  * [new branch]      copilot/fix-per-directory-history-regression -> origin/copilot/fix-per-directory-history-regression
+    docker:  * [new branch]      feat/opencode-plugin -> origin/feat/opencode-plugin
+    docker:  * [new branch]      feat/theme-browser-local -> origin/feat/theme-browser-local
+    docker:  * [new branch]      fix-gh-completion-cache-on-failure -> origin/fix-gh-completion-cache-on-failure
+    docker:  * [new branch]      fix/installer-backup-history -> origin/fix/installer-backup-history
+    docker:  * [new branch]      master               -> origin/master
+    docker:  * [new branch]      perf/git-plugin-cache-git-version -> origin/perf/git-plugin-cache-git-version
+    docker:  * [new branch]      perf/lib-autoload-cli-diagnostics -> origin/perf/lib-autoload-cli-diagnostics
+    docker:  * [new branch]      perf/lib-lazy-vcs-info-patch -> origin/perf/lib-lazy-vcs-info-patch
+    docker:  * [new branch]      perf/termsupport-memoize-cwd -> origin/perf/termsupport-memoize-cwd
+    docker:  * [new branch]      task/rr-14045-omz-plugin-create -> origin/task/rr-14045-omz-plugin-create
+    docker: Already on 'master'
+    docker: Branch 'master' set up to track remote branch 'master' from 'origin'.
+    docker: /home/vagrant
+    docker:
+    docker: Looking for an existing zsh config...
+    docker: Using the Oh My Zsh template file and adding it to /home/vagrant/.zshrc.
+    docker:
+    docker:          __                                     __
+    docker:   ____  / /_     ____ ___  __  __   ____  _____/ /_
+    docker:  / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \
+    docker: / /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / /
+    docker: \____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/
+    docker:                         /____/                       ....is now installed!
+    docker:
+    docker:
+    docker: Before you scream Oh My Zsh! look over the `.zshrc` file to select plugins, themes, and options.
+    docker:
+    docker: • Follow along on X (https://x.com/ohmyzsh) or Bluesky (https://bsky.app/profile/ohmyz.sh)
+    docker: • Questions or ideas? Join the community on https://discord.gg/ohmyzsh
+    docker: • Help support the project: sponsor us on https://opencollective.com/ohmyzsh,
+    docker:   or grab stickers, shirts, and swag from https://commitgoods.com/ohmyzsh
+    docker:
+    docker: Run zsh to try it out.
+    docker: Cloning into '/home/vagrant/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'...
+    docker: Zsh successfully installed and configured!
+    docker:
+    docker: For this Stack, you will use 172.21.223.198 IP Address
+    docker:
+                                                                                                                        Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker                                                      $ vagrant ssh                                                                                                           ls /etc/netplan%                                                                                                         vagrant@docker  ~  ls /etc/netplan                                                                                   00-installer-config.yaml  01-netcfg.yaml
+ vagrant@docker  ~  ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:15:5d:db:01:0c brd ff:ff:ff:ff:ff:ff
+    inet 172.21.223.198/20 metric 100 brd 172.21.223.255 scope global dynamic eth0
+       valid_lft 86262sec preferred_lft 86262sec
+    inet6 fe80::215:5dff:fedb:10c/64 scope link
+       valid_lft forever preferred_lft forever
+3: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether 1a:07:af:84:c4:19 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+ vagrant@docker  ~  exit
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant halt
+==> docker: Attempting graceful shutdown of VM...
+==> docker: Stopping the machine...
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ powershell -ExecutionPolicy Bypass -Command "if (-not (Get-VMSwitch -Name 'Vagrant-Internal-50' -ErrorAction SilentlyContinue)) { New-VMSwitch -Name 'Vagrant-Internal-50' -SwitchType Internal; New-NetIPAddress -IPAddress 192.168.50.1 -PrefixLength 24 -InterfaceAlias 'vEthernet (Vagrant-Internal-50)' }; Add-VMNetworkAdapter -VMName 'docker' -SwitchName 'Vagrant-Internal-50' -Name 'Vagrant-Internal-50'"
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant up --provision-with network_setup
+C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/plugins/kernel_v2/config/vm.rb:384:in `provision': wrong number of arguments (given 2, expected 1) (ArgumentError)
+        from C:/Users/Administrateur/Documents/TRAINING/docker/Vagrantfile:22:in `block (2 levels) in <top (required)>'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/config/v2/loader.rb:40:in `load'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/config/loader.rb:129:in `block (2 levels) in load'                                                                                                                   from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/config/loader.rb:122:in `each'               from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/config/loader.rb:122:in `block in load'                                                                                                                              from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/config/loader.rb:119:in `each'               from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/config/loader.rb:119:in `load'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/vagrantfile.rb:175:in `machine_config'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/environment.rb:999:in `block in find_configured_plugins'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/environment.rb:997:in `each'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/environment.rb:997:in `find_configured_plugins'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/environment.rb:1025:in `process_configured_plugins'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/lib/vagrant/environment.rb:198:in `initialize'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/bin/vagrant:193:in `new'
+        from C:/Program Files/Vagrant/embedded/gems/gems/vagrant-2.4.9/bin/vagrant:193:in `<main>'
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant up
+Bringing machine 'docker' up with 'hyperv' provider...
+==> docker: Verifying Hyper-V is enabled...
+==> docker: Verifying Hyper-V is accessible...
+    docker: Configuring the VM...
+    docker: Setting VM Enhanced session transport type to disabled/default (VMBus)
+==> docker: Starting the machine...
+==> docker: Waiting for the machine to report its IP address...
+    docker: Timeout: 120 seconds
+    docker: IP: 172.21.210.92
+==> docker: Waiting for machine to boot. This may take a few minutes...
+    docker: SSH address: 172.21.210.92:22
+    docker: SSH username: vagrant
+    docker: SSH auth method: private key
+==> docker: Machine booted and ready!
+==> docker: Setting hostname...
+==> docker: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> docker: flag to force provisioning. Provisioners marked to run always will still run.
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant ssh
+Last login: Tue Oct  6 18:25:49 2026 from 172.21.208.1
+ vagrant@docker  ~  ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever                                                                          2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000                               link/ether 00:15:5d:db:01:0c brd ff:ff:ff:ff:ff:ff                                                                      inet 172.21.210.92/20 metric 100 brd 172.21.223.255 scope global dynamic eth0                                              valid_lft 84165sec preferred_lft 84165sec                                                                            inet6 fe80::215:5dff:fedb:10c/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 00:15:5d:db:01:0d brd ff:ff:ff:ff:ff:ff
+4: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether 5a:c9:e2:bb:98:14 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+ vagrant@docker  ~  exit
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant halt
+==> docker: Attempting graceful shutdown of VM...
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant up --provision
+Bringing machine 'docker' up with 'hyperv' provider...
+==> docker: Verifying Hyper-V is enabled...
+==> docker: Verifying Hyper-V is accessible...
+    docker: Configuring the VM...
+    docker: Setting VM Enhanced session transport type to disabled/default (VMBus)
+==> docker: Starting the machine...
+==> docker: Waiting for the machine to report its IP address...
+    docker: Timeout: 120 seconds
+    docker: IP: 172.21.222.251
+==> docker: Waiting for machine to boot. This may take a few minutes...
+    docker: SSH address: 172.21.222.251:22
+    docker: SSH username: vagrant
+    docker: SSH auth method: private key
+==> docker: Machine booted and ready!
+==> docker: Setting hostname...
+==> docker: Running provisioner: shell...
+    docker: Running: inline script
+    docker: Recherche de la deuxième interface réseau...
+    docker: Interface détectée : eth1. Configuration de l'IP statique...
+    docker: network:
+    docker:   version: 2
+    docker:   renderer: networkd
+    docker:   ethernets:
+    docker:     eth1:
+    docker:       addresses:
+    docker:         - 192.168.50.10/24
+    docker: WARNING:root:Cannot call Open vSwitch: ovsdb-server.service is not running.
+==> docker: Running provisioner: shell...
+    docker: Running: C:/Users/ADMINI~1/AppData/Local/Temp/vagrant-shell20261006-14380-1zihhn.sh
+    docker: Hit:1 https://mirrors.edge.kernel.org/ubuntu jammy InRelease
+    docker: Get:2 https://mirrors.edge.kernel.org/ubuntu jammy-updates InRelease [128 kB]
+    docker: Get:3 https://mirrors.edge.kernel.org/ubuntu jammy-backports InRelease [127 kB]
+    docker: Get:4 https://mirrors.edge.kernel.org/ubuntu jammy-security InRelease [129 kB]
+    docker: Hit:5 https://download.docker.com/linux/ubuntu jammy InRelease
+    docker: Get:6 https://mirrors.edge.kernel.org/ubuntu jammy-updates/main amd64 Packages [3,907 kB]
+    docker: Get:7 https://mirrors.edge.kernel.org/ubuntu jammy-updates/universe amd64 Packages [1,285 kB]
+    docker: Fetched 5,576 kB in 1s (5,529 kB/s)
+    docker: Reading package lists...
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: ca-certificates is already the newest version (20260601~22.04.1).
+    docker: curl is already the newest version (7.81.0-1ubuntu1.29).
+    docker: 0 upgraded, 0 newly installed, 0 to remove and 286 not upgraded.
+    docker: Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+    docker: Hit:2 https://mirrors.edge.kernel.org/ubuntu jammy InRelease
+    docker: Hit:3 https://mirrors.edge.kernel.org/ubuntu jammy-updates InRelease
+    docker: Hit:4 https://mirrors.edge.kernel.org/ubuntu jammy-backports InRelease
+    docker: Hit:5 https://mirrors.edge.kernel.org/ubuntu jammy-security InRelease
+    docker: Reading package lists...
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: containerd.io is already the newest version (2.3.6-1~ubuntu.22.04~jammy).
+    docker: docker-buildx-plugin is already the newest version (0.37.1-1~ubuntu.22.04~jammy).
+    docker: docker-ce-cli is already the newest version (5:29.8.2-1~ubuntu.22.04~jammy).
+    docker: docker-ce is already the newest version (5:29.8.2-1~ubuntu.22.04~jammy).
+    docker: docker-compose-plugin is already the newest version (5.6.0-1~ubuntu.22.04~jammy).
+    docker: 0 upgraded, 0 newly installed, 0 to remove and 286 not upgraded.
+    docker: Synchronizing state of docker.service with SysV service script with /lib/systemd/systemd-sysv-install.
+    docker: Executing: /lib/systemd/systemd-sysv-install enable docker
+    docker: tee: /proc/sys/net/bridge/bridge-nf-call-iptables: No such file or directory
+    docker: We are going to install zsh
+    docker:
+    docker: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    docker:
+    docker: Hit:1 https://download.docker.com/linux/ubuntu jammy InRelease
+    docker: Hit:2 https://mirrors.edge.kernel.org/ubuntu jammy InRelease
+    docker: Hit:3 https://mirrors.edge.kernel.org/ubuntu jammy-updates InRelease
+    docker: Hit:4 https://mirrors.edge.kernel.org/ubuntu jammy-backports InRelease
+    docker: Hit:5 https://mirrors.edge.kernel.org/ubuntu jammy-security InRelease
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: 286 packages can be upgraded. Run 'apt list --upgradable' to see them.
+    docker:
+    docker: WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+    docker:
+    docker: Reading package lists...
+    docker: Building dependency tree...
+    docker: Reading state information...
+    docker: zsh is already the newest version (5.8.1-1).
+    docker: curl is already the newest version (7.81.0-1ubuntu1.29).
+    docker: git is already the newest version (1:2.34.1-1ubuntu1.17).
+    docker: 0 upgraded, 0 newly installed, 0 to remove and 286 not upgraded.
+    docker: The $ZSH folder already exists (/home/vagrant/.oh-my-zsh).
+    docker: You'll need to remove it if you want to reinstall.
+    docker: fatal: destination path '/home/vagrant/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting' already exists and is not an empty directory.
+    docker: Zsh successfully installed and configured!
+    docker:
+    docker: For this Stack, you will use 172.21.222.251 IP Address
+    docker:
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ vagrant ssh
+Last login: Tue Oct  6 19:08:56 2026 from 172.21.208.1
+ip a
+ vagrant@docker  ~  ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:15:5d:db:01:0c brd ff:ff:ff:ff:ff:ff
+    inet 172.21.222.251/20 metric 100 brd 172.21.223.255 scope global dynamic eth0
+       valid_lft 86183sec preferred_lft 86183sec
+    inet6 fe80::215:5dff:fedb:10c/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:15:5d:db:01:0d brd ff:ff:ff:ff:ff:ff
+    inet 192.168.50.10/24 brd 192.168.50.255 scope global eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::215:5dff:fedb:10d/64 scope link
+       valid_lft forever preferred_lft forever
+4: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether a6:7e:82:4c:40:d6 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+ vagrant@docker  ~  docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ vagrant@docker  ~  docker run --name nginx -p 80:80 -d nginx
+Unable to find image 'nginx:latest' locally
+docker run --namelatest: Pulling from library/nginx
+f7e1db57b58b: Pull complete
+807ab930f3a0: Pull complete
+ecc510c1e359: Pull complete
+04bdbc7ea6b5: Pull complete
+947d22046304: Pull complete
+1efc53192927: Pull complete
+8020170dc65f: Pull complete
+a1b85ab28c90: Download complete
+c329293b1d90: Download complete
+Digest: sha256:f9ea18bfa4fad859e1ed38259d711da7ccad2c3516e875cec3351a57c859f571
+Status: Downloaded newer image for nginx:latest
+4d89489e459d2c5a64df2e293694001494e8663a9e3f91aab1d43011b5ed013b
+ vagrant@docker  ~  docker run --name wbcolor -p 8080:8080 -d kodekloud/webapp-color
+Unable to find image 'kodekloud/webapp-color:latest' locally
+latest: Pulling from kodekloud/webapp-color
+748b0b70ab23: Pull complete
+f0d690b9e495: Pull complete
+4fe2ade4980c: Pull complete
+fac5d45ad062: Pull complete
+dd9b067ef6fd: Pull complete
+ad9e83cec1bc: Pull complete
+7cf6a1d62200: Pull complete
+Digest: sha256:99c3821ea49b89c7a22d3eebab5c2e1ec651452e7675af243485034a72eb1423
+Status: Downloaded newer image for kodekloud/webapp-color:latest
+8f8d5c4d0d1b18105f677096953acce297f8249562a810a65da54cca5bfad8e2
+ vagrant@docker  ~  curl
+curl: try 'curl --help' or 'curl --manual' for more information
+ ✘ vagrant@docker  ~  curl 192.168.50.10
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+ vagrant@docker  ~  exit
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ ping 192.168.50.10/24ping 192.168.50.1
+La requête Ping n’a pas pu trouver l’hôte 192.168.50.10/24ping. Vérifiez le nom et essayez à nouveau.
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ ping 192.168.50.1
+
+Envoi d’une requête 'Ping'  192.168.50.1 avec 32 octets de données :
+Réponse de 192.168.50.1 : octets=32 temps<1ms TTL=128
+Réponse de 192.168.50.1 : octets=32 temps<1ms TTL=128
+Réponse de 192.168.50.1 : octets=32 temps<1ms TTL=128
+Réponse de 192.168.50.1 : octets=32 temps<1ms TTL=128
+
+Statistiques Ping pour 192.168.50.1:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 0ms, Maximum = 0ms, Moyenne = 0ms
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ ping 192.168.50.10
+
+Envoi d’une requête 'Ping'  192.168.50.10 avec 32 octets de données :
+Délai d’attente de la demande dépassé.
+Délai d’attente de la demande dépassé.
+Délai d’attente de la demande dépassé.
+Délai d’attente de la demande dépassé.
+
+Statistiques Ping pour 192.168.50.10:
+    Paquets : envoyés = 4, reçus = 0, perdus = 4 (perte 100%),
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ curl 192.168.50.10
+curl: (28) Failed to connect to 192.168.50.10 port 80 after 21037 ms: Could not connect to server
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$ cat Vagrantfile
+Vagrant.configure("2") do |config|
+
+  # DÉFINITION DE LA VM DOCKER
+  config.vm.define "docker" do |docker|
+    docker.vm.box = "generic/ubuntu2204"
+    docker.vm.box_version = "4.3.12"
+    docker.vm.hostname = "docker"
+
+    # Une seule carte gérée nativement au premier boot
+    docker.vm.network "public_network", bridge: "Default Switch"
+
+    config.vm.provider "hyperv" do |h|
+      h.vmname = "docker"
+      h.memory = 8192
+      h.maxmemory = 8192
+      h.cpus = 2
+      h.enable_virtualization_extensions = true
+      h.linked_clone = true
+    end
+
+    # PROVISIONING RE-TRIGGERABLE : Configure Netplan dès que la carte est présente
+    docker.vm.provision "shell", inline: <<-SHELL
+      echo "Recherche de la deuxième interface réseau..."
+      INT_NAME=$(ls /sys/class/net/ | grep -vE 'lo|eth0|docker0|veth' | head -n 1)
+
+      if [ -z "$INT_NAME" ]; then
+        echo "⚠️ Seconde interface absente pour le moment. Éteignez la VM et lisez les instructions."
+        exit 0
+      fi
+
+      echo "Interface détectée : $INT_NAME. Configuration de l'IP statique..."
+
+      sudo mv /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml.bak
+      sudo mv /etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml.bak
+      sudo rm -f /etc/netplan/10-internal-network.yaml
+      cat <<EOF | sudo tee /etc/netplan/10-internal-network.yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    $INT_NAME:
+      addresses:
+        - 192.168.50.10/24
+EOF
+      sudo chmod 600 /etc/netplan/10-internal-network.yaml
+      sudo netplan apply
+    SHELL
+
+    # Installation de Docker & Zsh
+    docker.vm.provision :shell do |shell|
+      shell.path = "install_docker.sh"
+      shell.env = { 'ENABLE_ZSH' => ENV['ENABLE_ZSH'] }
+    end
+  end
+end
+
+Administrateur@WIN-S5HTVHF25RQ MINGW64 ~/Documents/TRAINING/docker
+$
+
+
+
+
+
