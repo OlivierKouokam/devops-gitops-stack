@@ -1,0 +1,37 @@
+# Assurez-vous d'avoir installé la collection Kubernetes :
+# ansible-galaxy collection install kubernetes.core
+
+---
+- name: Installation de Calico CNI avec Tigera Operator
+  hosts: master
+  become: false
+  vars:
+    calico_version: "v3.27.0"  # À adapter selon vos besoins
+
+  tasks:
+    - name: 1. Installer le Tigera Operator
+      kubernetes.core.k8s:
+        src: "https://githubusercontent.com{{ calico_version }}/manifests/tigera-operator.yaml"
+        state: present
+
+    - name: 2. Télécharger le fichier de configuration des Custom Resources
+      ansible.builtin.get_url:
+        url: "https://githubusercontent.com{{ calico_version }}/manifests/custom-resources.yaml"
+        dest: "/tmp/custom-resources.yaml"
+        mode: '0644'
+
+    - name: 3. Ajuster le bloc CIDR des Pods (Optionnel - par défaut 192.168.0.0/16)
+      ansible.builtin.replace:
+        path: "/tmp/custom-resources.yaml"
+        regexp: 'cidr: 192.168.0.0/16'
+        replace: 'cidr: 10.244.0.0/16' # Remplacez par votre Pod CIDR réel si nécessaire
+
+    - name: 4. Appliquer la configuration Custom Resources de Calico
+      kubernetes.core.k8s:
+        src: "/tmp/custom-resources.yaml"
+        state: present
+
+    - name: 5. Nettoyer le fichier temporaire
+      ansible.builtin.file:
+        path: "/tmp/custom-resources.yaml"
+        state: absent

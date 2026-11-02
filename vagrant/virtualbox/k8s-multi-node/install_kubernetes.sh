@@ -28,10 +28,27 @@ cd /vagrant
 
 ansible-galaxy install -r roles/requirements.yml
 
+ENABLE_ZSH="${ENABLE_ZSH:-true}"
+if [[ !(-z "$ENABLE_ZSH")  &&  ($ENABLE_ZSH == "true") ]]
+then
+    echo "We are going to install zsh"
+    sudo apt -y install zsh git
+    echo "vagrant" | chsh -s /bin/zsh vagrant
+    su - vagrant  -c  'echo "Y" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+    # su - vagrant  -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+    su - vagrant  -c 'git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting'
+
+    sed -i 's/^plugins=/#&/' /home/vagrant/.zshrc
+    echo "plugins=(git  docker docker-compose colored-man-pages aliases copyfile  copypath dotenv zsh-syntax-highlighting jsontools)" >> /home/vagrant/.zshrc
+    sed -i "s/^ZSH_THEME=.*/ZSH_THEME='agnoster'/g"  /home/vagrant/.zshrc
+else
+    echo "The zsh is not installed on this server"    
+fi
+
 KUBERNETES_VERSION=1.31
 IP=$(ip -4 addr show eth1 | awk '/inet / {print $2}' | cut -d/ -f1)
 
-if [ "$1" == "k8s-mono" ]
+if [ "$1" == "master" ]
 then
         ansible-playbook install_kubernetes.yml --extra-vars "kubernetes_role=control_plane kubernetes_apiserver_advertise_address=$2 installation_method=vagrant kubernetes_version='$KUBERNETES_VERSION'"
         # Installer bash-completion puis enregistrer l’auto-complétion de kubectl

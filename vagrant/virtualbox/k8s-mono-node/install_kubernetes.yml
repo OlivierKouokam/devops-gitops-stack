@@ -7,7 +7,7 @@
     
     # Configuration réseau des Pods requise pour Calico
     kubernetes_pod_network:
-      cni: 'none'
+      cni: 'calico'
       cidr: '192.168.0.0/16'  
     
     # Utilisation explicite de l'interface réseau eth1 de Vagrant
@@ -62,49 +62,49 @@
     - role: geerlingguy.kubernetes
 
   post_tasks:
-  - name: Install Tigera Operator from Vagrant shared folder
-    ansible.builtin.shell: kubectl apply -f /vagrant/calico/tigera-operator.yaml
-    when: kubernetes_role == 'control_plane'
-    ignore_errors: yes
+  # - name: Install Tigera Operator from Vagrant shared folder
+  #   ansible.builtin.shell: kubectl apply -f /vagrant/calico/tigera-operator.yaml
+  #   when: kubernetes_role == 'control_plane'
+  #   ignore_errors: yes
 
-  - name: Wait for Tigera Operator to be fully available
-    ansible.builtin.command: >
-      kubectl wait --namespace tigera-operator 
-      --for=condition=available deployment/tigera-operator 
-      --timeout=90s
-    changed_when: false
+  # - name: Wait for Tigera Operator to be fully available
+  #   ansible.builtin.command: >
+  #     kubectl wait --namespace tigera-operator 
+  #     --for=condition=available deployment/tigera-operator 
+  #     --timeout=90s
+  #   changed_when: false
 
-  - name: Wait for Calico CRDs to be established
-    ansible.builtin.command: >
-      kubectl wait --for condition=established 
-      crd/installations.operator.tigera.io 
-      crd/apiservers.operator.tigera.io 
-      --timeout=60s
-    when: kubernetes_role == 'control_plane'
-    changed_when: false
+  # - name: Wait for Calico CRDs to be established
+  #   ansible.builtin.command: >
+  #     kubectl wait --for condition=established 
+  #     crd/installations.operator.tigera.io 
+  #     crd/apiservers.operator.tigera.io 
+  #     --timeout=60s
+  #   when: kubernetes_role == 'control_plane'
+  #   changed_when: false
     
-  - name: Copy Custom Resources to /tmp to avoid modifying the host Windows file
-    ansible.builtin.copy:
-      src: /vagrant/calico/calico-custom-resources.yaml
-      dest: /tmp/calico-custom-resources.yaml
-      remote_src: yes
-    when: kubernetes_role == 'control_plane'
+  # - name: Copy Custom Resources to /tmp to avoid modifying the host Windows file
+  #   ansible.builtin.copy:
+  #     src: /vagrant/calico/calico-custom-resources.yaml
+  #     dest: /tmp/calico-custom-resources.yaml
+  #     remote_src: yes
+  #   when: kubernetes_role == 'control_plane'
 
-  - name: Configure Calico Custom Resources (Pod CIDR & eth1 interface)
-    ansible.builtin.shell: |
-      # Ajuster le bloc CIDR des pods si nécessaire
-      sed -i 's|cidr: 192.168.0.0/16|cidr: 192.168.0.0/16|' /tmp/calico-custom-resources.yaml
+  # - name: Configure Calico Custom Resources (Pod CIDR & eth1 interface)
+  #   ansible.builtin.shell: |
+  #     # Ajuster le bloc CIDR des pods si nécessaire
+  #     sed -i 's|cidr: 192.168.0.0/16|cidr: 192.168.0.0/16|' /tmp/calico-custom-resources.yaml
       
-      # Injection de la détection de l'interface eth1 (propre à l'architecture Vagrant)
-      if ! grep -q "nodeAddressAutodetectionV4" /tmp/calico-custom-resources.yaml; then
-        sed -i '/calicoNetwork:/a\    nodeAddressAutodetectionV4:\n      interface: eth1' /tmp/calico-custom-resources.yaml
-      fi
-    when: kubernetes_role == 'control_plane'
+  #     # Injection de la détection de l'interface eth1 (propre à l'architecture Vagrant)
+  #     if ! grep -q "nodeAddressAutodetectionV4" /tmp/calico-custom-resources.yaml; then
+  #       sed -i '/calicoNetwork:/a\    nodeAddressAutodetectionV4:\n      interface: eth1' /tmp/calico-custom-resources.yaml
+  #     fi
+  #   when: kubernetes_role == 'control_plane'
 
-  - name: Apply Calico Custom Resources configuration
-    ansible.builtin.shell: kubectl apply -f /tmp/calico-custom-resources.yaml
-    when: kubernetes_role == 'control_plane'
-    ignore_errors: yes    
+  # - name: Apply Calico Custom Resources configuration
+  #   ansible.builtin.shell: kubectl apply -f /tmp/calico-custom-resources.yaml
+  #   when: kubernetes_role == 'control_plane'
+  #   ignore_errors: yes    
 
   - name: Download crictl binary
     get_url:
