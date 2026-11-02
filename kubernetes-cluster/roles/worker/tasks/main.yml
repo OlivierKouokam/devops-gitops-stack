@@ -1,3 +1,0 @@
----
-- name: Join Kubernetes cluster
-  command: "{{ hostvars['master1']['kubeadm_join_command'] }} --ignore-preflight-errors=all"
