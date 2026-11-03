@@ -86,6 +86,15 @@ done
 
 sudo k3s kubectl wait --for=condition=Ready node --all --timeout=60s
 
+echo "=========================================================="
+echo " 7. Installation de ARGOCD Server & CLI"
+echo "=========================================================="
+if [ $ENABLE_ZSH == "k3s-hub" ]; then
+  echo "[INFO] Installation de ARGOCD Server & CLI"
+else
+  echo "[INFO] ARGOCD Server & CLI non installés"
+fi
+
 echo ""
 echo "=========================================================="
 echo " Cluster k3s (${NODE_NAME}) est prêt !"
