@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-NODE_IP="${1:-}"
-NODE_NAME="${2:-$(hostname)}"
+NODE_NAME="${1:-$(hostname)}"
+NODE_IP="${2:-}"
 
 echo "=========================================================="
 echo " 1. Mise à jour du système & dépendances (Ubuntu 24.04)"
@@ -89,10 +89,49 @@ sudo k3s kubectl wait --for=condition=Ready node --all --timeout=60s
 echo "=========================================================="
 echo " 7. Installation de ARGOCD Server & CLI"
 echo "=========================================================="
-if [ $ENABLE_ZSH == "k3s-hub" ]; then
-  echo "[INFO] Installation de ARGOCD Server & CLI"
+ARGOCD_VERSION="${ARGOCD_VERSION:-v3.6.1}"   # ou: $(curl -s https://api.github.com/repos/argoproj/argo-cd/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
+
+if [ "$NODE_NAME" == "argocd" ]; then
+    sudo k3s kubectl create namespace argocd --dry-run=client -o yaml | sudo k3s kubectl apply -f -
+
+    sudo k3s kubectl apply -n argocd --server-side --force-conflicts \
+      -f "https://raw.githubusercontent.com/argoproj/argo-cd/${ARGOCD_VERSION}/manifests/install.yaml"
+
+    # NodePort 30080 sur le port https (443)
+    sudo k3s kubectl patch svc argocd-server -n argocd --type=json -p='[
+      {"op":"replace","path":"/spec/type","value":"NodePort"},
+      {"op":"add","path":"/spec/ports/1/nodePort","value":30080}]'
+
+    # CLI (même version que le serveur)
+    curl -sSL -o /tmp/argocd "https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64"
+    sudo install -m 555 /tmp/argocd /usr/local/bin/argocd && rm -f /tmp/argocd
+
+    # Attente
+    sudo k3s kubectl -n argocd rollout status deploy --timeout=180s
+    sudo k3s kubectl -n argocd rollout status statefulset/argocd-application-controller --timeout=180s
+
+    echo "[INFO] Mot de passe admin :"
+    sudo k3s kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d; echo
+fi
+
+echo "=========================================================="
+echo " 8. Installation de ZSH"
+echo "=========================================================="
+ENABLE_ZSH="${ENABLE_ZSH:-true}"
+if [[ !(-z "$ENABLE_ZSH")  &&  ($ENABLE_ZSH == "true") ]]
+then
+    echo "We are going to install zsh"
+    sudo apt -y install zsh git
+    echo "vagrant" | chsh -s /bin/zsh vagrant
+    su - vagrant  -c  'echo "Y" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+    # su - vagrant  -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+    su - vagrant  -c 'git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting'
+
+    sed -i 's/^plugins=/#&/' /home/vagrant/.zshrc
+    echo "plugins=(git  docker docker-compose colored-man-pages aliases copyfile  copypath dotenv zsh-syntax-highlighting jsontools)" >> /home/vagrant/.zshrc
+    sed -i "s/^ZSH_THEME=.*/ZSH_THEME='agnoster'/g"  /home/vagrant/.zshrc
 else
-  echo "[INFO] ARGOCD Server & CLI non installés"
+    echo "The zsh is not installed on this server"    
 fi
 
 echo ""
@@ -100,3 +139,5 @@ echo "=========================================================="
 echo " Cluster k3s (${NODE_NAME}) est prêt !"
 echo " Adresse IP du Nœud : ${NODE_IP:-'127.0.0.1'}"
 echo "=========================================================="
+echo 'sudo k3s kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d'
+echo "argocd login 192.168.60.80:30080 --insecure --username admin --password <password>"

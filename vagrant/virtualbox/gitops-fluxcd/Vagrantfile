@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "fluxcd" do |fluxcd|
+    fluxcd.vm.box = "bento/ubuntu-24.04"
+    fluxcd.vm.box_version = "202510.26.0"
+    fluxcd.vm.network "private_network", type: "static", ip: "192.168.60.90"
+    fluxcd.vm.hostname = "fluxcd"
+    fluxcd.vm.provider "virtualbox" do |v|
+      v.name = "fluxcd"
+      v.memory = 4096
+      v.cpus = 2
+      v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+    end
+    fluxcd.vm.provision :shell do |shell|
+      shell.path = "install_k3s.sh"
+      # Ordre corrigé : 1. Nom du nœud, 2. IP du nœud
+      shell.args = ["fluxcd", "192.168.60.90"]
+    end
+  end
+
+  clusters = 2
+  ram_cluster = 4096
+  cpu_cluster = 2
+  
+  (1..clusters).each do |i|
+    cluster_ip = "192.168.60.9#{i}"
+    cluster_name = "fluxcluster#{i}"
+    
+    config.vm.define cluster_name do |cluster|
+      cluster.vm.box = "bento/ubuntu-24.04"
+      cluster.vm.box_version = "202510.26.0"
+      cluster.vm.network "private_network", type: "static", ip: cluster_ip
+      cluster.vm.hostname = cluster_name
+      cluster.vm.provider "virtualbox" do |v|
+        v.name = cluster_name
+        v.memory = ram_cluster
+        v.cpus = cpu_cluster
+        v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+      end
+      cluster.vm.provision :shell do |shell|
+        shell.path = "install_k3s.sh"
+        shell.args = [cluster_name, cluster_ip]
+      end
+    end
+  end
+end

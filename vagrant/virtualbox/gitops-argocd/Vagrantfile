@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "argocd" do |argocd|
+    argocd.vm.box = "bento/ubuntu-24.04"
+    argocd.vm.box_version = "202510.26.0"
+    argocd.vm.network "private_network", type: "static", ip: "192.168.60.80"
+    argocd.vm.hostname = "argocd"
+    argocd.vm.provider "virtualbox" do |v|
+      v.name = "argocd"
+      v.memory = 4096
+      v.cpus = 2
+      v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+    end
+    argocd.vm.provision :shell do |shell|
+      shell.path = "install_k3s.sh"
+      # Ordre corrigé : 1. Nom du nœud, 2. IP du nœud
+      shell.args = ["argocd", "192.168.60.80"]
+    end
+  end
+
+  clusters = 2
+  ram_cluster = 4096
+  cpu_cluster = 2
+  
+  (1..clusters).each do |i|
+    cluster_ip = "192.168.60.8#{i}"
+    cluster_name = "argocluster#{i}"
+    
+    config.vm.define cluster_name do |cluster|
+      cluster.vm.box = "bento/ubuntu-24.04"
+      cluster.vm.box_version = "202510.26.0"
+      cluster.vm.network "private_network", type: "static", ip: cluster_ip
+      cluster.vm.hostname = cluster_name
+      cluster.vm.provider "virtualbox" do |v|
+        v.name = cluster_name
+        v.memory = ram_cluster
+        v.cpus = cpu_cluster
+        v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+      end
+      cluster.vm.provision :shell do |shell|
+        shell.path = "install_k3s.sh"
+        shell.args = [cluster_name, cluster_ip]
+      end
+    end
+  end
+end
