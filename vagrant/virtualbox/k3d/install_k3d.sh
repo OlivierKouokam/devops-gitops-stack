@@ -8,8 +8,9 @@ SERVERS_COUNT="${NUM_SERVERS:-1}"
 WORKERS_COUNT="${NUM_WORKERS:-1}"
 
 # Version fixe de Docker
-VERSION_STRING="5:29.6.2-1~ubuntu.22.04~jammy"
+VERSION_STRING="5:29.8.1-1~ubuntu.24.04~noble"
 export DEBIAN_FRONTEND=noninteractive
+
 
 echo "=========================================="
 echo " 0. Optimisation des limites Système (CRITIQUE MULTI-CLUSTER)"
@@ -70,7 +71,8 @@ if command -v ufw >/dev/null 2>&1; then
     sudo ufw disable || true
 fi
 
-MAIN_IP=$(ip -4 addr show enp0s8 | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1 || echo "127.0.0.1")
+# MAIN_IP=$(ip -4 addr show enp0s8 | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1 || echo "127.0.0.1")
+MAIN_IP=$(ip -4 addr show eth1 | awk '/inet / {print $2}' | cut -d/ -f1)
 echo "[INFO] Adresse IP de l'hôte détectée : ${MAIN_IP}"
 
 echo "=========================================="

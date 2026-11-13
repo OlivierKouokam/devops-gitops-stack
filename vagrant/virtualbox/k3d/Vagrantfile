@@ -11,11 +11,14 @@ NUM_WORKERS  = 1       # Nombre de Worker Nodes par cluster
 
 Vagrant.configure("2") do |config|
   config.vm.define "k3d_node" do |k3d_node|
-    k3d_node.vm.box = "ubuntu/jammy64"
+    k3d_node.vm.box = "bento/ubuntu-24.04"
+    k3d_node.vm.box_version = "202510.26.0"
     k3d_node.vm.hostname = "k3d-node"
 
     # Configuration réseau privé DHCP (génère l'interface enp0s8)
-    k3d_node.vm.network "private_network", type: "dhcp"
+    # k3d_node.vm.network "private_network", type: "dhcp"
+    k3d_node.vm.network "private_network", ip: "192.168.60.50"
+
 
     # Ressources recommandées pour faire tourner plusieurs clusters + ArgoCD à venir
     k3d_node.vm.provider "virtualbox" do |vb|

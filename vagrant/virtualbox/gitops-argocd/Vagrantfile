@@ -2,47 +2,51 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.define "argocd" do |argocd|
-    argocd.vm.box = "bento/ubuntu-24.04"
-    argocd.vm.box_version = "202510.26.0"
-    argocd.vm.network "private_network", type: "static", ip: "192.168.60.80"
-    argocd.vm.hostname = "argocd"
-    argocd.vm.provider "virtualbox" do |v|
-      v.name = "argocd"
-      v.memory = 4096
-      v.cpus = 2
-      v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+  config.vm.box = "bento/ubuntu-24.04"
+  config.vm.box_version = "202510.26.0"
+
+  # Nœud Master
+  config.vm.define "k3s-master" do |master|
+    master.vm.hostname = "k3s-master"
+    master.vm.network "private_network", ip: "192.168.60.80"
+
+    master.vm.provider "virtualbox" do |vb|
+      vb.name = "k3s-master"
+      vb.memory = "4096"
+      vb.cpus = 2
+      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
     end
-    argocd.vm.provision :shell do |shell|
-      shell.path = "install_k3s.sh"
-      # Ordre corrigé : 1. Nom du nœud, 2. IP du nœud
-      shell.args = ["argocd", "192.168.60.80"]
+
+    master.vm.provision :shell do |shell|
+      shell.path = "install_argocd_multi_node.sh"
+      shell.args = ["master", "192.168.60.80", "192.168.60.80"]
     end
   end
 
-  clusters = 2
-  ram_cluster = 4096
-  cpu_cluster = 2
+  # Nœuds Workers
+  workers = 1
+  ram_worker = 2048
+  cpu_worker = 2
   
-  (1..clusters).each do |i|
-    cluster_ip = "192.168.60.8#{i}"
-    cluster_name = "argocluster#{i}"
-    
-    config.vm.define cluster_name do |cluster|
-      cluster.vm.box = "bento/ubuntu-24.04"
-      cluster.vm.box_version = "202510.26.0"
-      cluster.vm.network "private_network", type: "static", ip: cluster_ip
-      cluster.vm.hostname = cluster_name
-      cluster.vm.provider "virtualbox" do |v|
-        v.name = cluster_name
-        v.memory = ram_cluster
-        v.cpus = cpu_cluster
+  (1..workers).each do |i|
+    worker_ip = "192.168.60.#{20 + i}"
+    config.vm.define "k3s-worker#{i}" do |worker|
+      worker.vm.box = "bento/ubuntu-24.04"
+      worker.vm.box_version = "202510.26.0"
+      worker.vm.network "private_network", type: "static", ip: worker_ip
+      worker.vm.hostname = "k3s-worker#{i}"
+      
+      worker.vm.provider "virtualbox" do |v|
+        v.name = "k3s-worker#{i}"
+        v.memory = ram_worker
+        v.cpus = cpu_worker
         v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
       end
-      cluster.vm.provision :shell do |shell|
-        shell.path = "install_k3s.sh"
-        shell.args = [cluster_name, cluster_ip]
+      
+      worker.vm.provision :shell do |shell|
+        shell.path = "install_argocd_multi_node.sh"
+        shell.args = ["worker", worker_ip, "192.168.60.80"]
       end
     end
-  end
+  end  
 end

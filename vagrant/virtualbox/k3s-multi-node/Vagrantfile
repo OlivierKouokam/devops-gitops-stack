@@ -19,7 +19,6 @@ Vagrant.configure("2") do |config|
 
     master.vm.provision :shell do |shell|
       shell.path = "install_k3s_multi_node.sh"
-      # shell.args = ["master", "192.168.60.20"]
       shell.args = ["master", "192.168.60.20", "192.168.60.20"]
     end
   end
@@ -46,7 +45,6 @@ Vagrant.configure("2") do |config|
       
       worker.vm.provision :shell do |shell|
         shell.path = "install_k3s_multi_node.sh"
-        # shell.args = ["worker", "192.168.60.20"]
         shell.args = ["worker", worker_ip, "192.168.60.20"]
       end
     end

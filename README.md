@@ -17,6 +17,7 @@ https://github.com/SeturamanKumar/k3s-A1.git
 https://akos.ma/blog/vagrant-k3s-and-virtualbox/
 https://zarnowiecki.pl/posts/local-multi-node-k3s-setup/
 https://cilium.io/blog/2020/04/29/cilium-with-rancher-labs-k3s/
+https://github.com/ipolyzos/vagrant-k3s
 # vagrant+k3s+ansible
 https://github.com/pmonllor/k3s-vagrant-virtualbox.git
 https://zarnowiecki.pl/posts/protect-your-docker-socket/
