@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "python" do |python|
+    # python.vm.box = "fasmat/ubuntu2204-desktop"
+    python.vm.box = "gusztavvargadr/ubuntu-desktop-2404-lts"
+    python.vm.box_version = "2607.1.0"
+    # python.vm.network "private_network", type: "dhcp"
+    python.vm.network "private_network", type: "static", ip: "192.168.56.100"
+    python.vm.hostname = "python"
+    python.vm.provider "virtualbox" do |v|
+      v.name = "python"
+      v.memory = 8192
+      v.cpus = 2
+    end
+    python.vm.provision :shell do |shell|
+      shell.path = "install_python_desktop.sh"
+    end
+  end
+end
