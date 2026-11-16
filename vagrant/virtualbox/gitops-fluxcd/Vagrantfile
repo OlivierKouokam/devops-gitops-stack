@@ -5,47 +5,46 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-24.04"
   config.vm.box_version = "202510.26.0"
 
-  # Nœud Master
-  config.vm.define "k3s-master" do |master|
-    master.vm.hostname = "k3s-master"
-    master.vm.network "private_network", ip: "192.168.60.90"
+  # Nœud fluxcd_hub
+  fluxcd_hub_ip = "192.168.60.90"
+  config.vm.define "fluxcd-hub" do |fluxcd_hub|
+    fluxcd_hub.vm.hostname = "fluxcd-hub"
+    fluxcd_hub.vm.network "private_network", ip: fluxcd_hub_ip
 
-    master.vm.provider "virtualbox" do |vb|
-      vb.name = "k3s-master"
+    fluxcd_hub.vm.provider "virtualbox" do |vb|
+      vb.name = "fluxcd-hub"
       vb.memory = "4096"
       vb.cpus = 2
       vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
     end
 
-    master.vm.provision :shell do |shell|
+    fluxcd_hub.vm.provision :shell do |shell|
       shell.path = "install_fluxcd_multi_node.sh"
-      shell.args = ["master", "192.168.60.90", "192.168.60.90"]
+      shell.args = ["fluxcd-hub", fluxcd_hub_ip]
     end
   end
 
-  # Nœuds Workers
-  workers = 1
-  ram_worker = 2048
-  cpu_worker = 2
+  # Nœuds fluxcd-clusters
+  fluxcd_clusters = 2
+  ram_fluxcd_cluster = 2048
+  cpu_fluxcd_cluster = 2
   
-  (1..workers).each do |i|
-    worker_ip = "192.168.60.#{20 + i}"
-    config.vm.define "k3s-worker#{i}" do |worker|
-      worker.vm.box = "bento/ubuntu-24.04"
-      worker.vm.box_version = "202510.26.0"
-      worker.vm.network "private_network", type: "static", ip: worker_ip
-      worker.vm.hostname = "k3s-worker#{i}"
+  (1..fluxcd_clusters).each do |i|
+    fluxcd_cluster_ip = "192.168.60.#{90 + i}"
+    config.vm.define "fluxcd-cluster#{i}" do |fluxcd_cluster|
+      fluxcd_cluster.vm.network "private_network", type: "static", ip: fluxcd_cluster_ip
+      fluxcd_cluster.vm.hostname = "fluxcd-cluster#{i}"
       
-      worker.vm.provider "virtualbox" do |v|
-        v.name = "k3s-worker#{i}"
-        v.memory = ram_worker
-        v.cpus = cpu_worker
+      fluxcd_cluster.vm.provider "virtualbox" do |v|
+        v.name = "fluxcd-cluster#{i}"
+        v.memory = ram_fluxcd_cluster
+        v.cpus = cpu_fluxcd_cluster
         v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
       end
       
-      worker.vm.provision :shell do |shell|
+      fluxcd_cluster.vm.provision :shell do |shell|
         shell.path = "install_fluxcd_multi_node.sh"
-        shell.args = ["worker", worker_ip, "192.168.60.90"]
+        shell.args = ["fluxcd-cluster#{i}", fluxcd_cluster_ip]
       end
     end
   end  

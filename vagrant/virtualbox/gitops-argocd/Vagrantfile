@@ -5,48 +5,82 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-24.04"
   config.vm.box_version = "202510.26.0"
 
-  # Nœud Master
-  config.vm.define "k3s-master" do |master|
-    master.vm.hostname = "k3s-master"
-    master.vm.network "private_network", ip: "192.168.60.80"
+  # Nœud argocd_hub
+  argocd_hub_ip = "192.168.60.80"
+  config.vm.define "argocd-hub" do |argocd_hub|
+    argocd_hub.vm.hostname = "argocd-hub"
+    argocd_hub.vm.network "private_network", ip: argocd_hub_ip
 
-    master.vm.provider "virtualbox" do |vb|
-      vb.name = "k3s-master"
+    argocd_hub.vm.provider "virtualbox" do |vb|
+      vb.name = "argocd-hub"
       vb.memory = "4096"
       vb.cpus = 2
       vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
     end
 
-    master.vm.provision :shell do |shell|
+    argocd_hub.vm.provision :shell do |shell|
       shell.path = "install_argocd_multi_node.sh"
-      shell.args = ["master", "192.168.60.80", "192.168.60.80"]
+      shell.args = ["argocd-hub", argocd_hub_ip]
     end
   end
 
-  # Nœuds Workers
-  workers = 1
-  ram_worker = 2048
-  cpu_worker = 2
+  # Nœuds argocd-clusters
+  argocd_clusters = 2
+  ram_argocd_cluster = 2048
+  cpu_argocd_cluster = 2
   
-  (1..workers).each do |i|
-    worker_ip = "192.168.60.#{20 + i}"
-    config.vm.define "k3s-worker#{i}" do |worker|
-      worker.vm.box = "bento/ubuntu-24.04"
-      worker.vm.box_version = "202510.26.0"
-      worker.vm.network "private_network", type: "static", ip: worker_ip
-      worker.vm.hostname = "k3s-worker#{i}"
+  (1..argocd_clusters).each do |i|
+    argocd_cluster_ip = "192.168.60.#{80 + i}"
+    config.vm.define "argocd-cluster#{i}" do |argocd_cluster|
+      argocd_cluster.vm.network "private_network", type: "static", ip: argocd_cluster_ip
+      argocd_cluster.vm.hostname = "argocd-cluster#{i}"
       
-      worker.vm.provider "virtualbox" do |v|
-        v.name = "k3s-worker#{i}"
-        v.memory = ram_worker
-        v.cpus = cpu_worker
+      argocd_cluster.vm.provider "virtualbox" do |v|
+        v.name = "argocd-cluster#{i}"
+        v.memory = ram_argocd_cluster
+        v.cpus = cpu_argocd_cluster
         v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
       end
       
-      worker.vm.provision :shell do |shell|
+      argocd_cluster.vm.provision :shell do |shell|
         shell.path = "install_argocd_multi_node.sh"
-        shell.args = ["worker", worker_ip, "192.168.60.80"]
+        shell.args = ["argocd-cluster#{i}", argocd_cluster_ip]
       end
     end
   end  
 end
+
+##########################################
+# # -*- mode: ruby -*-
+# # vi: set ft=ruby :
+
+# Vagrant.configure("2") do |config|
+#   config.vm.box = "bento/ubuntu-24.04"
+#   config.vm.box_version = "202510.26.0"
+#   # config.vm.boot_timeout = 600
+
+#   # Liste des clusters indépendants à créer
+#   clusters = [
+#     { name: "argocd-hub",   ip: "192.168.60.80", ram: 4096, cpus: 2, install_argocd: "true" },
+#     { name: "prod-cluster", ip: "192.168.60.81", ram: 2048, cpus: 2, install_argocd: "false" }
+#   ]
+
+#   clusters.each do |cluster|
+#     config.vm.define cluster[:name] do |vm|
+#       vm.vm.hostname = cluster[:name]
+#       vm.vm.network "private_network", ip: cluster[:ip]
+
+#       vm.vm.provider "virtualbox" do |vb|
+#         vb.name = cluster[:name]
+#         vb.memory = cluster[:ram]
+#         vb.cpus = cluster[:cpus]
+#         vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
+#       end
+
+#       vm.vm.provision :shell do |shell|
+#         shell.path = "install_k3s_standalone.sh"
+#         shell.args = [cluster[:name], cluster[:ip], cluster[:install_argocd]]
+#       end
+#     end
+#   end
+# end

@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-NODE_TYPE="${1:-master}"
-NODE_IP="${2:-192.168.60.80}"
-MASTER_IP="${3:-192.168.60.80}" 
+CLUSTER_NAME="${1:-master}"
+CLUSTER_IP="${2:-192.168.60.80}" 
 
 echo "=========================================="
-echo " 1. Configuration système (Swap & Firewall) [$NODE_TYPE]"
+echo " 1. Configuration système (Swap & Firewall) [$CLUSTER_NAME]"
 echo "=========================================="
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update -y
@@ -20,36 +19,38 @@ if command -v ufw >/dev/null 2>&1; then
 fi
 
 MAIN_IP=$(ip -4 addr show eth1 | awk '/inet / {print $2}' | cut -d/ -f1)
-# FLANNEL_INTERFACE=$(ip -4 route get "$NODE_IP" | awk '{print $3; exit}')
-FLANNEL_INTERFACE=$(ip -o -4 addr show | awk -v ip="$NODE_IP" '$4 ~ "^"ip"/" {print $2; exit}')
+# FLANNEL_INTERFACE=$(ip -4 route get "$CLUSTER_IP" | awk '{print $3; exit}')
+FLANNEL_INTERFACE=$(ip -o -4 addr show | awk -v ip="$CLUSTER_IP" '$4 ~ "^"ip"/" {print $2; exit}')
+
+echo "=========================================="
+echo " 2. Installation du serveur K3s (Master)"
+echo "=========================================="
+
+INSTALL_ARGS="server --node-ip=${CLUSTER_IP} --advertise-address=${CLUSTER_IP} --flannel-iface=${FLANNEL_INTERFACE} --tls-san=${CLUSTER_IP} --write-kubeconfig-mode 644"
+curl -sfL https://get.k3s.io | sh -s - ${INSTALL_ARGS}
+
+echo "=========================================="
+echo " 3. Configuration des accès pour 'vagrant'"
+echo "=========================================="
+until [ -f /etc/rancher/k3s/k3s.yaml ]; do
+    sleep 2
+done
+
+mkdir -p /home/vagrant/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config
+sudo chown -R vagrant:vagrant /home/vagrant/.kube
+chmod 600 /home/vagrant/.kube/config
+sed -i "s/127.0.0.1/${CLUSTER_IP}/g" /home/vagrant/.kube/config
+sed -i "s/default/${CLUSTER_NAME}/g" /home/vagrant/.kube/config
+echo "export KUBECONFIG=/home/vagrant/.kube/config" | sudo tee /etc/profile.d/k3s.sh
+sudo chmod +x /etc/profile.d/k3s.sh
+export KUBECONFIG=/home/vagrant/.kube/config
+
+# Copie le kubeconfig dans /vagrant pour faciliter l'ajout de clusters dans Argo CD
+cp /home/vagrant/.kube/config "/vagrant/kubeconfig-${CLUSTER_NAME}.yaml"
 
 
-if [ "$NODE_TYPE" == "master" ]; then
-    echo "=========================================="
-    echo " 2. Installation du serveur K3s (Master)"
-    echo "=========================================="
-
-    INSTALL_ARGS="server --node-ip=${NODE_IP} --advertise-address=${NODE_IP} --flannel-iface=${FLANNEL_INTERFACE} --tls-san=${NODE_IP} --write-kubeconfig-mode 644"
-    curl -sfL https://get.k3s.io | sh -s - ${INSTALL_ARGS}
-
-    echo "=========================================="
-    echo " 3. Configuration des accès pour 'vagrant'"
-    echo "=========================================="
-    until [ -f /etc/rancher/k3s/k3s.yaml ]; do
-        sleep 2
-    done
-
-    mkdir -p /home/vagrant/.kube
-    sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config
-    sudo chown -R vagrant:vagrant /home/vagrant/.kube
-    chmod 600 /home/vagrant/.kube/config
-    sed -i "s/127.0.0.1/${NODE_IP}/g" /home/vagrant/.kube/config
-    echo "export KUBECONFIG=/home/vagrant/.kube/config" | sudo tee /etc/profile.d/k3s.sh
-    sudo chmod +x /etc/profile.d/k3s.sh
-
-    sudo cat /var/lib/rancher/k3s/server/node-token > /vagrant/node-token
-    echo "[INFO] Node token sauvegardé dans /vagrant/node-token"
-
+if [ "$CLUSTER_NAME" == "argocd-hub" ]; then
     echo "=========================================="
     echo " 4. Installation de Argo CD"
     echo "=========================================="
@@ -60,25 +61,14 @@ if [ "$NODE_TYPE" == "master" ]; then
     echo "[INFO] Pour récupérer le mot de passe initial de l'utilisateur 'admin', exécutez la commande suivante :"
     echo 'kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo'
     
+    cat << 'EOF'
+[INFO] Pour exposer l'interface Web d'Argo CD sur le port 30443, exécutez :
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort", "ports": [{"name": "https", "port": 443, "targetPort": 8080, "nodePort": 30443}]}}'
+EOF
     curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64
     chmod +x argocd && sudo mv argocd /usr/local/bin/
     argocd version --client
     echo "[INFO] Argo CD CLI installé et accessible via la commande 'argocd'"
-else
-    echo "=========================================="
-    echo " 2. Attente et récupération du Token (Worker)"
-    echo "=========================================="
-    while [ ! -f /vagrant/node-token ]; do
-        echo "En attente du token du master..."
-        sleep 3
-    done
-    K3S_TOKEN=$(cat /vagrant/node-token)
-
-    echo "=========================================="
-    echo " 3. Installation de l'agent K3s (Worker)"
-    echo "=========================================="
-    curl -sfL https://get.k3s.io | K3S_URL="https://${MASTER_IP}:6443" K3S_TOKEN="${K3S_TOKEN}" sh -s - agent --node-ip=${NODE_IP} --flannel-iface=${FLANNEL_INTERFACE}
-    echo " Worker K3s installé et connecté avec succès !"
 fi
 
 ENABLE_ZSH="${ENABLE_ZSH:-true}"
@@ -96,6 +86,9 @@ then
     sed -i 's/^plugins=/#&/' /home/vagrant/.zshrc
     echo "plugins=(git  docker docker-compose colored-man-pages aliases copyfile  copypath dotenv zsh-syntax-highlighting jsontools)" >> /home/vagrant/.zshrc
     sed -i "s/^ZSH_THEME=.*/ZSH_THEME='agnoster'/g"  /home/vagrant/.zshrc
+    echo 'export KUBECONFIG=/home/vagrant/.kube/config' >> /home/vagrant/.zshrc
+    echo 'source <(kubectl completion zsh)' >> /home/vagrant/.zshrc
+    echo 'command -v argocd >/dev/null && source <(argocd completion zsh)' >> /home/vagrant/.zshrc
 else
     echo "=========================================="
     echo " 4. Statut ZSH"
@@ -104,6 +97,6 @@ else
 fi
 
 echo "=========================================================="
-echo " Nœud ${NODE_TYPE} du Cluster k3s est prêt !"
+echo " Nœud ${CLUSTER_NAME} du Cluster k3s est prêt !"
 echo " Adresse IP du Nœud : ${MAIN_IP:-'127.0.0.1'}"
 echo "=========================================================="

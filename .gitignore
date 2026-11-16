@@ -29,6 +29,7 @@ secrets.yaml
 .bash_history
 .zsh_history
 node-token
+kubeconfig*.yaml
 
 ### 3. INFRASTRUCTURE AS CODE (Terraform / OpenTofu) ###
 # Dossier contenant les plugins de providers
