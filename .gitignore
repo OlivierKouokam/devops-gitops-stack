@@ -28,6 +28,7 @@ secrets.yaml
 # Fichiers d'historique pouvant contenir des mots de passe saisis en clair
 .bash_history
 .zsh_history
+node-token
 
 ### 3. INFRASTRUCTURE AS CODE (Terraform / OpenTofu) ###
 # Dossier contenant les plugins de providers
