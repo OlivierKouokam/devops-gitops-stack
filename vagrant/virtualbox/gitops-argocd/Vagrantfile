@@ -5,6 +5,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-24.04"
   config.vm.box_version = "202510.26.0"
 
+  # Augmenter le délai d'attente global à 10 minutes (600 secondes)
+  # config.vm.boot_timeout = 600
+
   # Nœud argocd_hub
   argocd_hub_ip = "192.168.60.80"
   config.vm.define "argocd-hub" do |argocd_hub|
@@ -32,7 +35,7 @@ Vagrant.configure("2") do |config|
   (1..argocd_clusters).each do |i|
     argocd_cluster_ip = "192.168.60.#{80 + i}"
     config.vm.define "argocd-cluster#{i}" do |argocd_cluster|
-      argocd_cluster.vm.network "private_network", type: "static", ip: argocd_cluster_ip
+      argocd_cluster.vm.network "private_network", ip: argocd_cluster_ip
       argocd_cluster.vm.hostname = "argocd-cluster#{i}"
       
       argocd_cluster.vm.provider "virtualbox" do |v|
@@ -49,38 +52,3 @@ Vagrant.configure("2") do |config|
     end
   end  
 end
-
-##########################################
-# # -*- mode: ruby -*-
-# # vi: set ft=ruby :
-
-# Vagrant.configure("2") do |config|
-#   config.vm.box = "bento/ubuntu-24.04"
-#   config.vm.box_version = "202510.26.0"
-#   # config.vm.boot_timeout = 600
-
-#   # Liste des clusters indépendants à créer
-#   clusters = [
-#     { name: "argocd-hub",   ip: "192.168.60.80", ram: 4096, cpus: 2, install_argocd: "true" },
-#     { name: "prod-cluster", ip: "192.168.60.81", ram: 2048, cpus: 2, install_argocd: "false" }
-#   ]
-
-#   clusters.each do |cluster|
-#     config.vm.define cluster[:name] do |vm|
-#       vm.vm.hostname = cluster[:name]
-#       vm.vm.network "private_network", ip: cluster[:ip]
-
-#       vm.vm.provider "virtualbox" do |vb|
-#         vb.name = cluster[:name]
-#         vb.memory = cluster[:ram]
-#         vb.cpus = cluster[:cpus]
-#         vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", "1000"]
-#       end
-
-#       vm.vm.provision :shell do |shell|
-#         shell.path = "install_k3s_standalone.sh"
-#         shell.args = [cluster[:name], cluster[:ip], cluster[:install_argocd]]
-#       end
-#     end
-#   end
-# end
