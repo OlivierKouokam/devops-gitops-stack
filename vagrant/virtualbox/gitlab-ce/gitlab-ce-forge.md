@@ -1,6 +1,6 @@
 ```bash
 # Lancer la stack en stockant les logs dans un fichier
-vagrant up 2>&1 | tee gitlab-ce-logs.txt
+vagrant up 2>&1 | tee -a gitlab-ce-logs.txt
 ```
 
 # GitLab CE Docker : forge Git complète avec CI/CD intégré

@@ -10,6 +10,15 @@ ARGOCD_PWD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpat
 # Connexion au serveur Argo CD
 argocd login 192.168.60.80:30443 --username admin --password "$ARGOCD_PWD" --insecure
 
+# autoriser le http - https insecure
+kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p '{"data":{"server.insecure":"true"}}'
+
+# Relancer argocd server
+kubectl rollout restart deployment argocd-server -n argocd
+
+# Vider le cache dns du PC Hôte
+ipconfig /flushdns
+
 # Ajout du cluster 1
 argocd cluster add argocd-cluster1 --kubeconfig /vagrant/kubeconfig-argocd-cluster1.yaml --name staging-cluster --yes
 
@@ -18,3 +27,5 @@ argocd cluster add argocd-cluster2 --kubeconfig /vagrant/kubeconfig-argocd-clust
 
 # Lister les clusters gérés par Argo CD
 argocd cluster list
+
+
