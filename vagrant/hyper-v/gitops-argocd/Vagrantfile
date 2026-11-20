@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Image compatible Hyper-V (générique ou bento compatible hyperv)
+  config.vm.box = "generic/ubuntu2404"
+  config.vm.boot_timeout = 600
+
+  # Désactivation du dossier partagé SMB par défaut (évite la demande de mot de passe Windows)
+  # Ou laissez activé si vous souhaitez utiliser /vagrant via SMB
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Nœud argocd-hub
+  argocd_hub_ip = "192.168.60.80"
+  config.vm.define "argocd-hub" do |argocd_hub|
+    argocd_hub.vm.hostname = "argocd-hub"
+    argocd_hub.vm.network "public_network", bridge: "Vagrant-GitOps"
+
+    argocd_hub.vm.provider "hyperv" do |hv|
+      hv.vmname = "argocd-hub"
+      hv.memory = 4096
+      hv.cpus = 2
+      hv.enable_virtualization_extensions = true
+    end
+
+    argocd_hub.vm.provision :shell do |shell|
+      shell.path = "install_argocd_multi_node.sh"
+      shell.args = ["argocd-hub", argocd_hub_ip]
+    end
+  end
+
+  # Nœuds argocd-clusters
+  argocd_clusters = 2
+  ram_argocd_cluster = 2048
+  cpu_argocd_cluster = 2
+
+  (1..argocd_clusters).each do |i|
+    argocd_cluster_ip = "192.168.60.#{80 + i}"
+    config.vm.define "argocd-cluster#{i}" do |argocd_cluster|
+      argocd_cluster.vm.hostname = "argocd-cluster#{i}"
+      argocd_cluster.vm.network "public_network", bridge: "Vagrant-GitOps"
+
+      argocd_cluster.vm.provider "hyperv" do |hv|
+        hv.vmname = "argocd-cluster#{i}"
+        hv.memory = ram_argocd_cluster
+        hv.cpus = cpu_argocd_cluster
+      end
+
+      argocd_cluster.vm.provision :shell do |shell|
+        shell.path = "install_argocd_multi_node.sh"
+        shell.args = ["argocd-cluster#{i}", argocd_cluster_ip]
+      end
+    end
+  end
+end
