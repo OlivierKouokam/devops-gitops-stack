@@ -1,0 +1,332 @@
+Bringing machine 'python' up with 'virtualbox' provider...
+==> python: Box 'gusztavvargadr/ubuntu-desktop-2404-lts' could not be found. Attempting to find and install...
+    python: Box Provider: virtualbox
+    python: Box Version: 2607.0.0
+==> python: Loading metadata for box 'gusztavvargadr/ubuntu-desktop-2404-lts'
+    python: URL: https://vagrantcloud.com/api/v2/vagrant/gusztavvargadr/ubuntu-desktop-2404-lts
+==> python: Adding box 'gusztavvargadr/ubuntu-desktop-2404-lts' (v2607.0.0) for provider: virtualbox (amd64)
+    python: Downloading: https://vagrantcloud.com/gusztavvargadr/boxes/ubuntu-desktop-2404-lts/versions/2607.0.0/providers/virtualbox/amd64/vagrant.box
+[KProgress: 0% (Rate: 7739k/s, Estimated time remaining: 0:16:32)[KProgress: 1% (Rate: 10.0M/s, Estimated time remaining: 0:11:53)[KProgress: 1% (Rate: 10.0M/s, Estimated time remaining: 0:10:52)[KProgress: 2% (Rate: 9832k/s, Estimated time remaining: 0:10:02)[KProgress: 3% (Rate: 9656k/s, Estimated time remaining: 0:09:25)[KProgress: 3% (Rate: 8328k/s, Estimated time remaining: 0:09:25)[KProgress: 4% (Rate: 9966k/s, Estimated time remaining: 0:08:50)[KProgress: 5% (Rate: 10.8M/s, Estimated time remaining: 0:08:41)[KProgress: 6% (Rate: 10.5M/s, Estimated time remaining: 0:08:23)[KProgress: 6% (Rate: 10.1M/s, Estimated time remaining: 0:08:20)[KProgress: 6% (Rate: 10.1M/s, Estimated time remaining: 0:08:12)[KProgress: 7% (Rate: 9728k/s, Estimated time remaining: 0:08:09)[KProgress: 7% (Rate: 9.7M/s, Estimated time remaining: 0:08:04)[KProgress: 9% (Rate: 9248k/s, Estimated time remaining: 0:07:59)[KProgress: 10% (Rate: 9.8M/s, Estimated time remaining: 0:07:55)[KProgress: 10% (Rate: 10.1M/s, Estimated time remaining: 0:07:49)[KProgress: 12% (Rate: 11.0M/s, Estimated time remaining: 0:07:34)[KProgress: 12% (Rate: 11.2M/s, Estimated time remaining: 0:07:32)[KProgress: 14% (Rate: 9619k/s, Estimated time remaining: 0:07:23)[KProgress: 15% (Rate: 10.1M/s, Estimated time remaining: 0:07:17)[KProgress: 15% (Rate: 10.3M/s, Estimated time remaining: 0:07:11)[KProgress: 16% (Rate: 11.2M/s, Estimated time remaining: 0:07:02)[KProgress: 17% (Rate: 10.8M/s, Estimated time remaining: 0:07:00)[KProgress: 19% (Rate: 8904k/s, Estimated time remaining: 0:06:50)[KProgress: 20% (Rate: 10.4M/s, Estimated time remaining: 0:06:40)[KProgress: 22% (Rate: 10.8M/s, Estimated time remaining: 0:06:29)[KProgress: 22% (Rate: 10.4M/s, Estimated time remaining: 0:06:29)[KProgress: 22% (Rate: 8764k/s, Estimated time remaining: 0:06:29)[KProgress: 23% (Rate: 9114k/s, Estimated time remaining: 0:06:25)[KProgress: 23% (Rate: 9207k/s, Estimated time remaining: 0:06:21)[KProgress: 24% (Rate: 8397k/s, Estimated time remaining: 0:06:22)[KProgress: 26% (Rate: 10.5M/s, Estimated time remaining: 0:06:07)[KProgress: 26% (Rate: 10.4M/s, Estimated time remaining: 0:06:02)[KProgress: 27% (Rate: 10.5M/s, Estimated time remaining: 0:05:59)[KProgress: 28% (Rate: 11.2M/s, Estimated time remaining: 0:05:51)[KProgress: 29% (Rate: 9177k/s, Estimated time remaining: 0:05:47)[KProgress: 31% (Rate: 11.2M/s, Estimated time remaining: 0:05:35)[KProgress: 31% (Rate: 11.0M/s, Estimated time remaining: 0:05:32)[KProgress: 33% (Rate: 11.1M/s, Estimated time remaining: 0:05:23)[KProgress: 36% (Rate: 10.8M/s, Estimated time remaining: 0:05:07)[KProgress: 37% (Rate: 9.9M/s, Estimated time remaining: 0:05:01)[KProgress: 37% (Rate: 9.7M/s, Estimated time remaining: 0:04:58)[KProgress: 38% (Rate: 10.9M/s, Estimated time remaining: 0:04:52)[KProgress: 40% (Rate: 11.1M/s, Estimated time remaining: 0:04:45)[KProgress: 40% (Rate: 9.8M/s, Estimated time remaining: 0:04:44)[KProgress: 41% (Rate: 11.3M/s, Estimated time remaining: 0:04:37)[KProgress: 42% (Rate: 11.0M/s, Estimated time remaining: 0:04:35)[KProgress: 42% (Rate: 11.0M/s, Estimated time remaining: 0:04:33)[KProgress: 43% (Rate: 10.3M/s, Estimated time remaining: 0:04:30)[KProgress: 43% (Rate: 10.5M/s, Estimated time remaining: 0:04:29)[KProgress: 44% (Rate: 10.7M/s, Estimated time remaining: 0:04:21)[KProgress: 46% (Rate: 10.9M/s, Estimated time remaining: 0:04:12)[KProgress: 46% (Rate: 9.9M/s, Estimated time remaining: 0:04:10)[KProgress: 48% (Rate: 10.0M/s, Estimated time remaining: 0:04:03)[KProgress: 49% (Rate: 9894k/s, Estimated time remaining: 0:04:00)[KProgress: 49% (Rate: 10.4M/s, Estimated time remaining: 0:03:56)[KProgress: 50% (Rate: 10.6M/s, Estimated time remaining: 0:03:52)[KProgress: 51% (Rate: 9986k/s, Estimated time remaining: 0:03:50)[KProgress: 51% (Rate: 9796k/s, Estimated time remaining: 0:03:47)[KProgress: 52% (Rate: 10.4M/s, Estimated time remaining: 0:03:45)[KProgress: 52% (Rate: 10.0M/s, Estimated time remaining: 0:03:43)[KProgress: 53% (Rate: 10.6M/s, Estimated time remaining: 0:03:40)[KProgress: 53% (Rate: 9081k/s, Estimated time remaining: 0:03:40)[KProgress: 53% (Rate: 7786k/s, Estimated time remaining: 0:03:39)[KProgress: 55% (Rate: 9.9M/s, Estimated time remaining: 0:03:32)[KProgress: 56% (Rate: 10.7M/s, Estimated time remaining: 0:03:27)[KProgress: 56% (Rate: 10.3M/s, Estimated time remaining: 0:03:24)[KProgress: 57% (Rate: 11.3M/s, Estimated time remaining: 0:03:18)[KProgress: 58% (Rate: 11.3M/s, Estimated time remaining: 0:03:16)[KProgress: 60% (Rate: 9465k/s, Estimated time remaining: 0:03:04)[KProgress: 61% (Rate: 10.3M/s, Estimated time remaining: 0:03:00)[KProgress: 62% (Rate: 10.8M/s, Estimated time remaining: 0:02:57)[KProgress: 63% (Rate: 11.3M/s, Estimated time remaining: 0:02:48)[KProgress: 64% (Rate: 10.5M/s, Estimated time remaining: 0:02:46)[KProgress: 65% (Rate: 10.1M/s, Estimated time remaining: 0:02:43)[KProgress: 66% (Rate: 10.3M/s, Estimated time remaining: 0:02:36)[KProgress: 67% (Rate: 10.0M/s, Estimated time remaining: 0:02:30)[KProgress: 68% (Rate: 11.0M/s, Estimated time remaining: 0:02:28)[KProgress: 69% (Rate: 11.3M/s, Estimated time remaining: 0:02:22)[KProgress: 69% (Rate: 11.0M/s, Estimated time remaining: 0:02:21)[KProgress: 69% (Rate: 9218k/s, Estimated time remaining: 0:02:20)[KProgress: 70% (Rate: 9169k/s, Estimated time remaining: 0:02:19)[KProgress: 71% (Rate: 9007k/s, Estimated time remaining: 0:02:15)[KProgress: 71% (Rate: 10.2M/s, Estimated time remaining: 0:02:13)[KProgress: 72% (Rate: 11.4M/s, Estimated time remaining: 0:02:06)[KProgress: 73% (Rate: 10.6M/s, Estimated time remaining: 0:02:04)[KProgress: 74% (Rate: 10.0M/s, Estimated time remaining: 0:02:01)[KProgress: 74% (Rate: 10.3M/s, Estimated time remaining: 0:01:59)[KProgress: 74% (Rate: 10.0M/s, Estimated time remaining: 0:01:59)[KProgress: 74% (Rate: 8678k/s, Estimated time remaining: 0:01:58)[KProgress: 75% (Rate: 7142k/s, Estimated time remaining: 0:01:56)[KProgress: 76% (Rate: 10.6M/s, Estimated time remaining: 0:01:49)[KProgress: 76% (Rate: 11.0M/s, Estimated time remaining: 0:01:48)[KProgress: 77% (Rate: 10.9M/s, Estimated time remaining: 0:01:42)[KProgress: 79% (Rate: 11.5M/s, Estimated time remaining: 0:01:35)[KProgress: 80% (Rate: 10.7M/s, Estimated time remaining: 0:01:33)[KProgress: 80% (Rate: 9564k/s, Estimated time remaining: 0:01:31)[KProgress: 82% (Rate: 11.4M/s, Estimated time remaining: 0:01:23)[KProgress: 83% (Rate: 9.8M/s, Estimated time remaining: 0:01:16)[KProgress: 84% (Rate: 10.9M/s, Estimated time remaining: 0:01:11)[KProgress: 86% (Rate: 10.8M/s, Estimated time remaining: 0:01:04)[KProgress: 86% (Rate: 10.2M/s, Estimated time remaining: 0:01:02)[KProgress: 86% (Rate: 9196k/s, Estimated time remaining: 0:01:00)[KProgress: 88% (Rate: 11.4M/s, Estimated time remaining: 0:00:53)[KProgress: 89% (Rate: 10.5M/s, Estimated time remaining: 0:00:51)[KProgress: 89% (Rate: 9620k/s, Estimated time remaining: 0:00:49)[KProgress: 89% (Rate: 9701k/s, Estimated time remaining: 0:00:47)[KProgress: 90% (Rate: 10.1M/s, Estimated time remaining: 0:00:43)[KProgress: 91% (Rate: 9412k/s, Estimated time remaining: 0:00:41)[KProgress: 91% (Rate: 9187k/s, Estimated time remaining: 0:00:37)[KProgress: 93% (Rate: 11.0M/s, Estimated time remaining: 0:00:31)[KProgress: 93% (Rate: 10.9M/s, Estimated time remaining: 0:00:30)[KProgress: 95% (Rate: 10.6M/s, Estimated time remaining: 0:00:22)[KProgress: 95% (Rate: 10.4M/s, Estimated time remaining: 0:00:20)[KProgress: 96% (Rate: 9322k/s, Estimated time remaining: 0:00:16)[KProgress: 97% (Rate: 10.3M/s, Estimated time remaining: 0:00:11)[KProgress: 98% (Rate: 9858k/s, Estimated time remaining: 0:00:09)[KProgress: 98% (Rate: 9189k/s, Estimated time remaining: 0:00:07)[KProgress: 98% (Rate: 9932k/s, Estimated time remaining: 0:00:06)[KProgress: 99% (Rate: 9.9M/s, Estimated time remaining: 0:00:03)[KProgress: 100% (Rate: 10.0M/s, Estimated time remaining: --:--:--)[K    python: 
+    python: Calculating and comparing box checksum...
+==> python: Successfully added box 'gusztavvargadr/ubuntu-desktop-2404-lts' (v2607.0.0) for 'virtualbox (amd64)'!
+==> python: Importing base box 'gusztavvargadr/ubuntu-desktop-2404-lts'...
+[KProgress: 30%[KProgress: 40%[KProgress: 70%[KProgress: 90%[K==> python: Matching MAC address for NAT networking...
+==> python: Checking if box 'gusztavvargadr/ubuntu-desktop-2404-lts' version '2607.0.0' is up to date...
+==> python: Setting the name of the VM: python
+==> python: Clearing any previously set network interfaces...
+==> python: Preparing network interfaces based on configuration...
+    python: Adapter 1: nat
+    python: Adapter 2: hostonly
+==> python: Forwarding ports...
+    python: 3389 (guest) => 53389 (host) (adapter 1)
+    python: 22 (guest) => 2222 (host) (adapter 1)
+==> python: Running 'pre-boot' VM customizations...
+==> python: Booting VM...
+There was an error while executing `VBoxManage`, a CLI used by Vagrant
+for controlling VirtualBox. The command and stderr is shown below.
+
+Command: ["startvm", "784e0e2e-0f3f-4219-9baa-a48cdcd12172", "--type", "headless"]
+
+Stderr: VBoxManage.exe: error: Failed to open/create the internal network 'HostInterfaceNetworking-VirtualBox Host-Only Ethernet Adapter #2' (VERR_INTNET_FLT_IF_NOT_FOUND).
+VBoxManage.exe: error: Failed to attach the network LUN (VERR_INTNET_FLT_IF_NOT_FOUND)
+VBoxManage.exe: error: Details: code E_FAIL (0x80004005), component ConsoleWrap, interface IConsole
+Bringing machine 'python' up with 'virtualbox' provider...
+==> python: Importing base box 'gusztavvargadr/ubuntu-desktop-2404-lts'...
+[KProgress: 30%[KProgress: 40%[KProgress: 70%[KProgress: 90%[K==> python: Matching MAC address for NAT networking...
+==> python: Checking if box 'gusztavvargadr/ubuntu-desktop-2404-lts' version '2607.0.0' is up to date...
+==> python: Setting the name of the VM: python
+==> python: Clearing any previously set network interfaces...
+==> python: Preparing network interfaces based on configuration...
+    python: Adapter 1: nat
+    python: Adapter 2: hostonly
+==> python: Forwarding ports...
+    python: 3389 (guest) => 53389 (host) (adapter 1)
+    python: 22 (guest) => 2222 (host) (adapter 1)
+==> python: Running 'pre-boot' VM customizations...
+==> python: Booting VM...
+==> python: Waiting for machine to boot. This may take a few minutes...
+    python: SSH address: 127.0.0.1:2222
+    python: SSH username: vagrant
+    python: SSH auth method: private key
+    python: 
+    python: Vagrant insecure key detected. Vagrant will automatically replace
+    python: this with a newly generated keypair for better security.
+    python: 
+    python: Inserting generated public key within guest...
+    python: Removing insecure key from the guest if it's present...
+    python: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> python: Machine booted and ready!
+==> python: Checking for guest additions in VM...
+==> python: Setting hostname...
+==> python: Configuring and enabling network interfaces...
+==> python: Mounting shared folders...
+    python: C:/Users/Precision/Documents/TRAINING/devops-gitops-stack/vagrant/virtualbox/python-desktop => /vagrant
+==> python: Running provisioner: shell...
+    python: Running: C:/Users/PRECIS~1/AppData/Local/Temp/vagrant-shell20261119-25728-ps6xom.sh
+    python: Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+    python: Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+    python: Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+    python: Get:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+    python: Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1,475 kB]
+    python: Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main Translation-en [319 kB]
+    python: Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+    python: Get:8 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1,922 kB]
+    python: Get:9 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1,198 kB]
+    python: Get:10 http://archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [443 kB]
+    python: Get:11 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1,716 kB]
+    python: Get:12 http://archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [346 kB]
+    python: Get:13 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+    python: Get:14 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+    python: Get:15 http://archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.6 kB]
+    python: Get:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+    python: Get:17 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [40.6 kB]
+    python: Get:18 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5,748 B]
+    python: Get:19 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [31.0 kB]
+    python: Get:20 http://archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [18.6 kB]
+    python: Get:21 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+    python: Get:22 http://archive.ubuntu.com/ubuntu noble-backports/universe Icons (48x48) [27.0 kB]
+    python: Get:23 http://archive.ubuntu.com/ubuntu noble-backports/universe Icons (64x64) [37.1 kB]
+    python: Get:24 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+    python: Get:25 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [239 kB]
+    python: Get:26 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [46.3 kB]
+    python: Get:27 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1,792 kB]
+    python: Get:28 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [414 kB]
+    python: Get:29 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1,230 kB]
+    python: Get:30 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [248 kB]
+    python: Get:31 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.3 kB]
+    python: Get:32 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+    python: Get:33 http://security.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.7 kB]
+    python: Fetched 12.7 MB in 5s (2,415 kB/s)
+    python: Reading package lists...
+    python: Reading package lists...
+    python: Building dependency tree...
+    python: Reading state information...
+    python: python3 is already the newest version (3.12.3-0ubuntu2.1).
+    python: python3 set to manually installed.
+    python: The following additional packages will be installed:
+    python:   blt fonts-mathjax idle idle-python3.12 javascript-common libexpat1
+    python:   libexpat1-dev libjs-jquery libjs-mathjax libjs-sphinxdoc libjs-underscore
+    python:   libpython3-dev libpython3.12-dev libpython3.12-minimal libpython3.12-stdlib
+    python:   libpython3.12t64 libtk8.6 python3-dev python3-pip-whl python3-setuptools
+    python:   python3-setuptools-whl python3-tk python3-wheel python3.12 python3.12-dev
+    python:   python3.12-minimal python3.12-venv tk8.6-blt2.5 zlib1g zlib1g-dev
+    python: Suggested packages:
+    python:   blt-demo apache2 | lighttpd | httpd fonts-mathjax-extras fonts-stix
+    python:   libjs-mathjax-doc tk8.6 python-setuptools-doc tix python3-tk-dbg
+    python:   python3.12-doc binfmt-support
+    python: The following NEW packages will be installed:
+    python:   blt fonts-mathjax idle idle-python3.12 idle3 javascript-common libexpat1-dev
+    python:   libjs-jquery libjs-mathjax libjs-sphinxdoc libjs-underscore libpython3-dev
+    python:   libpython3.12-dev libtk8.6 python3-dev python3-pip python3-pip-whl
+    python:   python3-setuptools python3-setuptools-whl python3-tk python3-venv
+    python:   python3-wheel python3.12-dev python3.12-venv tk8.6-blt2.5 zlib1g-dev
+    python: The following packages will be upgraded:
+    python:   libexpat1 libpython3.12-minimal libpython3.12-stdlib libpython3.12t64
+    python:   python3.12 python3.12-minimal zlib1g
+    python: 7 upgraded, 26 newly installed, 0 to remove and 343 not upgraded.
+    python: Need to get 30.3 MB of archives.
+    python: After this operation, 100 MB of additional disk space will be used.
+    python: Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1 amd64 2.6.1-2ubuntu0.6 [98.9 kB]
+    python: Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g amd64 1:1.3.dfsg-3.1ubuntu2.3 [63.2 kB]
+    python: Get:3 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12t64 amd64 3.12.3-1ubuntu0.17 [2,348 kB]
+    python: Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.17 [651 kB]
+    python: Get:5 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.17 [2,071 kB]
+    python: Get:6 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.17 [2,335 kB]
+    python: Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.17 [839 kB]
+    python: Get:8 http://archive.ubuntu.com/ubuntu noble/main amd64 libtk8.6 amd64 8.6.14-1build1 [779 kB]
+    python: Get:9 http://archive.ubuntu.com/ubuntu noble/main amd64 tk8.6-blt2.5 amd64 2.5.3+dfsg-7build1 [630 kB]
+    python: Get:10 http://archive.ubuntu.com/ubuntu noble/main amd64 blt amd64 2.5.3+dfsg-7build1 [4,840 B]
+    python: Get:11 http://archive.ubuntu.com/ubuntu noble/main amd64 fonts-mathjax all 2.7.9+dfsg-1 [2,208 kB]
+    python: Get:12 http://archive.ubuntu.com/ubuntu noble/main amd64 python3-tk amd64 3.12.3-0ubuntu1 [102 kB]
+    python: Get:13 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-mathjax all 2.7.9+dfsg-1 [5,665 kB]
+    python: Get:14 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 idle-python3.12 all 3.12.3-1ubuntu0.17 [425 kB]
+    python: Get:15 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 idle all 3.12.3-0ubuntu2.1 [2,728 B]
+    python: Get:16 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 idle3 all 3.12.3-0ubuntu2.1 [804 B]
+    python: Get:17 http://archive.ubuntu.com/ubuntu noble/main amd64 javascript-common all 11+nmu1 [5,936 B]
+    python: Get:18 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1-dev amd64 2.6.1-2ubuntu0.6 [147 kB]
+    python: Get:19 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-jquery all 3.6.1+dfsg+~3.5.14-1 [328 kB]
+    python: Get:20 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-underscore all 1.13.4~dfsg+~1.11.4-3 [118 kB]
+    python: Get:21 http://archive.ubuntu.com/ubuntu noble/main amd64 libjs-sphinxdoc all 7.2.6-6 [149 kB]
+    python: Get:22 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 zlib1g-dev amd64 1:1.3.dfsg-3.1ubuntu2.3 [894 kB]
+    python: Get:23 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-dev amd64 3.12.3-1ubuntu0.17 [5,684 kB]
+    python: Get:24 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3-dev amd64 3.12.3-0ubuntu2.1 [10.3 kB]
+    python: Get:25 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-dev amd64 3.12.3-1ubuntu0.17 [498 kB]
+    python: Get:26 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-dev amd64 3.12.3-0ubuntu2.1 [26.7 kB]
+    python: Get:27 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-setuptools all 68.1.2-2ubuntu1.2 [397 kB]
+    python: Get:28 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-wheel all 0.42.0-2 [53.1 kB]
+    python: Get:29 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3-pip all 24.0+dfsg-1ubuntu1.3 [1,320 kB]
+    python: Get:30 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3-pip-whl all 24.0+dfsg-1ubuntu1.3 [1,707 kB]
+    python: Get:31 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3-setuptools-whl all 68.1.2-2ubuntu1.2 [716 kB]
+    python: Get:32 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3.12-venv amd64 3.12.3-1ubuntu0.17 [5,684 B]
+    python: Get:33 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 python3-venv amd64 3.12.3-0ubuntu2.1 [1,032 B]
+    python: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    python: Fetched 30.3 MB in 5s (6,184 kB/s)
+    python: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 168308 files and directories currently installed.)
+    python: Preparing to unpack .../libexpat1_2.6.1-2ubuntu0.6_amd64.deb ...
+    python: Unpacking libexpat1:amd64 (2.6.1-2ubuntu0.6) over (2.6.1-2ubuntu0.4) ...
+    python: Preparing to unpack .../zlib1g_1%3a1.3.dfsg-3.1ubuntu2.3_amd64.deb ...
+    python: Unpacking zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.3) over (1:1.3.dfsg-3.1ubuntu2.1) ...
+    python: Setting up zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+    python: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 168308 files and directories currently installed.)
+    python: Preparing to unpack .../00-libpython3.12t64_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking libpython3.12t64:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.15) ...
+    python: Preparing to unpack .../01-python3.12_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking python3.12 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.15) ...
+    python: Preparing to unpack .../02-libpython3.12-stdlib_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.15) ...
+    python: Preparing to unpack .../03-python3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.15) ...
+    python: Preparing to unpack .../04-libpython3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) over (3.12.3-1ubuntu0.15) ...
+    python: Selecting previously unselected package libtk8.6:amd64.
+    python: Preparing to unpack .../05-libtk8.6_8.6.14-1build1_amd64.deb ...
+    python: Unpacking libtk8.6:amd64 (8.6.14-1build1) ...
+    python: Selecting previously unselected package tk8.6-blt2.5.
+    python: Preparing to unpack .../06-tk8.6-blt2.5_2.5.3+dfsg-7build1_amd64.deb ...
+    python: Unpacking tk8.6-blt2.5 (2.5.3+dfsg-7build1) ...
+    python: Selecting previously unselected package blt.
+    python: Preparing to unpack .../07-blt_2.5.3+dfsg-7build1_amd64.deb ...
+    python: Unpacking blt (2.5.3+dfsg-7build1) ...
+    python: Selecting previously unselected package fonts-mathjax.
+    python: Preparing to unpack .../08-fonts-mathjax_2.7.9+dfsg-1_all.deb ...
+    python: Unpacking fonts-mathjax (2.7.9+dfsg-1) ...
+    python: Selecting previously unselected package python3-tk:amd64.
+    python: Preparing to unpack .../09-python3-tk_3.12.3-0ubuntu1_amd64.deb ...
+    python: Unpacking python3-tk:amd64 (3.12.3-0ubuntu1) ...
+    python: Selecting previously unselected package libjs-mathjax.
+    python: Preparing to unpack .../10-libjs-mathjax_2.7.9+dfsg-1_all.deb ...
+    python: Unpacking libjs-mathjax (2.7.9+dfsg-1) ...
+    python: Selecting previously unselected package idle-python3.12.
+    python: Preparing to unpack .../11-idle-python3.12_3.12.3-1ubuntu0.17_all.deb ...
+    python: Unpacking idle-python3.12 (3.12.3-1ubuntu0.17) ...
+    python: Selecting previously unselected package idle.
+    python: Preparing to unpack .../12-idle_3.12.3-0ubuntu2.1_all.deb ...
+    python: Unpacking idle (3.12.3-0ubuntu2.1) ...
+    python: Selecting previously unselected package idle3.
+    python: Preparing to unpack .../13-idle3_3.12.3-0ubuntu2.1_all.deb ...
+    python: Unpacking idle3 (3.12.3-0ubuntu2.1) ...
+    python: Selecting previously unselected package javascript-common.
+    python: Preparing to unpack .../14-javascript-common_11+nmu1_all.deb ...
+    python: Unpacking javascript-common (11+nmu1) ...
+    python: Selecting previously unselected package libexpat1-dev:amd64.
+    python: Preparing to unpack .../15-libexpat1-dev_2.6.1-2ubuntu0.6_amd64.deb ...
+    python: Unpacking libexpat1-dev:amd64 (2.6.1-2ubuntu0.6) ...
+    python: Selecting previously unselected package libjs-jquery.
+    python: Preparing to unpack .../16-libjs-jquery_3.6.1+dfsg+~3.5.14-1_all.deb ...
+    python: Unpacking libjs-jquery (3.6.1+dfsg+~3.5.14-1) ...
+    python: Selecting previously unselected package libjs-underscore.
+    python: Preparing to unpack .../17-libjs-underscore_1.13.4~dfsg+~1.11.4-3_all.deb ...
+    python: Unpacking libjs-underscore (1.13.4~dfsg+~1.11.4-3) ...
+    python: Selecting previously unselected package libjs-sphinxdoc.
+    python: Preparing to unpack .../18-libjs-sphinxdoc_7.2.6-6_all.deb ...
+    python: Unpacking libjs-sphinxdoc (7.2.6-6) ...
+    python: Selecting previously unselected package zlib1g-dev:amd64.
+    python: Preparing to unpack .../19-zlib1g-dev_1%3a1.3.dfsg-3.1ubuntu2.3_amd64.deb ...
+    python: Unpacking zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+    python: Selecting previously unselected package libpython3.12-dev:amd64.
+    python: Preparing to unpack .../20-libpython3.12-dev_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17) ...
+    python: Selecting previously unselected package libpython3-dev:amd64.
+    python: Preparing to unpack .../21-libpython3-dev_3.12.3-0ubuntu2.1_amd64.deb ...
+    python: Unpacking libpython3-dev:amd64 (3.12.3-0ubuntu2.1) ...
+    python: Selecting previously unselected package python3.12-dev.
+    python: Preparing to unpack .../22-python3.12-dev_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking python3.12-dev (3.12.3-1ubuntu0.17) ...
+    python: Selecting previously unselected package python3-dev.
+    python: Preparing to unpack .../23-python3-dev_3.12.3-0ubuntu2.1_amd64.deb ...
+    python: Unpacking python3-dev (3.12.3-0ubuntu2.1) ...
+    python: Selecting previously unselected package python3-setuptools.
+    python: Preparing to unpack .../24-python3-setuptools_68.1.2-2ubuntu1.2_all.deb ...
+    python: Unpacking python3-setuptools (68.1.2-2ubuntu1.2) ...
+    python: Selecting previously unselected package python3-wheel.
+    python: Preparing to unpack .../25-python3-wheel_0.42.0-2_all.deb ...
+    python: Unpacking python3-wheel (0.42.0-2) ...
+    python: Selecting previously unselected package python3-pip.
+    python: Preparing to unpack .../26-python3-pip_24.0+dfsg-1ubuntu1.3_all.deb ...
+    python: Unpacking python3-pip (24.0+dfsg-1ubuntu1.3) ...
+    python: Selecting previously unselected package python3-pip-whl.
+    python: Preparing to unpack .../27-python3-pip-whl_24.0+dfsg-1ubuntu1.3_all.deb ...
+    python: Unpacking python3-pip-whl (24.0+dfsg-1ubuntu1.3) ...
+    python: Selecting previously unselected package python3-setuptools-whl.
+    python: Preparing to unpack .../28-python3-setuptools-whl_68.1.2-2ubuntu1.2_all.deb ...
+    python: Unpacking python3-setuptools-whl (68.1.2-2ubuntu1.2) ...
+    python: Selecting previously unselected package python3.12-venv.
+    python: Preparing to unpack .../29-python3.12-venv_3.12.3-1ubuntu0.17_amd64.deb ...
+    python: Unpacking python3.12-venv (3.12.3-1ubuntu0.17) ...
+    python: Selecting previously unselected package python3-venv.
+    python: Preparing to unpack .../30-python3-venv_3.12.3-0ubuntu2.1_amd64.deb ...
+    python: Unpacking python3-venv (3.12.3-0ubuntu2.1) ...
+    python: Setting up libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+    python: Setting up javascript-common (11+nmu1) ...
+    python: Setting up python3-setuptools-whl (68.1.2-2ubuntu1.2) ...
+    python: Setting up fonts-mathjax (2.7.9+dfsg-1) ...
+    python: Setting up python3-setuptools (68.1.2-2ubuntu1.2) ...
+    python: Setting up libjs-mathjax (2.7.9+dfsg-1) ...
+    python: Setting up python3-pip-whl (24.0+dfsg-1ubuntu1.3) ...
+    python: Setting up libtk8.6:amd64 (8.6.14-1build1) ...
+    python: Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+    python: Setting up python3-wheel (0.42.0-2) ...
+    python: Setting up libexpat1-dev:amd64 (2.6.1-2ubuntu0.6) ...
+    python: Setting up python3-pip (24.0+dfsg-1ubuntu1.3) ...
+    python: Setting up zlib1g-dev:amd64 (1:1.3.dfsg-3.1ubuntu2.3) ...
+    python: Setting up libjs-jquery (3.6.1+dfsg+~3.5.14-1) ...
+    python: Setting up libjs-underscore (1.13.4~dfsg+~1.11.4-3) ...
+    python: Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+    python: Setting up tk8.6-blt2.5 (2.5.3+dfsg-7build1) ...
+    python: Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+    python: Setting up blt (2.5.3+dfsg-7build1) ...
+    python: Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+    python: Setting up python3-tk:amd64 (3.12.3-0ubuntu1) ...
+    python: Setting up libpython3.12t64:amd64 (3.12.3-1ubuntu0.17) ...
+    python: Setting up libjs-sphinxdoc (7.2.6-6) ...
+    python: Setting up idle-python3.12 (3.12.3-1ubuntu0.17) ...
+    python: Setting up python3.12-venv (3.12.3-1ubuntu0.17) ...
+    python: Setting up idle (3.12.3-0ubuntu2.1) ...
+    python: Setting up libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17) ...
+    python: Setting up python3-venv (3.12.3-0ubuntu2.1) ...
+    python: Setting up python3.12-dev (3.12.3-1ubuntu0.17) ...
+    python: Setting up idle3 (3.12.3-0ubuntu2.1) ...
+    python: Setting up libpython3-dev:amd64 (3.12.3-0ubuntu2.1) ...
+    python: Setting up python3-dev (3.12.3-0ubuntu2.1) ...
+    python: Processing triggers for desktop-file-utils (0.27-2build1) ...
+    python: Processing triggers for gnome-menus (3.36.0-1.1ubuntu3) ...
+    python: Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+    python: Processing triggers for systemd (255.4-1ubuntu8.16) ...
+    python: Processing triggers for man-db (2.12.0-4build2) ...
+    python: Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+    python: Reading package lists...
+    python: Building dependency tree...
+    python: Reading state information...
+    python: The following packages will be upgraded:
+    python:   snapd
+    python: 1 upgraded, 0 newly installed, 0 to remove and 342 not upgraded.
+    python: Need to get 23.2 MB of archives.
+    python: After this operation, 51.1 MB disk space will be freed.
+    python: Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 snapd amd64 2.78+ubuntu24.04 [23.2 MB]
+    python: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    python: Fetched 23.2 MB in 4s (6,024 kB/s)
+    python: (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 174299 files and directories currently installed.)
+    python: Preparing to unpack .../snapd_2.78+ubuntu24.04_amd64.deb ...
+    python: Unpacking snapd (2.78+ubuntu24.04) over (2.76+ubuntu24.04.1) ...
+    python: Setting up snapd (2.78+ubuntu24.04) ...
+    python: Installing new version of config file /etc/apparmor.d/usr.lib.snapd.snap-confine.real ...
+    python: snapd.failure.service is a disabled or a static unit not running, not starting it.
+    python: snapd.gpio-chardev-setup.target is a disabled or a static unit not running, not starting it.
+    python: snapd.snap-repair.service is a disabled or a static unit not running, not starting it.
+    python: Processing triggers for gnome-menus (3.36.0-1.1ubuntu3) ...
+    python: Processing triggers for man-db (2.12.0-4build2) ...
+    python: Processing triggers for dbus (1.14.10-4ubuntu4.1) ...
+    python: Processing triggers for desktop-file-utils (0.27-2build1) ...
+    python: pycharm-community 2026.3.0.1 from jetbrains** installed
+    python: Reading package lists...
+    python: Building dependency tree...
+    python: Reading state information...
+    python: x11-xkb-utils is already the newest version (7.7+8build2).
+    python: x11-xkb-utils set to manually installed.
+    python: 0 upgraded, 0 newly installed, 0 to remove and 342 not upgraded.
+    python: Cannot open display "default display"
+    python: ##############
+    python: ## VM ready ##
+    python: ##############
+    python: For this Stack, you will use 192.168.56.100 IP Address
+    python: The VM will restart, please wait until 2 minutes before connection the VM

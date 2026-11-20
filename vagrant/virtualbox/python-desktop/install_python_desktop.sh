@@ -9,6 +9,9 @@ sudo apt-get install -y python3 python3-pip python3-venv idle3
 # Installation de PyCharm
 sudo apt-get install -y snapd
 sudo snap install pycharm-community --classic
+sudo snap install code --classic
+# Optionnel : préinstaller l'extension Python pour l'utilisateur vagrant
+sudo -u vagrant code --install-extension ms-python.python
 
 # Configuration du clavier français et du fuseau horaire
 sudo apt-get install -y x11-xkb-utils
